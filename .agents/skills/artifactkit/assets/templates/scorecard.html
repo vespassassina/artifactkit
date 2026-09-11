@@ -1,8 +1,8 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Supplier scorecard â€” FY26 H1</title>
+<title>Supplier scorecard — FY26 H1</title>
 <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../components.css">
 <link rel="stylesheet" href="../print.css">
@@ -12,7 +12,7 @@
 
   <header class="ak-pagehead">
     <div>
-      <p class="ak-eyebrow">Procurement Â· supplier review Â· FY26 H1</p>
+      <p class="ak-eyebrow">Procurement · supplier review · FY26 H1</p>
       <h1>Two suppliers are carrying avoidable risk</h1>
       <p class="ak-lede">Nordvik and Calder both score below threshold on
         responsiveness while holding single-source positions. That combination,
@@ -20,7 +20,7 @@
     </div>
     <div class="ak-meta">
       <span class="ak-asof">Scored 05 Sep 2026</span><br>
-      5 suppliers Â· 5 dimensions<br>
+      5 suppliers · 5 dimensions<br>
       Panel: 3 reviewers
     </div>
   </header>
@@ -53,7 +53,7 @@
         </tr></thead>
         <tbody></tbody>
       </table>
-      <p class="ak-source">Scored 1â€“5 by three reviewers independently, then
+      <p class="ak-source">Scored 1–5 by three reviewers independently, then
         averaged; spread above 1.5 points is flagged rather than averaged away.
         Threshold is 3.0 on any single dimension. Weights agreed by the category
         board 14 Feb 2026 and unchanged since.</p>
@@ -86,33 +86,33 @@
       <p class="ak-takeaway">A scorecard without its rubric is an opinion in a
         grid. You will be challenged on these definitions, so they are stated.</p>
 
-      <details class="ak-disclosure" open><summary>Delivery â€” 30%</summary>
-        <p class="ak-small"><b>5</b> â€” on time and in full, every order, no expediting.
-          <b>4</b> â€” one late line, self-reported before the due date.
-          <b>3</b> â€” occasional slippage inside the tolerance window.
-          <b>2</b> â€” repeated slippage requiring expediting cost.
-          <b>1</b> â€” missed commitments causing downstream stoppage.</p></details>
+      <details class="ak-disclosure" open><summary>Delivery — 30%</summary>
+        <p class="ak-small"><b>5</b> — on time and in full, every order, no expediting.
+          <b>4</b> — one late line, self-reported before the due date.
+          <b>3</b> — occasional slippage inside the tolerance window.
+          <b>2</b> — repeated slippage requiring expediting cost.
+          <b>1</b> — missed commitments causing downstream stoppage.</p></details>
 
-      <details class="ak-disclosure"><summary>Quality â€” 25%</summary>
+      <details class="ak-disclosure"><summary>Quality — 25%</summary>
         <p class="ak-small">Defect rate against the agreed AQL, plus whether
           non-conformances are reported by the supplier or discovered by us.
           Self-reporting is scored higher than a clean record found by inspection.</p></details>
 
-      <details class="ak-disclosure"><summary>Cost â€” 20%</summary>
+      <details class="ak-disclosure"><summary>Cost — 20%</summary>
         <p class="ak-small">Total landed cost against benchmark, not unit price.
           A cheaper unit that arrives late scores worse than a dearer one that
           does not.</p></details>
 
-      <details class="ak-disclosure"><summary>Responsiveness â€” 15%</summary>
+      <details class="ak-disclosure"><summary>Responsiveness — 15%</summary>
         <p class="ak-small">Time to a substantive answer on a technical query.
-          <b>5</b> â€” same working day. <b>3</b> â€” within three days.
-          <b>1</b> â€” needs chasing. Measured from our ticket log, not from
+          <b>5</b> — same working day. <b>3</b> — within three days.
+          <b>1</b> — needs chasing. Measured from our ticket log, not from
           supplier self-assessment.</p></details>
 
-      <details class="ak-disclosure"><summary>Compliance â€” 10%</summary>
+      <details class="ak-disclosure"><summary>Compliance — 10%</summary>
         <p class="ak-small">Certification currency, audit findings closed within
           the agreed window, and subcontractor disclosure. Binary failures here
-          override the weighted score entirely â€” see the standing column.</p></details>
+          override the weighted score entirely — see the standing column.</p></details>
 
       <details class="ak-disclosure"><summary>How disagreement is handled</summary>
         <p class="ak-small">Where reviewer spread exceeds 1.5 points the cell is
@@ -123,7 +123,7 @@
 
   <footer class="ak-footer">
     Scores are for internal category management and are not shared with suppliers
-    in this form Â· Weights fixed 14 Feb 2026 Â· Next review 05 Mar 2027
+    in this form · Weights fixed 14 Feb 2026 · Next review 05 Mar 2027
   </footer>
 </div>
 
@@ -147,7 +147,7 @@ function weighted(s) {
   return W.reduce(function (a, w, i) { return a + w * s[i + 1]; }, 0);
 }
 function cell(v) {
-  // colour alone never carries the meaning â€” the number is always legible
+  // colour alone never carries the meaning — the number is always legible
   var cls = v < THRESHOLD ? "ak-down" : v >= 4.0 ? "ak-up" : "";
   return '<td class="ak-num ' + cls + '" data-v="' + v + '">' + ak.fmt.num(v, 1) + "</td>";
 }
@@ -189,7 +189,7 @@ function draw() {
   ak.dataTable("#bars-tw", ["Supplier", "Weighted score"],
     data.map(function (d) { return [d.label, d.value]; }), "Weighted supplier score");
 
-  // dimension averages as CSS bars â€” five numbers do not justify a chart
+  // dimension averages as CSS bars — five numbers do not justify a chart
   var max = 5;
   document.getElementById("dims").innerHTML = DIMS.map(function (d, i) {
     var avg = SUP.reduce(function (a, s) { return a + s[i + 1]; }, 0) / SUP.length;
@@ -205,4 +205,3 @@ ak.onResize(draw);
 </script>
 </body>
 </html>
-

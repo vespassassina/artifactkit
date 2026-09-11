@@ -20,6 +20,12 @@ jobs:
       - name: Build every example
         run: node scripts/build-all.mjs
 
+      # PowerShell's `Get-Content | Set-Content -Encoding utf8` silently
+      # double-encodes UTF-8 and adds a BOM. It shipped mojibake into the skill
+      # bundle once already (€ became â‚¬). Cheap to check, invisible otherwise.
+      - name: Check encoding
+        run: node scripts/check-encoding.cjs
+
       - name: Validate and drift-check
         run: node scripts/check-all.mjs
 

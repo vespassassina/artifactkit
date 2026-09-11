@@ -1,8 +1,8 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Migration tracker â€” Platform team</title>
+<title>Migration tracker — Platform team</title>
 <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../components.css">
 <link rel="stylesheet" href="../print.css">
@@ -12,10 +12,10 @@
 
   <header class="ak-pagehead">
     <div>
-      <p class="ak-eyebrow">Platform migration Â· wave 2</p>
+      <p class="ak-eyebrow">Platform migration · wave 2</p>
       <h1>Migration tracker</h1>
       <p class="ak-lede">Drag a card to change its state. Changes are saved into this
-        file â€” use Save, then keep the file it writes.</p>
+        file — use Save, then keep the file it writes.</p>
     </div>
     <div class="ak-meta">
       <span class="ak-asof">Live board</span><br>
@@ -26,11 +26,11 @@
 
   <section class="ak-section">
     <div class="ak-kpis ak-cols-4">
-      <div class="ak-kpi"><div class="ak-k">Workloads</div><div class="ak-v" id="k-total">â€”</div>
+      <div class="ak-kpi"><div class="ak-k">Workloads</div><div class="ak-v" id="k-total">—</div>
         <div class="ak-d"><span class="ak-muted">in wave 2</span></div></div>
-      <div class="ak-kpi"><div class="ak-k">Completed</div><div class="ak-v" id="k-done">â€”</div>
-        <div class="ak-d"><span class="ak-muted" id="k-pct">â€”</span></div></div>
-      <div class="ak-kpi"><div class="ak-k">Blocked</div><div class="ak-v" id="k-blocked">â€”</div>
+      <div class="ak-kpi"><div class="ak-k">Completed</div><div class="ak-v" id="k-done">—</div>
+        <div class="ak-d"><span class="ak-muted" id="k-pct">—</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Blocked</div><div class="ak-v" id="k-blocked">—</div>
         <div class="ak-d"><span class="ak-muted">needs a decision</span></div></div>
       <div class="ak-kpi"><div class="ak-k">Weeks remaining</div><div class="ak-v">11</div>
         <div class="ak-d"><span class="ak-muted">to cut-off</span></div></div>
@@ -43,9 +43,9 @@
       <p class="ak-eyebrow">Board</p>
       <h3>Wave 2 workloads by state</h3>
       <p class="ak-takeaway">Two of seven workloads are blocked on decisions
-        outside the team â€” neither can start without an owner.</p>
+        outside the team — neither can start without an owner.</p>
       <div class="ak-toolbar">
-        <input class="ak-input" type="search" id="q" placeholder="Filter cardsâ€¦" aria-label="Filter cards">
+        <input class="ak-input" type="search" id="q" placeholder="Filter cards…" aria-label="Filter cards">
         <button class="ak-chip" aria-pressed="false" id="onlyBlocked">Only blocked</button>
         <span class="ak-spacer"></span>
         <button class="ak-btn" id="export">Export CSV</button>
@@ -64,7 +64,7 @@
       </div>
 
       <p class="ak-source">Owners and estimates are maintained by the platform team.
-        Blocked items carry the blocking reason on the card â€” a card without a reason
+        Blocked items carry the blocking reason on the card — a card without a reason
         is not blocked, it is unstarted.</p>
     </div>
   </section>
@@ -90,7 +90,7 @@
   </section>
 
   <footer class="ak-footer">
-    artifactkit tracker template Â· state is stored inside this file Â·
+    artifactkit tracker template · state is stored inside this file ·
     saving requires a click, and the download fallback cannot confirm the save
   </footer>
 </div>
@@ -123,7 +123,7 @@ function cardHTML(c) {
   var blocked = /^Blocked:/.test(c.note);
   return '<div class="ak-kcard" draggable="true" data-id="' + c.id + '">' +
     '<div class="ak-t">' + c.title + "</div>" +
-    '<div class="ak-small">' + c.owner + " Â· " + c.effort + " pts</div>" +
+    '<div class="ak-small">' + c.owner + " · " + c.effort + " pts</div>" +
     (blocked ? '<div class="ak-small"><span class="ak-pill ak-pill-risk">Blocked</span> ' +
       c.note.replace(/^Blocked:\s*/, "") + "</div>" : "") +
     "</div>";
@@ -202,7 +202,7 @@ document.getElementById("export").onclick = function () {
     ["id", "title", "owner", "effort", "state", "note"], "migration-tracker.csv");
 };
 
-/* Save writes the board back into the file. The serializer is allow-listed â€”
+/* Save writes the board back into the file. The serializer is allow-listed —
    never JSON.stringify the whole app state into a shareable document. */
 document.getElementById("save").onclick = function () {
   ak.save({
@@ -216,4 +216,3 @@ document.getElementById("save").onclick = function () {
 </script>
 </body>
 </html>
-

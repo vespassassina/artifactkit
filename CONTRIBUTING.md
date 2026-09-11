@@ -20,10 +20,28 @@ file someone has to remember to update.
 None. Node 18+, no install step, no dependencies.
 
 ```bash
+npm run sync      # re-sync the skill bundle after changing src/ or scripts/
 npm run build     # build every example into dist/
-npm run check     # validate + drift over everything in dist/
-npm test          # both
+npm run check     # validate + drift + encoding over everything in dist/
+npm test          # all of the above
 ```
+
+### Two Windows traps, both of which have already bitten
+
+**Never use PowerShell's `Get-Content | Set-Content -Encoding utf8` on these
+files.** It reads UTF-8 as ANSI and writes it back as UTF-8, so `€` becomes
+`â‚¬` and `—` becomes `â€"`, and it prepends a BOM that makes `package.json`
+fail `JSON.parse`. This shipped mojibake into the whole skill bundle once.
+`scripts/check-encoding.cjs` now catches it, and CI runs it. Use `node`, or
+`[System.IO.File]::WriteAllText($p, $t, (New-Object System.Text.UTF8Encoding $false))`.
+
+**The two skill directories are real copies, not a link.** A Windows junction
+breaks git — a rebase or branch switch tries to delete files through the link
+while writing them through the target, and fails mid-operation with
+`Deletion of directory ... failed`. A POSIX symlink degrades to a text stub when
+cloned on Windows. If you ever need to remove a junction, use
+`cmd /c rmdir <path>`, which removes only the link; `Remove-Item -Recurse` can
+follow it and delete the target.
 
 ## Layout
 
@@ -36,10 +54,10 @@ dist/         built artifacts — committed, served by GitHub Pages
 ```
 
 `.agents/skills/artifactkit/assets/` is a **copy** of `src/` with relative paths
-rewritten, so the skill works standalone in a sandbox with no repo. After
-changing anything in `src/` or `scripts/`, re-sync it and rebuild.
-
-`.claude/skills/artifactkit` is a junction to `.agents/skills/artifactkit`.
+rewritten, so the skill works standalone in a sandbox with no repo.
+`.claude/skills/artifactkit/` is a second real copy, for Claude Code. Run
+`npm run sync` after changing anything in `src/` or `scripts/`; CI fails if the
+copies drift.
 
 ## Changing the library
 
