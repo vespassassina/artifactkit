@@ -28,6 +28,8 @@ npm test          # all of the above
 
 ### Two Windows traps, both of which have already bitten
 
+<!-- check-encoding:allow-samples — this section quotes mojibake deliberately -->
+
 **Never use PowerShell's `Get-Content | Set-Content -Encoding utf8` on these
 files.** It reads UTF-8 as ANSI and writes it back as UTF-8, so `€` becomes
 `â‚¬` and `—` becomes `â€"`, and it prepends a BOM that makes `package.json`

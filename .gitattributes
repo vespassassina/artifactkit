@@ -1,0 +1,18 @@
+# Normalise line endings. dist/ is committed AND rebuilt in CI, so without this
+# a Windows checkout commits CRLF, Linux CI rebuilds LF, and the "is dist/ stale"
+# check fails on every run for a reason that has nothing to do with staleness.
+* text=auto eol=lf
+
+# Keep the artifacts byte-identical everywhere — they are compared in CI.
+*.html  text eol=lf
+*.css   text eol=lf
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.cjs   text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.txt   text eol=lf
+
+*.png   binary
+*.woff2 binary

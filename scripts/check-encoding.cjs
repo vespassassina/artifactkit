@@ -17,7 +17,11 @@ const moji = [], boms = [];
     const buf = fs.readFileSync(p);
     if (buf.length >= 3 && buf[0] === 0xEF && buf[1] === 0xBB && buf[2] === 0xBF)
       boms.push(path.relative(root, p));
-    if (MOJI.test(buf.toString("utf8"))) moji.push(path.relative(root, p));
+    const text = buf.toString("utf8");
+    // Documentation about this failure mode has to quote the mojibake. Files can
+    // opt out with the marker below, which is checked for literally.
+    if (text.includes("check-encoding:allow-samples")) continue;
+    if (MOJI.test(text)) moji.push(path.relative(root, p));
   }
 })(root);
 
