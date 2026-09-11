@@ -21,7 +21,7 @@
     "test": "node scripts/build-all.mjs && node scripts/check-all.mjs"
   },
   "engines": { "node": ">=18" },
-  "repository": { "type": "git", "url": "git+https://github.com/OWNER/artifactkit.git" },
-  "homepage": "https://github.com/OWNER/artifactkit#readme",
-  "bugs": { "url": "https://github.com/OWNER/artifactkit/issues" }
+  "repository": { "type": "git", "url": "git+https://github.com/vespassassina/artifactkit.git" },
+  "homepage": "https://github.com/vespassassina/artifactkit#readme",
+  "bugs": { "url": "https://github.com/vespassassina/artifactkit/issues" }
 }

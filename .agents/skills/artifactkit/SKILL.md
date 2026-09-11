@@ -1,13 +1,13 @@
 ---
 name: artifactkit
 description: >-
-  Build self-contained single-file HTML artifacts — reports, dashboards, kanban boards,
-  trackers, wikis, scorecards, slide decks, comparison matrices — using the artifactkit
+  Build self-contained single-file HTML artifacts â€” reports, dashboards, kanban boards,
+  trackers, wikis, scorecards, slide decks, comparison matrices â€” using the artifactkit
   component vocabulary, then validate them before delivery. Use this skill whenever the user
   asks for a dashboard, report, HTML page, web page, artifact, visualisation, chart, graph,
   table, tracker, kanban, board, scorecard, deck, presentation, slides, wiki, one-pager,
   status page, summary page, or anything they will open in a browser or send to someone as a
-  file — even if they never say "HTML" or "artifactkit". Also use it when asked to visualise
+  file â€” even if they never say "HTML" or "artifactkit". Also use it when asked to visualise
   data, plot something, make a page interactive, build a small tool or mini app, or turn a
   CSV, spreadsheet, query result or list of findings into something readable. Do not
   hand-write bespoke CSS for these: unguided output is visually inconsistent, breaks when
@@ -15,7 +15,7 @@ description: >-
 license: MIT
 metadata:
   version: "0.1.0"
-  repository: "https://github.com/<owner>/artifactkit"
+  repository: "https://github.com/vespassassina/artifactkit"
 ---
 
 # artifactkit
@@ -28,7 +28,7 @@ validation in `$AK/scripts`, the component reference in `$AK/examples/swatch.htm
 
 ---
 
-## Gate 0 — PLAN BEFORE YOU BUILD. Do not skip.
+## Gate 0 â€” PLAN BEFORE YOU BUILD. Do not skip.
 
 Write the plan in chat and get agreement **before** creating any file. Building
 first and asking later wastes the user's time and produces artifacts that answer
@@ -36,19 +36,19 @@ the wrong question.
 
 State these seven things, briefly:
 
-1. **Artifact type** — report · dashboard · tracker/kanban · wiki · scorecard · deck
-2. **The decision it supports** — one sentence. If you cannot name a decision,
+1. **Artifact type** â€” report Â· dashboard Â· tracker/kanban Â· wiki Â· scorecard Â· deck
+2. **The decision it supports** â€” one sentence. If you cannot name a decision,
    the artifact is wallpaper. Ask what they will *do* with it.
-3. **Data source and freshness** — where each number comes from, and its as-of date
-4. **What is missing or partial** — name it now; it determines the banners
-5. **Components** — from the chooser table below
-6. **Optional modules** — none by default; each one must be justified
-7. **Delivery** — output path, and whether they will share the file
+3. **Data source and freshness** â€” where each number comes from, and its as-of date
+4. **What is missing or partial** â€” name it now; it determines the banners
+5. **Components** â€” from the chooser table below
+6. **Optional modules** â€” none by default; each one must be justified
+7. **Delivery** â€” output path, and whether they will share the file
 
 Then stop and wait. When the plan is agreed, continue.
 
 > If the request is genuinely trivial ("make me a page with this table"), compress
-> the plan to two lines — type and data source — but still state it.
+> the plan to two lines â€” type and data source â€” but still state it.
 
 ---
 
@@ -81,7 +81,7 @@ prose. Copy and modify. `$AK/examples/swatch.html` shows every component rendere
 
 The build step inlines these. Keep them as separate files while developing.
 
-### 3. Inject data at build time — never hand-edit generated HTML
+### 3. Inject data at build time â€” never hand-edit generated HTML
 
 Put the data in one place near the top of your script block, or in
 `<script id="ak-state" type="application/json">`. Regenerate; don't patch.
@@ -94,7 +94,7 @@ node $AK/scripts/build.mjs my-artifact.html -o dist/my-artifact.html --id my-art
 
 `--id` **is required in practice**: it namespaces storage keys. See Gotchas.
 
-### 5. Validate — and fix until it passes
+### 5. Validate â€” and fix until it passes
 
 ```bash
 node $AK/scripts/validate.mjs dist/my-artifact.html   # self-containment, security, a11y
@@ -104,7 +104,7 @@ node $AK/scripts/drift.mjs    dist/my-artifact.html   # structural integrity
 Either exiting 1 means do not ship. Fix, rebuild, re-run. Do not deliver a
 failing artifact and mention the failure in chat; fix it.
 
-`drift.mjs` exists because a rule checker cannot see design erosion — see Tests.
+`drift.mjs` exists because a rule checker cannot see design erosion â€” see Tests.
 To compare against the template you started from:
 
 ```bash
@@ -120,7 +120,7 @@ chrome --headless=new --disable-gpu --hide-scrollbars --window-size=1280,2400 \
   --screenshot=out.png "file:///abs/path/dist/my-artifact.html"
 ```
 
-Do **not** pass `--virtual-time-budget` — it fabricates timeouts and makes async
+Do **not** pass `--virtual-time-budget` â€” it fabricates timeouts and makes async
 code look broken. Reading the code does not catch empty bars, collided axis
 labels or overflowing columns. Looking does.
 
@@ -143,18 +143,18 @@ labels or overflowing columns. Looking does.
 
 ---
 
-## Content rules — these matter more than the styling
+## Content rules â€” these matter more than the styling
 
 These encode mistakes that recur. Treat them as hard requirements.
 
-- **Never fabricate a value to fill a cell or a chart.** Render `–`
+- **Never fabricate a value to fill a cell or a chart.** Render `â€“`
   (`class="ak-dash"`), and put the reason in an `.ak-banner`.
 - **Never plot a partial period beside closed ones.** A line ending on a
   half-finished month draws a cliff that reads as a real collapse. Plot closed
   periods only and say so, or style the partial segment distinctly.
 - **Mark partial or estimated data** and exclude it from headline figures.
 - **Lead with the decision, not the data.** The KPI strip should answer "what
-  should I care about" — include a risk or concentration measure, not just totals.
+  should I care about" â€” include a risk or concentration measure, not just totals.
 - **Export what is on screen.** `exportCSV()` writes the filtered, sorted rows.
   Exporting the raw dataset silently contradicts what the user is looking at.
 - **Always show which column is sorted.** `ak.table()` handles this; do not
@@ -172,20 +172,20 @@ These encode mistakes that recur. Treat them as hard requirements.
 
 | Need | Use |
 |---|---|
-| Headline numbers | `.ak-kpis` / `.ak-kpi` — cap at ~8 or it becomes wallpaper |
-| Plain category counts | `.ak-barrow` CSS bars — cheaper than a chart |
-| Trend over time | `ak.chart.line()` — closed periods only |
+| Headline numbers | `.ak-kpis` / `.ak-kpi` â€” cap at ~8 or it becomes wallpaper |
+| Plain category counts | `.ak-barrow` CSS bars â€” cheaper than a chart |
+| Trend over time | `ak.chart.line()` â€” closed periods only |
 | Ranked comparison | `ak.chart.bar()` with `highlight`, top N only |
-| Parts of a whole | `ak.chart.donut()` + `ak.legend()` — ≤6 slices |
+| Parts of a whole | `ak.chart.donut()` + `ak.legend()` â€” â‰¤6 slices |
 | Trend inside a cell | `ak.chart.spark()` |
 | Tabular detail | `.ak-table` + `ak.table()` |
-| Row detail | `.ak-drill` — **not** a modal; modals hide the context |
+| Row detail | `.ak-drill` â€” **not** a modal; modals hide the context |
 | Process position | `.ak-stepper` |
 | Chronology | `.ak-timeline` |
 | Q&A, caveats, methodology | `.ak-disclosure` (`<details>`) |
 | Work in flight | `.ak-board` + `ak.kanban()` |
 | Rated dimensions | `.ak-scorecard` |
-| Missing / blocked data | `.ak-banner` + `–` |
+| Missing / blocked data | `.ak-banner` + `â€“` |
 | Long-form notes | `.ak-prose` + `.ak-toc` |
 | Slides | `.ak-slide` + `ak.deck()`. Notes in `<aside class="ak-notes">` |
 | Nothing to show | `.ak-empty` |
@@ -199,17 +199,17 @@ series and composition.
 
 ```js
 ak.init({ id, title })                 // REQUIRED. namespaces storage
-ak.table(el, { filterInput })          // → { filter, rows, exportCSV }
+ak.table(el, { filterInput })          // â†’ { filter, rows, exportCSV }
 ak.csv(rows, headers, filename)
 ak.chart.bar(sel, [{label,value}], { highlight, title, format })
 ak.chart.line(sel, [{name,values,color,dash}], labels, { title, min, max })
 ak.chart.donut(sel, [{label,value}], { centre, title })
 ak.chart.spark(sel, values)
 ak.legend(sel, [{label,value,color}])
-ak.dataTable(sel, headers, rows, caption)   // the accessible twin — always
+ak.dataTable(sel, headers, rows, caption)   // the accessible twin â€” always
 ak.kanban(el, { onChange })
 ak.deck(sel, { minutes })                   // presenter window on N, overview on O
-ak.keyboardNav(sel, { filterSelector })     // ↑/↓, Enter, Esc, "/"
+ak.keyboardNav(sel, { filterSelector })     // â†‘/â†“, Enter, Esc, "/"
 ak.toast(msg)
 ak.save({ filename, serialize })            // MUST be called from a click
 ak.persist(key, value) / ak.restore(key, fallback)
@@ -254,7 +254,7 @@ node $AK/scripts/build.mjs in.html -o out.html --with marked,prism
 Justify each addition. See `references/MODULES.md` for the full catalogue, what
 each is actually for, licences, and what to avoid and why.
 
-Needs network **at build time only**. If unavailable the build fails loudly —
+Needs network **at build time only**. If unavailable the build fails loudly â€”
 fall back to the zero-dependency core rather than shipping something broken.
 
 ---
@@ -262,7 +262,7 @@ fall back to the zero-dependency core rather than shipping something broken.
 ## Gotchas
 
 Environment facts that defy reasonable assumptions. Verified empirically in
-Chromium, September 2026 — much of the documentation on this is wrong.
+Chromium, September 2026 â€” much of the documentation on this is wrong.
 
 - **All `file://` pages share ONE localStorage area.** A file in an unrelated
   directory can read another artifact's keys. Always `ak.init({id})` and always
@@ -280,27 +280,27 @@ Chromium, September 2026 — much of the documentation on this is wrong.
   user to paste a token into an artifact.
 - **`showSaveFilePicker` works from `file://` in Chromium** and needs a user
   gesture, so there is **no unattended autosave**. The first save each session
-  costs one click. Firefox and Safari do not implement it — the download fallback
+  costs one click. Firefox and Safari do not implement it â€” the download fallback
   covers them.
 - **The download saver cannot confirm a save.** Never report success for it.
 - **OPFS is blocked at `file://`** despite the API being present.
 - **Cookies do not work at `file://`.**
 - **Charts read `clientWidth` at draw time.** Draw after layout, and re-draw via
   `ak.onResize()`.
-- **Sticky table headers print as overlaps** — `print.css` already unsticks them;
+- **Sticky table headers print as overlaps** â€” `print.css` already unsticks them;
   don't reintroduce `position:sticky` inline.
-- **A collapsed `<details>` is invisible on paper** — `print.css` expands them.
+- **A collapsed `<details>` is invisible on paper** â€” `print.css` expands them.
 - **`--virtual-time-budget` breaks async testing.** It advanced a timeout faster
   than IndexedDB could respond and produced a false "this API is broken". Never
   use it when screenshotting or testing.
 - **SharePoint and OneDrive preview block custom script by default.** Assume an
   artifact uploaded there is inert. Tell the user to download and open it.
 - **Speaker notes never go on the projected screen.** Put them in
-  `<aside class="ak-notes">` inside the slide — hidden on stage, hidden in print,
+  `<aside class="ak-notes">` inside the slide â€” hidden on stage, hidden in print,
   shown only in the presenter window (`N`). For an audience copy build with
   `--strip-notes`; hiding them in CSS still ships the text in the file.
 - **A backgrounded window does not smooth-scroll.** This is why `ak.deck()`
-  assigns `scrollTop` directly when the deck window is not focused — the
+  assigns `scrollTop` directly when the deck window is not focused â€” the
   presenter clicking "next" on their own screen is exactly that case. Do not
   reintroduce `scrollIntoView({behavior:"smooth"})` for programmatic moves.
 
@@ -308,7 +308,7 @@ Chromium, September 2026 — much of the documentation on this is wrong.
 
 ## Security
 
-The defining feature — one file you can email — is also a perfect
+The defining feature â€” one file you can email â€” is also a perfect
 credential-exfiltration vehicle.
 
 - **Never** put a token, key, password or connection string in an artifact.
@@ -335,16 +335,16 @@ moves; filter and export CSV and confirm the file matches the visible rows; drag
 a kanban card and check the counts update; press `/` and confirm the filter
 focuses; print-preview and confirm exhibits don't split across pages.
 
-**Why two checkers.** `validate.mjs` checks vocabulary and safety — no ESM, no
+**Why two checkers.** `validate.mjs` checks vocabulary and safety â€” no ESM, no
 external references, no credentials, namespaced storage keys. It is blind to
 *erosion*: a linter elsewhere reported zero violations across 2,058 class uses
-while agents dismantled the design system. `drift.mjs` checks structure — that
+while agents dismantled the design system. `drift.mjs` checks structure â€” that
 exhibits still carry takeaways and sources, that charts still have data twins,
 that the theme block still exists. Verified: stripping every takeaway and source
 line from a report passes `validate.mjs` with zero warnings and fails
 `drift.mjs` four ways.
 
-Passing both means "not broken". It does not mean "good" — that is Gate G4.
+Passing both means "not broken". It does not mean "good" â€” that is Gate G4.
 
 ---
 
@@ -364,8 +364,8 @@ Passing both means "not broken". It does not mean "good" — that is Gate G4.
 
 ## References
 
-- `references/MODULES.md` — optional libraries, links, licences, what to avoid
-- `references/RECIPES.md` — worked patterns per artifact type
-- `references/SAMPLE-PROMPTS.md` — example prompts and the trigger eval set
-- `references/EVAL-RESULTS.md` — measured trigger rate (0.90, zero false fires)
-- `$AK/examples/swatch.html` — every component, rendered
+- `references/MODULES.md` â€” optional libraries, links, licences, what to avoid
+- `references/RECIPES.md` â€” worked patterns per artifact type
+- `references/SAMPLE-PROMPTS.md` â€” example prompts and the trigger eval set
+- `references/EVAL-RESULTS.md` â€” measured trigger rate (0.90, zero false fires)
+- `$AK/examples/swatch.html` â€” every component, rendered
