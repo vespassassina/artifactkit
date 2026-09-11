@@ -46,3 +46,26 @@ jobs:
             fi
           done
           exit $fail
+
+      # The skill is published at both paths on purpose: Claude Code reads
+      # .claude/skills/, while Copilot, Cursor and Codex read .agents/skills/.
+      # They are real files rather than a symlink, because a symlink degrades to
+      # a text stub when cloned on Windows. Real files can drift, so check them.
+      - name: Confirm the two skill paths are identical
+        run: |
+          if ! diff -r .agents/skills/artifactkit .claude/skills/artifactkit; then
+            echo "::error::.agents/skills and .claude/skills have diverged. Re-sync them."
+            exit 1
+          fi
+
+      # assets/ inside the skill is a copy of src/ with relative paths rewritten,
+      # so the skill works standalone in a sandbox with no repo checkout.
+      - name: Confirm the skill bundle matches src/
+        run: |
+          fail=0
+          for f in theme.css components.css print.css core.js; do
+            if ! diff -q "src/$f" ".agents/skills/artifactkit/assets/$f" >/dev/null; then
+              echo "::error::src/$f differs from the skill bundle. Re-sync it."; fail=1
+            fi
+          done
+          exit $fail
