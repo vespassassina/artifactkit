@@ -17,9 +17,10 @@
   },
   "scripts": {
     "build": "node scripts/build-all.mjs",
-    "check": "node scripts/check-all.mjs && node scripts/check-encoding.cjs",
+    "check": "node scripts/check-all.mjs && node scripts/check-encoding.cjs && node scripts/check-readme.cjs",
     "sync": "node scripts/sync-skill.mjs",
-    "test": "node scripts/sync-skill.mjs && node scripts/build-all.mjs && node scripts/check-all.mjs && node scripts/check-encoding.cjs"
+    "shots": "node scripts/shots.mjs",
+    "test": "node scripts/sync-skill.mjs && node scripts/build-all.mjs && node scripts/check-all.mjs && node scripts/check-encoding.cjs && node scripts/check-readme.cjs"
   },
   "engines": { "node": ">=18" },
   "repository": { "type": "git", "url": "git+https://github.com/vespassassina/artifactkit.git" },

@@ -30,6 +30,11 @@ jobs:
       - name: Validate and drift-check
         run: node scripts/check-all.mjs
 
+      # A README with broken images or dead demo links is the first thing a
+      # visitor sees. Cheap to verify, embarrassing to miss.
+      - name: Check README references
+        run: node scripts/check-readme.cjs
+
       # The built artifacts are committed so GitHub Pages can serve them.
       # If a source change was pushed without rebuilding, dist/ drifts from
       # src/ and the published examples silently stop matching the library.
