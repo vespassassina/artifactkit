@@ -27,10 +27,6 @@ jobs:
           node-version: 20
       - run: node scripts/build-all.mjs
       - uses: actions/configure-pages@v5
-        # Provision Pages on the first run rather than requiring someone to
-        # find Settings → Pages → Source: GitHub Actions by hand.
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
