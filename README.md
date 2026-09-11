@@ -1,174 +1,145 @@
 # artifactkit
 
 **A UI kit for AI agents that write HTML.** Reports, dashboards, kanbans, wikis,
-scorecards and decks — as one self-contained `.html` file you can email, open
-from a USB stick, or double-click with no server, no build and no network.
+scorecards and decks, as one self-contained `.html` file that opens by
+double-click with no server, no build and no network.
 
 Zero dependencies in the core. No third-party code in this repository.
 
-**[→ Open the live gallery](https://vespassassina.github.io/artifactkit/)**
+**[→ Live gallery](https://vespassassina.github.io/artifactkit/)**
 
-```bash
-npm run build && npm run check     # no install step — there are no dependencies
-```
+## Why
 
----
+I ask an agent for a dashboard or a report most weeks. Every time I get
+different conventions, a CDN link that dies the moment the file leaves my
+laptop, and a chart that quietly plots a half-finished month beside closed ones.
+Correcting the same five things on every artifact is not a workflow. So the
+corrections live here instead: one vocabulary, a set of content rules, and two
+validators that fail the build when an artifact breaks them.
 
-## Why this exists
+## What it fixes
 
-Every coding agent can already write an HTML dashboard. They are just not very
-good at it, and — more importantly — they are not *consistent*. Generate the
-same spec five times and you get five different vocabularies.
+Agents get the same things wrong:
 
-The measured evidence ([canoncss `RESEARCH.md`][canon], 130 generations) is that
-unconstrained generation agrees with itself on **58–67%** of its styling
-vocabulary, and a written specification lifts that to ~90%. The same study found
-that a strict prompt over plain Tailwind matched a closed vocabulary — so the CSS
-architecture is not what does the work. **The specification is.**
+- a partial period plotted beside closed ones, drawing a cliff that reads as a collapse
+- an invented value where the source had nothing, instead of `–` and a reason
+- CSV export dumping the raw dataset, not the rows you filtered to
+- a sorted table that never says which column is sorted
+- six colours on one measure, encoding nothing
 
-artifactkit is therefore a specification, a vocabulary and two validators, with
-CSS and JS as the delivery vehicle.
-
-It also encodes the things agents reliably get *wrong* about reports:
-
-- plotting a partial period beside closed ones, which draws a cliff that reads
-  as a real collapse
-- inventing a value to fill a column instead of rendering `–` and saying why
-- exporting the raw dataset rather than the rows the user is actually looking at
-- sorting a table without showing *which* column is sorted
-- colouring six bars of a single measure, encoding nothing
-
----
+None of that is a styling problem, which is why the CSS is the smallest part of
+this. [canoncss measured it][canon] across 130 generations: unconstrained output
+agrees with itself on 58–67% of its styling vocabulary, a written specification
+lifts that to ~90%, and a strict prompt over plain Tailwind matched a closed
+vocabulary. The specification does the work.
 
 ## Templates
 
-Each links to a live demo, and to the source to copy. Everything below is one
-HTML file with no dependencies.
+Copy one and change the data. Each is a single file with no dependencies.
 
 ### Report
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/report.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/report.html) ·
 [source](examples/templates/report.html)
 
-A quarterly review. Action title that states the finding, a KPI strip including
-a concentration *risk* measure rather than only totals, exhibits with a takeaway
-and a source line, a banner naming the excluded partial period, and a missing
-value shown as `–` rather than invented.
+A quarterly review. Action title that states the finding, a KPI strip carrying a
+concentration risk rather than only totals, a banner naming the excluded partial
+period, and one margin shown as `–` because the source did not deliver it.
 
 [![Report](docs/images/report.png)](https://vespassassina.github.io/artifactkit/report.html)
 
 ### Dashboard
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/dashboard.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/dashboard.html) ·
 [source](examples/templates/dashboard.html)
 
-Support operations. Filter chips, search, sparklines in table cells, a sticky
-identifier column, and row detail as a drilldown rather than a modal — a modal
-hides the rows you were comparing against. KPIs derive from the filtered set so
-they cannot drift from what is on screen, and view state lives in the URL so a
-filtered view is shareable.
+Filter chips, search, sparklines in cells, sticky first column. Row detail is a
+drilldown, not a modal, because a modal hides what you were comparing against.
+KPIs derive from the filtered set so they cannot drift from the screen, and the
+view state lives in the URL so a filtered view is shareable.
 
 [![Dashboard](docs/images/dashboard.png)](https://vespassassina.github.io/artifactkit/dashboard.html)
 
-### Tracker / kanban
+### Tracker
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/tracker.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/tracker.html) ·
 [source](examples/templates/tracker.html)
 
-A migration board. Native HTML5 drag between columns, counts and KPIs that
-recompute on drop, blocked cards carrying their blocking reason, and a Save that
-writes the board state back into the file itself through an allow-listed
-serializer.
+Native drag between columns, counts and KPIs recomputed on drop, blocked cards
+carrying the blocking reason. Save writes the board back into the file itself
+through an allow-listed serializer.
 
 [![Tracker](docs/images/tracker.png)](https://vespassassina.github.io/artifactkit/tracker.html)
 
 ### Deck
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/deck.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/deck.html) ·
 [audience build](https://vespassassina.github.io/artifactkit/deck-audience.html) ·
 [source](examples/templates/deck.html)
 
-A decision review. Press <kbd>N</kbd> for the presenter window — notes, pace
-timer against a stated budget, and next-up on your screen only, never on the
-projector. <kbd>O</kbd> for the overview grid, <kbd>?</kbd> for all keys,
-<kbd>P</kbd> for one slide per page. The audience build is the same deck with
-the speaker notes physically stripped, not merely hidden.
+<kbd>N</kbd> opens a presenter window: notes, pace against a stated budget, and
+next-up, on your screen only. <kbd>O</kbd> overview, <kbd>?</kbd> keys,
+<kbd>P</kbd> one slide per page. The audience build has the notes physically
+stripped, not hidden, because hiding still ships the text.
 
 [![Deck](docs/images/deck.png)](https://vespassassina.github.io/artifactkit/deck.html)
 
-### Wiki / decision log
+### Wiki
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/wiki.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/wiki.html) ·
 [source](examples/templates/wiki.html)
 
-Decisions separated from open questions on purpose, a table of contents built
-from the document so it cannot drift, search on <kbd>/</kbd>, scroll-spy
-highlighting, and rejected alternatives recorded rather than forgotten.
+Decisions kept separate from open questions. Contents built from the document so
+it cannot drift, search on <kbd>/</kbd>, and rejected alternatives recorded
+rather than forgotten.
 
 [![Wiki](docs/images/wiki.png)](https://vespassassina.github.io/artifactkit/wiki.html)
 
 ### Scorecard
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/scorecard.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/scorecard.html) ·
 [source](examples/templates/scorecard.html)
 
-Supplier review across weighted dimensions, with the rubric stated in full —
-a scorecard without its rubric is an opinion in a grid. Reviewer disagreement
-above a threshold is flagged rather than averaged away.
+Weighted dimensions with the rubric stated in full, because a scorecard without
+its rubric is an opinion in a grid. Reviewer spread above a threshold is flagged
+rather than averaged away.
 
 [![Scorecard](docs/images/scorecard.png)](https://vespassassina.github.io/artifactkit/scorecard.html)
 
 ### Comparison matrix
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/comparison.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/comparison.html) ·
 [source](examples/templates/comparison.html)
 
-An options paper. Weights fixed *before* scoring, "do nothing" included as the
-honest baseline, and what each option costs to be **wrong** — plus a gate row
-showing why the highest-scoring option is still not the recommendation. A
-weighted score ranks the options that remain viable; it does not decide which
-ones are.
+Weights fixed before scoring, "do nothing" kept in as the honest baseline, and
+what each option costs to be wrong. A gate row shows why the highest-scoring
+option is still not the recommendation: a weighted score ranks the options that
+remain viable, it does not decide which ones are.
 
 [![Comparison matrix](docs/images/comparison.png)](https://vespassassina.github.io/artifactkit/comparison.html)
 
-### Component swatch
+### Swatch
 
-[**Live demo**](https://vespassassina.github.io/artifactkit/swatch.html) ·
+[**Demo**](https://vespassassina.github.io/artifactkit/swatch.html) ·
 [source](examples/swatch.html)
 
-Every component on one page. The visual QA reference — if something looks wrong
-here it is wrong everywhere — and the fastest way to see what the vocabulary
-contains.
+Every component on one page. If it looks wrong here it is wrong everywhere.
 
 [![Component swatch](docs/images/swatch.png)](https://vespassassina.github.io/artifactkit/swatch.html)
 
----
-
-## Try it in two minutes
+## Try it
 
 | | |
 |---|---|
-| **Offline** | Save any page, disconnect, reload. Nothing breaks — no CDN links, no fonts to fetch, no runtime dependencies. |
-| **Print** | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>P</kbd>. Chrome disappears, exhibits stay whole, collapsed sections expand, charts stay sharp because they are SVG, speaker notes never appear. |
-| **Export** | Filter the dashboard, then Export CSV. You get the rows you are looking at, in the order you sorted them. |
-| **Retheme** | Search the source for `ak-theme-start`. Set `--t-bg:#14141A; --t-ink:#E8E6E0; --t-lift-amt:7%` for a dark build. Everything else derives. |
+| **Offline** | Save any page, disconnect, reload. No CDN links, no fonts to fetch, nothing to break. |
+| **Print** | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>P</kbd>. Chrome disappears, exhibits stay whole, collapsed sections expand, SVG charts stay sharp, notes never appear. |
+| **Export** | Filter the dashboard, then Export CSV. You get the rows on screen, in the order you sorted them. |
+| **Retheme** | Find `ak-theme-start`. Set `--t-bg:#14141A; --t-ink:#E8E6E0; --t-lift-amt:7%` for a dark build. |
 
----
+## Theme
 
-## Design
-
-Ground is RAL 9010 `#F1ECE1`, derived by converting the CIELAB definition
-(93.613, −0.425, 6.008) to sRGB — RAL publishes no normative hex and third-party
-charts disagree from `#EFEEE5` to `#FFFFFF`. It is a warm off-white; pure white
-is wrong.
-
-System sans stack, no webfonts, so it works offline and does not look like
-everything else. Hairline rules, one restrained accent, action-titled exhibits,
-source lines, tabular figures, no vertical rules in tables.
-
-### Retheming
-
-Edit the constants. Everything else derives via `color-mix`.
+Edit the constants. Everything else derives through `color-mix`, so fills and
+rules invert on their own when the ground goes dark.
 
 ```css
 /*!ak-theme-start*/
@@ -179,107 +150,98 @@ Edit the constants. Everything else derives via `color-mix`.
 /*!ak-theme-end*/
 ```
 
-Fills and rules are mixes of ground and ink, so they invert automatically on a
-dark theme.
+The ground is RAL 9010 `#F1ECE1`, converted from the CIELAB definition
+(93.613, −0.425, 6.008). RAL publishes no normative hex and the third-party
+charts disagree from `#EFEEE5` to `#FFFFFF`. It is a warm off-white. Pure white
+is wrong.
 
----
+System fonts only, so it works offline and does not look like everything else.
 
-## What's in the core
+## Core
 
 | | |
 |---|---|
-| Tables | sort with a visible indicator, filter, CSV export of *filtered* rows |
-| Charts | bar, line, donut, sparkline — hand-rolled SVG, prints crisply, ships an accessible data twin |
+| Tables | sort with a visible indicator, filter, CSV of the *filtered* rows |
+| Charts | bar, line, donut, sparkline. Hand-rolled SVG, prints sharp, ships a data twin for screen readers |
 | Kanban | native HTML5 drag, wrapped once so you never write `dragover` handling |
-| Decks | presenter window, pace timer, overview grid, print-to-PDF |
+| Decks | presenter window, pace timer, overview, print per slide |
 | Saving | File System Access with a download fallback, dirty tracking, no false "saved" |
-| Print | `window.print()` — 0 kB against ~180 kB for jsPDF + html2canvas, and better output |
+| Print | `window.print()`. 0 kB against ~180 kB for jsPDF plus html2canvas, and better output |
 
-Plus the long tail whose *absence* is what makes agent output diverge: stepper,
+Plus the long tail whose absence is what makes agent output diverge: stepper,
 timeline, disclosure, drilldown, KPI strip, scorecard, breadcrumb, TOC, banner,
 empty state, freshness chip, provenance footer.
 
----
-
 ## For agents
 
-The skill is published at both discovery paths, so it works across Claude Code,
-GitHub Copilot, Cursor and Codex:
+Published at both discovery paths, so it works in Claude Code, Copilot, Cursor
+and Codex:
 
 ```
 .agents/skills/artifactkit/     Copilot · Cursor · Codex
 .claude/skills/artifactkit/     Claude Code
 ```
 
-- [SKILL.md](.agents/skills/artifactkit/SKILL.md) — gates, build procedure,
-  content rules, component chooser, API, gotchas
-- [RECIPES.md](.agents/skills/artifactkit/references/RECIPES.md) — worked
-  patterns per artifact type
-- [MODULES.md](.agents/skills/artifactkit/references/MODULES.md) — optional
-  libraries with licences, and what to avoid and why
-- [EVAL-RESULTS.md](.agents/skills/artifactkit/references/EVAL-RESULTS.md) —
-  measured trigger rate: **0.90 with zero false fires**, across three model
-  families
-
----
+[SKILL.md](.agents/skills/artifactkit/SKILL.md) has the gates, build procedure,
+content rules and gotchas.
+[RECIPES.md](.agents/skills/artifactkit/references/RECIPES.md) has worked
+patterns per artifact type.
+[MODULES.md](.agents/skills/artifactkit/references/MODULES.md) covers optional
+libraries and what to avoid.
+[EVAL-RESULTS.md](.agents/skills/artifactkit/references/EVAL-RESULTS.md) is the
+measured trigger rate: 0.90, zero false fires, across three model families.
 
 ## Optional modules
 
-artifactkit never vendors third-party code. `--with` fetches at build time,
-inlines the library **and its licence text**, and adds a notices block:
+Nothing is vendored here. `--with` fetches at build time and inlines the library
+plus its licence text:
 
 ```bash
 node scripts/build.mjs report.html -o out.html --with marked,prism
 ```
 
-Available: `marked`, `prism`, `minisearch`, `papaparse`, `sortablejs`,
-`chartjs`, `reveal`. All MIT/ISC/BSD, all UMD.
+`marked`, `prism`, `minisearch`, `papaparse`, `sortablejs`, `chartjs`, `reveal`.
+All MIT/ISC/BSD, all UMD. Network is needed at build time only, and if it is
+unreachable the build fails loudly rather than shipping something half-broken.
 
-This needs the network **at build time only**. If it is unreachable the build
-fails loudly rather than emitting a half-broken artifact — the core still works
-with no network at all, which matters because some agent sandboxes have none.
+## Constraints
 
----
+Measured in Chromium, because the documentation on this is thin and often wrong:
 
-## Constraints (measured, not assumed)
-
-Verified empirically in Chromium, because the documentation on this is thin and
-frequently wrong:
-
-- `file://` **is** a secure context — File System Access and WebCrypto work
-- **all `file://` pages share one localStorage area**, so keys must be namespaced
+- `file://` is a secure context, so File System Access and WebCrypto work
+- every `file://` page shares one localStorage area, so keys must be namespaced
   by artifact id or unrelated artifacts read and clobber each other
-- ES modules are CORS-blocked; classic scripts load. Everything must be UMD
+- ES modules are CORS-blocked, classic scripts load, so everything must be UMD
 - cross-origin `fetch` works only against APIs that send CORS headers
 - OPFS is blocked
-- OAuth from `file://` is impossible — Entra requires https/localhost redirect
-  URIs and an `Origin` header, and `file://` sends `null`. Fetch data at build
-  time instead
+- OAuth from `file://` is impossible. Entra needs an https or localhost redirect
+  URI and an `Origin` header, and `file://` sends `null`. Fetch the data at build
+  time and inline it
 
-Target is desktop Windows and macOS. Not mobile; there is no touch support.
-
----
+Desktop Windows and macOS. No mobile, no touch.
 
 ## Commands
 
 ```bash
+npm run build && npm run check          # no install step, there are no dependencies
+
 node scripts/build.mjs in.html -o out.html --id slug [--with marked] [--strip-notes]
 node scripts/validate.mjs out.html     # self-containment, credentials, accessibility
 node scripts/drift.mjs out.html        # structural integrity
-node scripts/sync-skill.mjs            # re-sync the skill bundle after editing src/
-node scripts/shots.mjs                 # regenerate the screenshots above
+node scripts/sync-skill.mjs            # after editing src/
+node scripts/shots.mjs                 # regenerate the screenshots
 ```
 
-Two checkers, because one is provably insufficient: a rule checker sees
-vocabulary, not erosion. Stripping every takeaway and source line from a report
-passes `validate.mjs` with zero warnings and fails `drift.mjs` four ways.
+Two checkers because one is not enough: a rule checker sees vocabulary, not
+erosion. Strip every takeaway and source line from a report and `validate.mjs`
+passes it with zero warnings while `drift.mjs` fails it four ways.
 
 Contributing notes, including two Windows traps that have already bitten, are in
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Licence
 
-MIT. Third-party libraries fetched via `--with` keep their own licences, which
-are inlined into each artifact automatically.
+MIT. Libraries fetched with `--with` keep their own, inlined into each artifact
+automatically.
 
 [canon]: https://github.com/marcelodevelop/canoncss
