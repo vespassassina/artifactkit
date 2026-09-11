@@ -1,0 +1,48 @@
+name: build and check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # No install step — the core has no dependencies, by design.
+      - name: Build every example
+        run: node scripts/build-all.mjs
+
+      - name: Validate and drift-check
+        run: node scripts/check-all.mjs
+
+      # The built artifacts are committed so GitHub Pages can serve them.
+      # If a source change was pushed without rebuilding, dist/ drifts from
+      # src/ and the published examples silently stop matching the library.
+      - name: Fail if dist/ is stale
+        run: |
+          if ! git diff --quiet -- dist/; then
+            echo "::error::dist/ is out of date. Run 'npm run build' and commit the result."
+            git diff --stat -- dist/
+            exit 1
+          fi
+
+      - name: Confirm artifacts are self-contained
+        run: |
+          fail=0
+          for f in dist/*.html; do
+            if grep -qE '<script[^>]+src="https?:|<link[^>]+href="https?:' "$f"; then
+              echo "::error file=$f::references a remote asset — artifacts must work offline"; fail=1
+            fi
+            if grep -q 'type="module"' "$f"; then
+              echo "::error file=$f::contains a module script — CORS-blocked at file://"; fail=1
+            fi
+          done
+          exit $fail

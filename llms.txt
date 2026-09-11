@@ -1,0 +1,48 @@
+# artifactkit
+
+> A UI kit for AI agents that write HTML. Produces one self-contained `.html`
+> file — reports, dashboards, kanbans, wikis, scorecards, decks — that works
+> offline from `file://`, prints properly, and carries no credentials.
+> Zero dependencies in the core. MIT.
+
+The core principle: **the written specification does more work than the CSS.**
+Unconstrained LLM output agrees with itself on 58–67% of its styling vocabulary;
+a specification lifts that to ~90%. So artifactkit is a vocabulary, a set of
+content rules, and two validators, with CSS and JS as the delivery vehicle.
+
+## For agents
+
+- [SKILL.md](.agents/skills/artifactkit/SKILL.md): the agent skill. Gates, build
+  procedure, content rules, component chooser, API, gotchas. Start here.
+- [COMPONENTS](examples/swatch.html): every component rendered on one page.
+- [RECIPES.md](.agents/skills/artifactkit/references/RECIPES.md): worked patterns
+  per artifact type.
+- [MODULES.md](.agents/skills/artifactkit/references/MODULES.md): optional
+  libraries with licences, and what to avoid and why.
+
+## Templates to copy
+
+- [report.html](examples/templates/report.html): quarterly review, exhibits, KPI strip
+- [dashboard.html](examples/templates/dashboard.html): filters, drilldown, deep link
+- [tracker.html](examples/templates/tracker.html): kanban with save-to-file
+- [deck.html](examples/templates/deck.html): slides with a presenter window
+- [wiki.html](examples/templates/wiki.html): decision log with TOC and search
+- [scorecard.html](examples/templates/scorecard.html): weighted scoring with a rubric
+- [comparison.html](examples/templates/comparison.html): options matrix
+
+## Hard constraints, measured not assumed
+
+- `file://` **is** a secure context; File System Access and WebCrypto work
+- all `file://` pages share **one** localStorage area, so keys must be namespaced
+- ES modules are CORS-blocked; every script must be classic/UMD
+- cross-origin `fetch` works only against APIs that send CORS headers
+- OAuth from `file://` is impossible — fetch data at build time and inline it
+- desktop Windows and macOS only; no mobile, no touch
+
+## Commands
+
+```
+node scripts/build.mjs in.html -o out.html --id slug [--with marked] [--strip-notes]
+node scripts/validate.mjs out.html    # self-containment, credentials, a11y
+node scripts/drift.mjs out.html       # structural integrity
+```

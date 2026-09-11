@@ -1,0 +1,1578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Supplier scorecard — FY26 H1</title>
+<style>
+/* ../../src/theme.css */
+/* artifactkit — theme.css
+   Tokens and cascade layers. MIT. No third-party code.
+
+   Layer order is declared once, here. Anything an author writes outside a
+   layer beats every layer, so overrides win without !important.
+*/
+@layer ak.tokens, ak.base, ak.components, ak.utilities;
+
+@layer ak.tokens {
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME — EDIT THESE. Everything else derives from them.
+   Changing --t-bg, --t-ink and --t-accent rethemes the entire artifact.
+   Agents: rewrite only inside the machine-readable markers below.
+
+     Warm      --t-bg:#FDF4E3;  --t-accent:#8A4B2A;
+     Cool grey --t-bg:#EFF1F3;  --t-accent:#1F4E79;
+     Denser    --t-density:.85; --t-size:14px;
+     Dark      --t-bg:#14141A;  --t-ink:#E8E6E0;  --t-accent:#6AA9D8;
+               --t-lift-amt:7%;        <- the only extra knob a dark ground needs
+   ═══════════════════════════════════════════════════════════════════════════ */
+/*!ak-theme-start*/
+:root{
+  /* — colour ————————————————————————————————————————————————————— */
+  --t-bg:       #F1ECE1;   /* page ground. RAL 9010, converted from CIELAB(93.613,-0.425,6.008) */
+  --t-ink:      #1A1A18;   /* body text. warm near-black — never pure #000 */
+  --t-accent:   #14496B;   /* primary accent. the only chrome colour */
+  --t-accent-2: #2E7D9A;   /* secondary accent */
+  --t-pos:      #2F6B3F;   /* positive / on track */
+  --t-neg:      #A32E2E;   /* negative / off track */
+  --t-warn:     #9A6614;   /* caution / at risk */
+
+  /* how far panels lift off the ground. 64% white on a light ground;
+     drop to ~7% for a dark ground, where a small lift reads as elevation. */
+  --t-lift:     #FFFFFF;
+  --t-lift-amt: 64%;
+
+  /* — chart series. restrained, print-safe, distinguishable ———————— */
+  --t-s1:#14496B; --t-s2:#2E7D9A; --t-s3:#B8873A;
+  --t-s4:#7A5C7B; --t-s5:#4A7C59; --t-s6:#A64B4B;
+
+  /* — type. system stack only. no webfonts, no network ———————————— */
+  --t-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text",
+            "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --t-mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+  --t-size: 15px;
+  --t-heading-weight: 650;
+
+  /* — shape & rhythm ———————————————————————————————————————————— */
+  --t-density: 1;      /* multiplies every spacing step */
+  --t-radius: 2px;
+  --t-maxw: 1120px;
+}
+/*!ak-theme-end*/
+/* ═══ Everything below is derived. Do not hand-edit. ════════════════════════ */
+
+:root{
+  /* Neutrals are mixes of ground and ink. Because --t-ink flips on a dark
+     theme, fills and rules invert automatically — only the lift needs a knob. */
+  --ak-bg: var(--t-bg);
+  --ak-surface:     color-mix(in srgb, var(--t-lift) var(--t-lift-amt), var(--t-bg));
+  --ak-fill:        color-mix(in srgb, var(--t-ink)  4%, var(--t-bg));
+  --ak-fill-2:      color-mix(in srgb, var(--t-ink)  7%, var(--t-bg));
+  --ak-rule:        color-mix(in srgb, var(--t-ink) 13%, var(--t-bg));
+  --ak-rule-mid:    color-mix(in srgb, var(--t-ink) 24%, var(--t-bg));
+  --ak-rule-strong: var(--t-ink);
+
+  --ak-ink:       var(--t-ink);
+  --ak-ink-muted: color-mix(in srgb, var(--t-bg) 31%, var(--t-ink));
+  --ak-ink-soft:  color-mix(in srgb, var(--t-bg) 50%, var(--t-ink));
+
+  --ak-accent:      var(--t-accent);
+  --ak-accent-2:    var(--t-accent-2);
+  --ak-accent-wash: color-mix(in srgb, var(--t-accent) 10%, var(--t-bg));
+  /* text on an accent fill: pulls toward the ground, so it flips with the theme */
+  --ak-accent-fg:   color-mix(in srgb, var(--t-bg) 92%, var(--t-accent));
+
+  --ak-pos: var(--t-pos); --ak-neg: var(--t-neg); --ak-warn: var(--t-warn);
+  --ak-pos-wash:  color-mix(in srgb, var(--t-pos)  10%, var(--t-bg));
+  --ak-neg-wash:  color-mix(in srgb, var(--t-neg)  10%, var(--t-bg));
+  --ak-warn-wash: color-mix(in srgb, var(--t-warn) 10%, var(--t-bg));
+
+  --ak-c1:var(--t-s1); --ak-c2:var(--t-s2); --ak-c3:var(--t-s3);
+  --ak-c4:var(--t-s4); --ak-c5:var(--t-s5); --ak-c6:var(--t-s6);
+
+  --ak-sans: var(--t-font);
+  --ak-mono: var(--t-mono);
+
+  --ak-s1:calc(4px  * var(--t-density));
+  --ak-s2:calc(8px  * var(--t-density));
+  --ak-s3:calc(12px * var(--t-density));
+  --ak-s4:calc(16px * var(--t-density));
+  --ak-s5:calc(24px * var(--t-density));
+  --ak-s6:calc(32px * var(--t-density));
+  --ak-s7:calc(48px * var(--t-density));
+  --ak-s8:calc(64px * var(--t-density));
+
+  --ak-radius: var(--t-radius);
+  --ak-maxw:   var(--t-maxw);
+}
+
+}/* @layer ak.tokens */
+
+</style>
+<style>
+/* ../../src/components.css */
+/* artifactkit — components.css
+   The vocabulary. MIT. No third-party code.
+   Every class is prefixed `ak-`. Colours come only from theme.css tokens;
+   no literal colour value appears below this line.
+*/
+
+@layer ak.base {
+  *,*::before,*::after{ box-sizing:border-box }
+  html,body{ margin:0 }
+  body{
+    background:var(--ak-bg); color:var(--ak-ink);
+    font-family:var(--ak-sans); font-size:var(--t-size); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+  }
+  h1,h2,h3,h4{ font-weight:var(--t-heading-weight); margin:0 0 var(--ak-s2); letter-spacing:-.01em }
+  h1{ font-size:30px; line-height:1.2; letter-spacing:-.015em; margin-bottom:var(--ak-s3) }
+  h2{ font-size:19px; line-height:1.3 }
+  h3{ font-size:15px }
+  h4{ font-size:13px }
+  p{ margin:0 0 var(--ak-s4); max-width:72ch }
+  a{ color:var(--ak-accent); text-underline-offset:2px }
+  code,kbd,samp,pre{ font-family:var(--ak-mono); font-size:.92em }
+  hr{ border:0; border-top:1px solid var(--ak-rule); margin:var(--ak-s5) 0 }
+  :focus-visible{ outline:2px solid var(--ak-accent); outline-offset:2px }
+  ::selection{ background:var(--ak-accent-wash) }
+}
+
+@layer ak.components {
+
+/* ── layout ─────────────────────────────────────────────────────────────── */
+.ak-wrap{ max-width:var(--ak-maxw); margin:0 auto; padding:var(--ak-s7) var(--ak-s6) var(--ak-s8) }
+.ak-stack{ display:flex; flex-direction:column; gap:var(--ak-s4) }
+.ak-row{ display:flex; gap:var(--ak-s4); align-items:center }
+.ak-grid{ display:grid; gap:var(--ak-s4); grid-template-columns:repeat(var(--ak-cols,2),1fr) }
+.ak-split{ display:grid; gap:var(--ak-s5); grid-template-columns:1fr 1fr }
+.ak-sidebar{ display:grid; gap:var(--ak-s5); grid-template-columns:220px 1fr; align-items:start }
+.ak-centered{ display:grid; place-items:center; min-height:60vh }
+.ak-spacer{ flex:1 }
+
+/* ── page furniture ─────────────────────────────────────────────────────── */
+.ak-pagehead{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:var(--ak-s5);
+  border-bottom:2px solid var(--ak-rule-strong);
+  padding-bottom:var(--ak-s4); margin-bottom:var(--ak-s6);
+}
+.ak-meta{ font-size:12px; color:var(--ak-ink-soft); text-align:right; white-space:nowrap; line-height:1.7 }
+.ak-eyebrow{
+  font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ak-ink-soft); margin:0 0 var(--ak-s2);
+}
+.ak-lede{ font-size:17px; line-height:1.5; color:var(--ak-ink-muted); margin:0; max-width:62ch }
+.ak-small{ font-size:12px; color:var(--ak-ink-muted) }
+.ak-sechead{
+  display:flex; align-items:baseline; gap:var(--ak-s3);
+  border-bottom:1px solid var(--ak-rule); padding-bottom:var(--ak-s2); margin-bottom:var(--ak-s5);
+}
+.ak-sechead .ak-n{ font-size:11px; font-weight:700; color:var(--ak-accent); letter-spacing:.08em }
+.ak-section{ margin:var(--ak-s7) 0 0 }
+.ak-footer{ margin-top:var(--ak-s8); padding-top:var(--ak-s4);
+  border-top:1px solid var(--ak-rule); font-size:11.5px; color:var(--ak-ink-soft) }
+
+/* freshness / provenance */
+.ak-asof{
+  display:inline-block; font-size:11px; font-weight:600; letter-spacing:.04em;
+  border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  padding:2px 7px; color:var(--ak-ink-muted); background:var(--ak-surface);
+}
+
+/* ── KPI strip: rules, not boxes ────────────────────────────────────────── */
+.ak-kpis{
+  display:grid; grid-template-columns:repeat(var(--ak-cols,4),1fr);
+  border-top:1px solid var(--ak-rule-strong); border-bottom:1px solid var(--ak-rule);
+  margin:0 0 var(--ak-s5);
+}
+.ak-kpi{ padding:var(--ak-s4) var(--ak-s4) var(--ak-s4) 0; border-right:1px solid var(--ak-rule) }
+.ak-kpi:last-child{ border-right:0 }
+.ak-kpi .ak-k{ font-size:11px; font-weight:600; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ak-ink-soft) }
+.ak-kpi .ak-v{ font-size:28px; font-weight:var(--t-heading-weight);
+  letter-spacing:-.02em; line-height:1.15; margin-top:var(--ak-s1) }
+.ak-kpi .ak-d{ font-size:12px; margin-top:2px; color:var(--ak-ink-muted) }
+
+.ak-up{ color:var(--ak-pos); font-weight:600 }
+.ak-down{ color:var(--ak-neg); font-weight:600 }
+.ak-flat,.ak-dim{ color:var(--ak-ink-soft) }
+.ak-dash{ color:var(--ak-ink-soft) }
+
+/* ── exhibit: the unit a report is made of ──────────────────────────────── */
+.ak-exhibit{
+  background:var(--ak-surface); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s5); margin:0 0 var(--ak-s5);
+}
+.ak-exhibit > .ak-eyebrow{ color:var(--ak-accent) }
+.ak-takeaway{ font-size:15px; color:var(--ak-ink-muted); margin:0 0 var(--ak-s4); max-width:70ch }
+.ak-source{ font-size:11px; color:var(--ak-ink-soft);
+  margin-top:var(--ak-s4); padding-top:var(--ak-s2); border-top:1px solid var(--ak-rule) }
+
+/* ── tables ─────────────────────────────────────────────────────────────── */
+.ak-tblwrap{ overflow:auto; max-height:var(--ak-tbl-h,none) }
+.ak-table{ border-collapse:collapse; width:100%; font-size:13.5px }
+.ak-table thead th{
+  font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ak-ink-muted); text-align:left; white-space:nowrap;
+  padding:0 var(--ak-s3) var(--ak-s2) 0;
+  border-bottom:1.5px solid var(--ak-rule-strong);
+  background:var(--ak-surface); position:sticky; top:0;
+}
+.ak-table th.ak-num,.ak-table td.ak-num{ text-align:right }
+.ak-table tbody td{ padding:7px var(--ak-s3) 7px 0;
+  border-bottom:1px solid var(--ak-rule); vertical-align:baseline }
+.ak-table tbody tr:hover{ background:var(--ak-fill) }
+.ak-table tbody td:first-child{ font-weight:550 }
+.ak-table tr.ak-total td{ border-top:1.5px solid var(--ak-rule-strong); border-bottom:0;
+  font-weight:var(--t-heading-weight); padding-top:var(--ak-s2) }
+/* sort affordance — an unsorted column must still say it is sortable */
+.ak-table th[data-sort]{ cursor:pointer; user-select:none }
+.ak-table th[data-sort]:hover{ color:var(--ak-ink) }
+.ak-table th[data-sort]::after{ content:"↕"; opacity:.28; margin-left:5px; font-size:10px }
+.ak-table th[data-sort][aria-sort="ascending"]::after{ content:"▲"; opacity:1; color:var(--ak-accent) }
+.ak-table th[data-sort][aria-sort="descending"]::after{ content:"▼"; opacity:1; color:var(--ak-accent) }
+/* keep the identifier column visible on wide tables */
+.ak-sticky1 td:first-child,.ak-sticky1 th:first-child{
+  position:sticky; left:0; background:var(--ak-surface) }
+.ak-table tbody tr[tabindex]{ cursor:pointer }
+.ak-table tbody tr[tabindex]:focus-visible{ outline:2px solid var(--ak-accent); outline-offset:-2px }
+
+/* ── controls ───────────────────────────────────────────────────────────── */
+.ak-toolbar{ display:flex; gap:var(--ak-s2); align-items:center;
+  margin-bottom:var(--ak-s4); flex-wrap:wrap }
+.ak-input,.ak-select,.ak-textarea{
+  font:inherit; font-size:13px; padding:5px 9px; color:var(--ak-ink);
+  border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  background:var(--ak-surface);
+}
+.ak-input{ min-width:220px }
+.ak-textarea{ min-width:100%; min-height:80px }
+.ak-input:focus-visible,.ak-select:focus-visible,.ak-textarea:focus-visible{
+  outline:2px solid var(--ak-accent); outline-offset:1px; border-color:var(--ak-accent) }
+.ak-btn{
+  font:inherit; font-size:12px; font-weight:600; padding:5px 11px; cursor:pointer;
+  border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  background:var(--ak-surface); color:var(--ak-ink);
+}
+.ak-btn:hover{ background:var(--ak-fill); border-color:var(--ak-ink-soft) }
+.ak-btn[disabled]{ opacity:.45; cursor:not-allowed }
+.ak-btn-primary{ background:var(--ak-accent); border-color:var(--ak-accent); color:var(--ak-accent-fg) }
+.ak-btn-primary:hover{ background:color-mix(in srgb, var(--ak-ink) 14%, var(--ak-accent)) }
+.ak-chip{
+  font-size:11.5px; font-weight:600; padding:3px 9px; cursor:pointer;
+  border:1px solid var(--ak-rule-mid); border-radius:999px;
+  background:var(--ak-surface); color:var(--ak-ink-muted);
+}
+.ak-chip[aria-pressed="true"]{ background:var(--ak-accent-wash);
+  border-color:var(--ak-accent); color:var(--ak-accent) }
+.ak-kbd{ font-family:var(--ak-mono); font-size:11px; padding:1px 5px;
+  border:1px solid var(--ak-rule-mid); border-bottom-width:2px;
+  border-radius:3px; background:var(--ak-surface) }
+
+/* ── status vocabulary. never colour alone — always a label ─────────────── */
+.ak-pill{ display:inline-block; font-size:11px; font-weight:600; padding:1px 8px;
+  border-radius:10px; border:1px solid currentColor; line-height:1.6 }
+.ak-pill-ok{ color:var(--ak-pos) }
+.ak-pill-risk{ color:var(--ak-neg) }
+.ak-pill-warn{ color:var(--ak-warn) }
+.ak-pill-info{ color:var(--ak-accent) }
+.ak-pill-off{ color:var(--ak-ink-soft) }
+.ak-badge{ display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.04em;
+  padding:1px 6px; border-radius:var(--ak-radius);
+  background:var(--ak-fill-2); color:var(--ak-ink-muted) }
+
+/* ── messages ───────────────────────────────────────────────────────────── */
+.ak-banner{ border-left:3px solid var(--ak-warn); background:var(--ak-fill);
+  padding:var(--ak-s3) var(--ak-s4); font-size:13px; margin:0 0 var(--ak-s4) }
+.ak-banner-bad{ border-left-color:var(--ak-neg); background:var(--ak-neg-wash) }
+.ak-banner-ok{ border-left-color:var(--ak-pos); background:var(--ak-pos-wash) }
+.ak-banner strong{ font-weight:var(--t-heading-weight) }
+.ak-empty{ text-align:center; padding:var(--ak-s7) var(--ak-s4); color:var(--ak-ink-soft);
+  border:1px dashed var(--ak-rule-mid); border-radius:var(--ak-radius) }
+.ak-toast{
+  position:fixed; bottom:var(--ak-s5); left:50%; translate:-50% 0; z-index:60;
+  background:var(--ak-rule-strong); color:var(--ak-bg);
+  font-size:13px; padding:var(--ak-s2) var(--ak-s4); border-radius:var(--ak-radius);
+  box-shadow:0 6px 20px rgb(0 0 0 / .18);
+}
+
+/* ── CSS bars: cheaper than a chart, use for plain counts ───────────────── */
+.ak-barrow{ display:grid; grid-template-columns:var(--ak-barlabel,150px) 1fr 64px;
+  gap:var(--ak-s3); align-items:center; padding:5px 0;
+  border-bottom:1px solid var(--ak-rule); font-size:13px }
+.ak-track{ display:block; background:var(--ak-fill-2); height:12px }
+.ak-fill{ display:block; height:12px; background:var(--ak-accent) }
+.ak-barrow .ak-num{ text-align:right }
+
+/* ── charts. structure lives here, colour comes from JS via tokens ──────── */
+.ak-chart{ width:100% }
+.ak-nc-axis text{ font-size:10.5px; fill:var(--ak-ink-soft) }
+.ak-nc-axis line,.ak-nc-axis path{ stroke:var(--ak-rule-mid) }
+.ak-nc-grid line{ stroke:var(--ak-rule); stroke-dasharray:2 3 }
+.ak-legend{ display:flex; gap:var(--ak-s4); flex-wrap:wrap;
+  font-size:11.5px; color:var(--ak-ink-muted); margin-top:var(--ak-s2) }
+.ak-legend i{ display:inline-block; width:9px; height:9px; margin-right:5px; vertical-align:-1px }
+.ak-spark{ vertical-align:-2px }
+
+/* ── kanban. desktop drag only — touch is out of scope ──────────────────── */
+.ak-board{ display:grid; gap:var(--ak-s3); align-items:start;
+  grid-template-columns:repeat(var(--ak-cols,4),1fr) }
+.ak-col{ background:var(--ak-fill); border:1px solid var(--ak-rule); min-height:120px }
+.ak-col > h3{ font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ak-ink-muted); margin:0; padding:var(--ak-s3) var(--ak-s3) var(--ak-s2);
+  border-bottom:1px solid var(--ak-rule) }
+.ak-col > h3 .ak-n{ float:right; color:var(--ak-ink-soft); font-weight:600 }
+.ak-cards{ padding:var(--ak-s2); display:flex; flex-direction:column;
+  gap:var(--ak-s2); min-height:56px }
+.ak-kcard{ background:var(--ak-surface); border:1px solid var(--ak-rule-mid);
+  border-radius:var(--ak-radius); padding:var(--ak-s3); font-size:13px; cursor:grab }
+.ak-kcard:active{ cursor:grabbing }
+.ak-kcard .ak-t{ font-weight:600; margin-bottom:3px }
+.ak-kcard.ak-dragging{ opacity:.4 }
+.ak-cards.ak-over{ background:var(--ak-accent-wash);
+  outline:1px dashed var(--ak-accent); outline-offset:-3px }
+
+/* ── stepper ────────────────────────────────────────────────────────────── */
+.ak-stepper{ display:flex; align-items:flex-start; gap:0; margin:0 0 var(--ak-s5); padding:0; list-style:none }
+.ak-step{ flex:1; position:relative; padding:0 var(--ak-s3) 0 0; font-size:12.5px; color:var(--ak-ink-soft) }
+.ak-step::before{ content:""; display:block; height:2px; background:var(--ak-rule);
+  margin-bottom:var(--ak-s2) }
+.ak-step .ak-t{ font-weight:600; color:var(--ak-ink-muted); display:block }
+.ak-step[aria-current="step"]::before,.ak-step.ak-done::before{ background:var(--ak-accent) }
+.ak-step[aria-current="step"] .ak-t{ color:var(--ak-accent) }
+.ak-step.ak-done .ak-t{ color:var(--ak-ink) }
+
+/* ── timeline ───────────────────────────────────────────────────────────── */
+.ak-timeline{ list-style:none; margin:0; padding:0 0 0 var(--ak-s5);
+  border-left:1px solid var(--ak-rule) }
+.ak-tl-item{ position:relative; padding:0 0 var(--ak-s4) 0 }
+.ak-tl-item::before{ content:""; position:absolute; left:calc(-1 * var(--ak-s5) - 4px); top:6px;
+  width:7px; height:7px; border-radius:50%; background:var(--ak-accent);
+  outline:3px solid var(--ak-bg) }
+.ak-tl-item time{ display:block; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ak-ink-soft) }
+.ak-tl-item .ak-t{ font-weight:600 }
+
+/* ── disclosure ─────────────────────────────────────────────────────────── */
+.ak-disclosure{ border-bottom:1px solid var(--ak-rule) }
+.ak-disclosure > summary{ cursor:pointer; list-style:none; padding:var(--ak-s3) 0;
+  font-weight:600; font-size:13.5px; display:flex; align-items:center; gap:var(--ak-s2) }
+.ak-disclosure > summary::-webkit-details-marker{ display:none }
+.ak-disclosure > summary::before{ content:"▸"; color:var(--ak-accent);
+  transition:rotate .12s ease; display:inline-block }
+.ak-disclosure[open] > summary::before{ rotate:90deg }
+.ak-disclosure > :not(summary){ padding:0 0 var(--ak-s4) var(--ak-s4) }
+
+/* ── drilldown. a row detail, not a modal — modals hide context ─────────── */
+.ak-drill{ background:var(--ak-fill); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s4); margin:var(--ak-s3) 0 }
+.ak-drill .ak-hd{ display:flex; justify-content:space-between; align-items:baseline;
+  border-bottom:1px solid var(--ak-rule); padding-bottom:var(--ak-s2); margin-bottom:var(--ak-s3) }
+.ak-dcols{ display:grid; gap:var(--ak-s3) var(--ak-s5);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr)) }
+.ak-field .ak-k{ font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ak-ink-soft); display:block }
+.ak-field .ak-v{ font-size:13.5px }
+
+/* ── navigation ─────────────────────────────────────────────────────────── */
+.ak-breadcrumb{ display:flex; gap:var(--ak-s2); list-style:none; margin:0 0 var(--ak-s3);
+  padding:0; font-size:12px; color:var(--ak-ink-soft); flex-wrap:wrap }
+.ak-breadcrumb li + li::before{ content:"/"; margin-right:var(--ak-s2); color:var(--ak-rule-mid) }
+.ak-nav{ list-style:none; margin:0; padding:0; font-size:13.5px }
+.ak-nav a{ display:block; padding:4px var(--ak-s2); color:var(--ak-ink-muted);
+  text-decoration:none; border-left:2px solid transparent }
+.ak-nav a:hover{ color:var(--ak-ink); background:var(--ak-fill) }
+.ak-nav a[aria-current="page"]{ color:var(--ak-accent); border-left-color:var(--ak-accent);
+  font-weight:600 }
+.ak-toc{ font-size:13px; position:sticky; top:var(--ak-s4) }
+.ak-toc .ak-eyebrow{ margin-bottom:var(--ak-s2) }
+
+/* ── modal (native <dialog>) ────────────────────────────────────────────── */
+.ak-modal{ border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  background:var(--ak-surface); color:var(--ak-ink); padding:var(--ak-s5);
+  max-width:min(560px,92vw); box-shadow:0 24px 60px rgb(0 0 0 / .22) }
+.ak-modal::backdrop{ background:rgb(0 0 0 / .32) }
+
+/* ── prose (wiki / notes) ───────────────────────────────────────────────── */
+.ak-prose{ max-width:70ch }
+.ak-prose h2{ margin-top:var(--ak-s6) }
+.ak-prose blockquote{ margin:0 0 var(--ak-s4); padding-left:var(--ak-s4);
+  border-left:3px solid var(--ak-rule-mid); color:var(--ak-ink-muted) }
+.ak-prose pre{ background:var(--ak-fill); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s3); overflow:auto; font-size:12.5px }
+.ak-prose :not(pre) > code{ background:var(--ak-fill-2); padding:1px 4px; border-radius:3px }
+
+/* ── deck ───────────────────────────────────────────────────────────────── */
+.ak-deck{ scroll-snap-type:y mandatory; overflow-y:auto; height:100vh }
+.ak-slide{ scroll-snap-align:start; min-height:100vh;
+  display:grid; align-content:center; padding:var(--ak-s8) var(--ak-s7);
+  max-width:var(--ak-maxw); margin:0 auto; border-bottom:1px solid var(--ak-rule) }
+.ak-slide h2{ font-size:34px; letter-spacing:-.02em }
+/* Speaker notes are authored inside the slide and never shown on the projected
+   screen. The presenter window reads them; --strip-notes removes them entirely. */
+.ak-notes{ display:none }
+body.ak-deck-notes-on .ak-slide.ak-here .ak-notes{
+  display:block; margin-top:var(--ak-s5); padding:var(--ak-s3) var(--ak-s4);
+  border-left:3px solid var(--ak-accent); background:var(--ak-fill);
+  font-size:13px; color:var(--ak-ink-muted) }
+
+/* progress */
+.ak-deck-bar{ position:fixed; left:0; top:0; height:3px; width:0; z-index:40;
+  background:var(--ak-accent); transition:width 300ms ease }
+
+/* heads-up controls */
+.ak-deck-hud{ position:fixed; right:22px; bottom:16px; z-index:41;
+  display:flex; gap:14px; align-items:center;
+  color:var(--ak-ink-soft); font-size:11px; letter-spacing:.09em; text-transform:uppercase }
+.ak-deck-pos b{ color:var(--ak-ink); font-weight:650 }
+.ak-deck-nav{ display:flex; gap:6px; align-items:center }
+.ak-deck-sep{ width:1px; height:18px; background:var(--ak-rule-mid); margin:0 3px }
+.ak-deck-nav button{ position:relative; width:34px; height:34px; padding:0; cursor:pointer;
+  border:1px solid var(--ak-rule-mid); border-radius:50%;
+  background:var(--ak-surface); color:var(--ak-ink); display:grid; place-items:center;
+  transition:border-color 140ms, color 140ms, background 140ms, opacity 140ms }
+.ak-deck-nav button:hover:not(:disabled){ border-color:var(--ak-accent); color:var(--ak-accent) }
+.ak-deck-nav button:disabled{ opacity:.25; cursor:default }
+.ak-deck-nav button[aria-pressed="true"]{ border-color:var(--ak-accent);
+  background:var(--ak-accent-wash); color:var(--ak-accent) }
+.ak-deck-nav svg{ width:15px; height:15px; fill:none; stroke:currentColor;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+/* tooltips anchor right so the last button never pushes one off screen */
+.ak-deck-nav button::after{ content:attr(data-tip); position:absolute;
+  bottom:calc(100% + 9px); right:0; white-space:nowrap;
+  background:var(--ak-surface); border:1px solid var(--ak-rule-mid); color:var(--ak-ink);
+  font-size:11px; letter-spacing:.02em; text-transform:none;
+  padding:5px 9px; border-radius:var(--ak-radius); box-shadow:0 4px 14px rgb(0 0 0 / .12);
+  opacity:0; pointer-events:none; translate:0 4px; transition:opacity 130ms, translate 130ms }
+.ak-deck-nav button:hover:not(:disabled)::after{ opacity:1; translate:0 0 }
+
+/* overview */
+.ak-deck-grid{ position:fixed; inset:0; z-index:50; display:none;
+  background:color-mix(in srgb, var(--ak-bg) 94%, transparent);
+  padding:var(--ak-s7); overflow:auto;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:var(--ak-s3);
+  align-content:start }
+.ak-deck-grid.ak-on{ display:grid }
+.ak-deck-grid button{ text-align:left; font:inherit; font-size:13px; cursor:pointer;
+  background:var(--ak-surface); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s3); color:var(--ak-ink);
+  min-height:84px; display:block }
+.ak-deck-grid button:hover{ border-color:var(--ak-accent) }
+.ak-deck-grid .ak-n{ display:block; font-size:10px; letter-spacing:.1em;
+  color:var(--ak-ink-soft); margin-bottom:var(--ak-s1) }
+
+/* keyboard help */
+.ak-deck-help{ position:fixed; inset:0; z-index:51; display:none; place-items:center;
+  background:color-mix(in srgb, var(--ak-ink) 40%, transparent) }
+.ak-deck-help.ak-on{ display:grid }
+.ak-deck-help > div{ background:var(--ak-surface); border:1px solid var(--ak-rule-mid);
+  border-radius:var(--ak-radius); padding:var(--ak-s5) var(--ak-s6); min-width:320px }
+.ak-deck-help h3{ margin-bottom:var(--ak-s3) }
+.ak-deck-help dl{ display:grid; grid-template-columns:auto 1fr;
+  gap:var(--ak-s2) var(--ak-s4); margin:0; font-size:13px }
+.ak-deck-help dt{ font-family:var(--ak-mono); color:var(--ak-accent); white-space:nowrap }
+.ak-deck-help dd{ margin:0; color:var(--ak-ink-muted) }
+
+/* ── scorecard ──────────────────────────────────────────────────────────── */
+.ak-scorecard{ display:grid; gap:1px; background:var(--ak-rule);
+  border:1px solid var(--ak-rule); grid-template-columns:repeat(var(--ak-cols,3),1fr) }
+.ak-scorecard > *{ background:var(--ak-surface); padding:var(--ak-s3) var(--ak-s4) }
+
+/* ── avatar / stat ──────────────────────────────────────────────────────── */
+.ak-avatar{ display:inline-grid; place-items:center; width:28px; height:28px;
+  border-radius:50%; background:var(--ak-fill-2); color:var(--ak-ink-muted);
+  font-size:11px; font-weight:700 }
+.ak-stat{ display:flex; flex-direction:column; gap:2px }
+.ak-stat .ak-k{ font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ak-ink-soft) }
+.ak-stat .ak-v{ font-size:19px; font-weight:var(--t-heading-weight) }
+
+}/* @layer ak.components */
+
+@layer ak.utilities {
+  /* screen-reader-only: the accessible twin of every chart lives in one of these */
+  .ak-vh{ position:absolute; width:1px; height:1px; overflow:hidden;
+    clip-path:inset(50%); white-space:nowrap }
+  .ak-mono{ font-family:var(--ak-mono) }
+  .ak-num{ text-align:right; font-variant-numeric:tabular-nums }
+  .ak-muted{ color:var(--ak-ink-muted) }
+  .ak-soft{ color:var(--ak-ink-soft) }
+  .ak-nowrap{ white-space:nowrap }
+  .ak-hide{ display:none !important }
+  .ak-cols-1{ --ak-cols:1 } .ak-cols-2{ --ak-cols:2 } .ak-cols-3{ --ak-cols:3 }
+  .ak-cols-4{ --ak-cols:4 } .ak-cols-5{ --ak-cols:5 } .ak-cols-6{ --ak-cols:6 }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{ transition:none !important; animation:none !important; scroll-behavior:auto !important }
+}
+
+</style>
+<style>
+/* ../../src/print.css */
+/* artifactkit — print.css
+   `window.print()` is the PDF path. 0 kB, vector text, correct fonts —
+   against ~180 kB for jsPDF + html2canvas and objectively worse output.
+*/
+@media print{
+  :root{
+    /* force a white ground and pure-black ink regardless of theme */
+    --t-bg:#FFFFFF;
+    --t-ink:#000000;
+    --t-lift-amt:0%;
+  }
+  @page{ margin:16mm 14mm }
+
+  body{ font-size:10.5pt; line-height:1.4; background:#fff }
+  .ak-wrap{ max-width:none; padding:0 }
+
+  /* interactive chrome has no meaning on paper */
+  .ak-toolbar,.ak-btn,.ak-chip,.ak-input,.ak-select,.ak-toast,
+  .ak-deck-hud,.ak-deck-bar,.ak-deck-grid,.ak-deck-help,
+  [data-ak-noprint]{ display:none !important }
+
+  /* Speaker notes must never reach a PDF that gets emailed to the audience. */
+  .ak-notes{ display:none !important }
+
+  /* never split a unit of argument across a page */
+  .ak-exhibit,.ak-section,.ak-kpis,.ak-drill,.ak-board,.ak-col,
+  figure,table,.ak-barrow,.ak-tl-item{ break-inside:avoid }
+  h1,h2,h3{ break-after:avoid }
+  thead{ display:table-header-group }   /* repeat headers on every page */
+  tfoot{ display:table-footer-group }
+
+  /* a collapsed section is invisible on paper — expand everything */
+  details{ display:block }
+  details > :not(summary){ display:block !important; padding-left:0 }
+  .ak-disclosure > summary::before{ content:"" }
+
+  /* surfaces become outlines; fills waste toner and hurt contrast */
+  .ak-exhibit,.ak-drill,.ak-col,.ak-kcard,.ak-scorecard > *{
+    background:#fff !important; border-color:#bbb !important; box-shadow:none !important }
+  .ak-table tbody tr:hover{ background:transparent }
+  .ak-track{ background:#eee !important }
+
+  /* links: keep the text, drop the colour, surface the target */
+  a{ color:inherit; text-decoration:none }
+  .ak-prose a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:9pt; color:#555 }
+
+  /* scroll containers must release their height or content is clipped away */
+  .ak-tblwrap,.ak-deck{ overflow:visible !important; max-height:none !important; height:auto !important }
+  .ak-slide{ min-height:auto; break-after:page; border-bottom:0 }
+  .ak-table thead th{ position:static }   /* sticky headers print as overlaps */
+  .ak-sticky1 td:first-child,.ak-sticky1 th:first-child{ position:static }
+  .ak-toc{ position:static }
+}
+
+</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23F1ECE1'/%3E%3Crect x='3' y='3' width='10' height='2' fill='%2314496B'/%3E%3Crect x='3' y='7' width='10' height='1' fill='%235C5A54'/%3E%3Crect x='3' y='10' width='6' height='1' fill='%235C5A54'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">Procurement · supplier review · FY26 H1</p>
+      <h1>Two suppliers are carrying avoidable risk</h1>
+      <p class="ak-lede">Nordvik and Calder both score below threshold on
+        responsiveness while holding single-source positions. That combination,
+        not the raw score, is what needs a decision.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Scored 05 Sep 2026</span><br>
+      5 suppliers · 5 dimensions<br>
+      Panel: 3 reviewers
+    </div>
+  </header>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>Scores</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 1</p>
+      <h3>Supplier scorecard, weighted</h3>
+      <p class="ak-takeaway">Meridian and Orbis clear every threshold. Nordvik
+        fails responsiveness; Calder fails both responsiveness and cost.</p>
+
+      <div class="ak-toolbar">
+        <button class="ak-chip" aria-pressed="false" id="onlyfail">Only below threshold</button>
+        <span class="ak-spacer"></span>
+        <button class="ak-btn" id="csv">Export CSV</button>
+        <button class="ak-btn ak-btn-primary" onclick="window.print()">Print / PDF</button>
+      </div>
+
+      <table class="ak-table" id="t">
+        <thead><tr>
+          <th data-sort="s">Supplier</th>
+          <th data-sort="n" class="ak-num">Delivery<br><span class="ak-soft">30%</span></th>
+          <th data-sort="n" class="ak-num">Quality<br><span class="ak-soft">25%</span></th>
+          <th data-sort="n" class="ak-num">Cost<br><span class="ak-soft">20%</span></th>
+          <th data-sort="n" class="ak-num">Responsive<br><span class="ak-soft">15%</span></th>
+          <th data-sort="n" class="ak-num">Compliance<br><span class="ak-soft">10%</span></th>
+          <th data-sort="n" class="ak-num">Weighted</th>
+          <th data-sort="s">Standing</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="ak-source">Scored 1–5 by three reviewers independently, then
+        averaged; spread above 1.5 points is flagged rather than averaged away.
+        Threshold is 3.0 on any single dimension. Weights agreed by the category
+        board 14 Feb 2026 and unchanged since.</p>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Where the gaps are</h2></div>
+    <div class="ak-exhibit">
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 2a</p><h3>Weighted score</h3>
+          <div id="bars"></div>
+          <div id="bars-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2b</p><h3>Dimension averages</h3>
+          <div id="dims"></div>
+          <p class="ak-small ak-soft" style="margin-top:var(--ak-s3)">
+            Responsiveness is the weakest dimension across the whole panel, not a
+            single supplier's problem. That points at our own intake process.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">03</span><h2>Rubric</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-takeaway">A scorecard without its rubric is an opinion in a
+        grid. You will be challenged on these definitions, so they are stated.</p>
+
+      <details class="ak-disclosure" open><summary>Delivery — 30%</summary>
+        <p class="ak-small"><b>5</b> — on time and in full, every order, no expediting.
+          <b>4</b> — one late line, self-reported before the due date.
+          <b>3</b> — occasional slippage inside the tolerance window.
+          <b>2</b> — repeated slippage requiring expediting cost.
+          <b>1</b> — missed commitments causing downstream stoppage.</p></details>
+
+      <details class="ak-disclosure"><summary>Quality — 25%</summary>
+        <p class="ak-small">Defect rate against the agreed AQL, plus whether
+          non-conformances are reported by the supplier or discovered by us.
+          Self-reporting is scored higher than a clean record found by inspection.</p></details>
+
+      <details class="ak-disclosure"><summary>Cost — 20%</summary>
+        <p class="ak-small">Total landed cost against benchmark, not unit price.
+          A cheaper unit that arrives late scores worse than a dearer one that
+          does not.</p></details>
+
+      <details class="ak-disclosure"><summary>Responsiveness — 15%</summary>
+        <p class="ak-small">Time to a substantive answer on a technical query.
+          <b>5</b> — same working day. <b>3</b> — within three days.
+          <b>1</b> — needs chasing. Measured from our ticket log, not from
+          supplier self-assessment.</p></details>
+
+      <details class="ak-disclosure"><summary>Compliance — 10%</summary>
+        <p class="ak-small">Certification currency, audit findings closed within
+          the agreed window, and subcontractor disclosure. Binary failures here
+          override the weighted score entirely — see the standing column.</p></details>
+
+      <details class="ak-disclosure"><summary>How disagreement is handled</summary>
+        <p class="ak-small">Where reviewer spread exceeds 1.5 points the cell is
+          marked <span class="ak-badge">SPREAD</span> and the panel re-scores
+          together. Averaging a genuine disagreement hides it.</p></details>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    Scores are for internal category management and are not shared with suppliers
+    in this form · Weights fixed 14 Feb 2026 · Next review 05 Mar 2027
+  </footer>
+</div>
+
+<script>
+/* ../../src/core.js */
+/* artifactkit — core.js
+   MIT. No third-party code. Classic script — never a module.
+   ES modules are blocked at file:// (CORS on an opaque origin), so this file
+   must stay an IIFE and must never use import/export.
+
+   Exposes one global: `ak`.
+*/
+(function (root) {
+  "use strict";
+
+  var ak = {};
+  var CFG = { id: "artifact", title: document.title || "artifact" };
+
+  /* ─── init ──────────────────────────────────────────────────────────────
+     The id namespaces every storage key. This is not optional: all file://
+     pages share ONE localStorage area, so an unnamespaced key is both a
+     collision bug and a disclosure bug between unrelated artifacts.        */
+  ak.init = function (opts) {
+    opts = opts || {};
+    if (!opts.id) console.warn("[ak] init() without an id — storage keys will collide with other local artifacts");
+    CFG.id = opts.id || CFG.id;
+    CFG.title = opts.title || CFG.title;
+    return ak;
+  };
+
+  /* ─── formatting ────────────────────────────────────────────────────── */
+  var nf = function (o) { return new Intl.NumberFormat(undefined, o); };
+  ak.fmt = {
+    num: function (v, d) { return v == null ? "–" : nf({ minimumFractionDigits: d || 0, maximumFractionDigits: d == null ? 1 : d }).format(v); },
+    pct: function (v, d) { return v == null ? "–" : nf({ minimumFractionDigits: d || 0, maximumFractionDigits: d == null ? 1 : d }).format(v) + "%"; },
+    cur: function (v, c, d) { return v == null ? "–" : nf({ style: "currency", currency: c || "EUR", maximumFractionDigits: d == null ? 0 : d }).format(v); },
+    signed: function (v, d) { return v == null ? "–" : (v > 0 ? "+" : "") + ak.fmt.num(v, d); },
+    date: function (d) { return d == null ? "–" : new Intl.DateTimeFormat(undefined, { day: "2-digit", month: "short", year: "numeric" }).format(new Date(d)); }
+  };
+  /* Round in the UI, keep full precision in the export. */
+
+  /* ─── tiny store ────────────────────────────────────────────────────────
+     Deliberately not a framework. An agent calling a documented 20-line API
+     is more reliable than it recalling a third party's.                    */
+  ak.store = function (initial) {
+    var state = initial || {}, subs = [];
+    return {
+      get: function (k) { return k == null ? state : state[k]; },
+      set: function (patch) {
+        var changed = false, k;
+        for (k in patch) if (state[k] !== patch[k]) { state[k] = patch[k]; changed = true; }
+        if (changed) { markDirty(); subs.forEach(function (f) { try { f(state); } catch (e) { console.error(e); } }); }
+        return state;
+      },
+      subscribe: function (f) { subs.push(f); f(state); return function () { subs = subs.filter(function (x) { return x !== f; }); }; }
+    };
+  };
+
+  /* ─── namespaced local storage. crash buffer only, never the record ──── */
+  function key(k) { return "ak:" + CFG.id + ":" + k; }
+  ak.persist = function (k, value) {
+    try { localStorage.setItem(key(k), JSON.stringify(value)); return true; }
+    catch (e) { console.warn("[ak] persist failed:", e.name); return false; }
+  };
+  ak.restore = function (k, fallback) {
+    try { var v = localStorage.getItem(key(k)); return v == null ? fallback : JSON.parse(v); }
+    catch (e) { return fallback; }
+  };
+  ak.forget = function (k) { try { localStorage.removeItem(key(k)); } catch (e) {} };
+
+  /* ─── embedded state block ──────────────────────────────────────────────
+     Convention borrowed from Feather Wiki: <script id="ak-state" type="application/json">.
+     The serializer is ALLOW-LISTED. Never JSON.stringify the whole app state —
+     whatever is in memory ends up in a file the user may email.            */
+  var SECRETY_KEY = /(api[_-]?key|secret|token|password|passwd|bearer|auth|credential|client[_-]?secret|session)/i;
+  var SECRETY_VAL = [
+    /\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}/,      // JWT
+    /\bgh[pousr]_[A-Za-z0-9]{16,}/,                    // GitHub token
+    /\bsk-[A-Za-z0-9]{20,}/,                           // OpenAI-style key
+    /\bxox[baprs]-[A-Za-z0-9-]{10,}/                   // Slack token
+  ];
+  function scan(obj, path, found) {
+    if (obj == null) return found;
+    if (typeof obj === "string") {
+      for (var i = 0; i < SECRETY_VAL.length; i++)
+        if (SECRETY_VAL[i].test(obj)) found.push(path + " (value looks like a credential)");
+      return found;
+    }
+    if (typeof obj !== "object") return found;
+    for (var k in obj) {
+      if (SECRETY_KEY.test(k)) found.push((path ? path + "." : "") + k + " (key name)");
+      scan(obj[k], (path ? path + "." : "") + k, found);
+    }
+    return found;
+  }
+  ak.readState = function (fallback) {
+    var el = document.getElementById("ak-state");
+    if (!el) return fallback;
+    try { return JSON.parse(el.textContent); } catch (e) { console.warn("[ak] state block is not valid JSON"); return fallback; }
+  };
+  /** Serialise only `allow`ed keys, and refuse anything credential-shaped. */
+  ak.writeState = function (obj, allow) {
+    var out = {}, i;
+    if (!Array.isArray(allow) || !allow.length) throw new Error("[ak] writeState requires an explicit allow-list of keys");
+    for (i = 0; i < allow.length; i++) if (obj[allow[i]] !== undefined) out[allow[i]] = obj[allow[i]];
+    var bad = scan(out, "", []);
+    if (bad.length) throw new Error("[ak] refusing to serialise credentials into the artifact: " + bad.join(", "));
+    var el = document.getElementById("ak-state");
+    if (!el) { el = document.createElement("script"); el.id = "ak-state"; el.type = "application/json"; document.body.appendChild(el); }
+    el.textContent = JSON.stringify(out);
+    return out;
+  };
+
+  /* ─── dirty tracking ────────────────────────────────────────────────────
+     TiddlyWiki's download saver calls back "saved" the instant it clicks the
+     link — success it cannot possibly know. We never claim that.           */
+  var dirty = false, dirtyEls = [];
+  function markDirty() { dirty = true; paintDirty(); }
+  function paintDirty() {
+    dirtyEls.forEach(function (el) {
+      el.textContent = dirty ? "Unsaved changes" : "Saved";
+      el.dataset.akDirty = dirty ? "1" : "0";
+    });
+  }
+  ak.dirtyIndicator = function (el) { dirtyEls.push(el); paintDirty(); return ak; };
+  ak.isDirty = function () { return dirty; };
+  root.addEventListener("beforeunload", function (e) {
+    if (!dirty) return;
+    e.preventDefault(); e.returnValue = "";
+  });
+
+  /* ─── saver cascade ─────────────────────────────────────────────────────
+     Lessons taken from TiddlyWiki #5404 (open since 2021):
+       · canSave() is SYNCHRONOUS while the API is async — so gate on a
+         cached boolean, never a promise.
+       · showSaveFilePicker requires a user gesture, so there is NO
+         unattended autosave. The first save each session costs one click.
+       · a broken saver cannot be unloaded — so save() returns false
+         synchronously and the next saver in the cascade gets its turn.     */
+  var fileHandle = null;
+
+  var fsaSaver = {
+    name: "filesystem",
+    canSave: function () { return typeof root.showSaveFilePicker === "function"; },
+    save: function (text, filename, done) {
+      (async function () {
+        try {
+          if (!fileHandle) {
+            fileHandle = await root.showSaveFilePicker({
+              suggestedName: filename,
+              types: [{ description: "HTML", accept: { "text/html": [".html"] } }]
+            });
+          } else if (fileHandle.queryPermission) {
+            var p = await fileHandle.queryPermission({ mode: "readwrite" });
+            if (p !== "granted") p = await fileHandle.requestPermission({ mode: "readwrite" });
+            if (p !== "granted") { done(false, "permission denied"); return; }
+          }
+          // "exclusive" matters: the default "siloed" means the last writer
+          // wins, so two open tabs clobber each other silently.
+          var w = await fileHandle.createWritable({ mode: "exclusive", keepExistingData: false });
+          await w.write(text); await w.close();
+          done(true, fileHandle.name);
+        } catch (err) {
+          if (err && err.name === "AbortError") { done(false, "cancelled"); return; }
+          fileHandle = null;            // drop a poisoned handle, fall back next time
+          done(false, err ? err.name + ": " + err.message : "failed");
+        }
+      })();
+      return true;
+    }
+  };
+
+  var downloadSaver = {
+    name: "download",
+    canSave: function () { return "download" in document.createElement("a"); },
+    save: function (text, filename, done) {
+      try {
+        var blob = new Blob([text], { type: "text/html;charset=utf-8" });
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob); a.download = filename;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+        // We cannot know whether the user kept the file, so we do not claim it.
+        done(null, "downloaded");
+        return true;
+      } catch (e) { return false; }
+    }
+  };
+
+  ak.savers = [fsaSaver, downloadSaver];
+
+  /**
+   * Save the whole document. MUST be called from a user gesture.
+   * @param {{filename?:string, serialize?:function, onResult?:function}} opts
+   */
+  ak.save = function (opts) {
+    opts = opts || {};
+    var filename = opts.filename || (CFG.id + ".html");
+    if (typeof opts.serialize === "function") opts.serialize();   // update the state block first
+    var text = "<!doctype html>\n" + document.documentElement.outerHTML;
+
+    for (var i = 0; i < ak.savers.length; i++) {
+      var s = ak.savers[i];
+      if (!s.canSave()) continue;
+      var handled = s.save(text, filename, function (ok, detail) {
+        if (ok === true) { dirty = false; paintDirty(); ak.toast("Saved to " + detail); }
+        else if (ok === null) { ak.toast("Downloaded — replace the original file to keep your changes"); }
+        else { ak.toast("Not saved: " + detail); }
+        if (opts.onResult) opts.onResult(ok, detail);
+      });
+      if (handled) return s.name;
+    }
+    ak.toast("No saver available in this browser");
+    return null;
+  };
+
+  /* ─── toast ─────────────────────────────────────────────────────────── */
+  var toastEl = null, toastT = null;
+  ak.toast = function (msg, ms) {
+    if (!toastEl) { toastEl = document.createElement("div"); toastEl.className = "ak-toast"; toastEl.setAttribute("role", "status"); document.body.appendChild(toastEl); }
+    toastEl.textContent = msg; toastEl.style.display = "block";
+    clearTimeout(toastT);
+    toastT = setTimeout(function () { toastEl.style.display = "none"; }, ms || 3200);
+  };
+
+  /* ─── CSV ───────────────────────────────────────────────────────────────
+     Export what is on screen — filtered and sorted — not the raw dataset.
+     BOM so Excel reads UTF-8 without mangling accents.                     */
+  function csvCell(v) { return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; }
+  ak.csv = function (rows, headers, filename) {
+    var lines = [];
+    if (headers) lines.push(headers.map(csvCell).join(","));
+    rows.forEach(function (r) { lines.push(r.map(csvCell).join(",")); });
+    var blob = new Blob(["\uFEFF" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = filename || (CFG.id + ".csv");
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+  };
+
+  /* ─── table: sort, filter, export ───────────────────────────────────────
+     Progressive enhancement over real markup. Mark sortable columns with
+     data-sort="s" (string) or "n" (number) on the <th>.                    */
+  ak.table = function (tableEl, opts) {
+    opts = opts || {};
+    var tbody = tableEl.tBodies[0];
+    if (!tbody) return null;
+    var all = Array.prototype.slice.call(tbody.rows);
+    var view = all.slice(), sortIdx = null, sortDir = 1;
+
+    function cellVal(tr, i, type) {
+      var td = tr.cells[i]; if (!td) return type === "n" ? 0 : "";
+      var raw = td.dataset.v != null ? td.dataset.v : td.textContent;
+      if (type !== "n") return raw.trim().toLowerCase();
+      var n = parseFloat(String(raw).replace(/[^0-9.\-]/g, ""));
+      return isNaN(n) ? -Infinity : n;
+    }
+    function paint() {
+      tbody.textContent = "";
+      view.forEach(function (tr) { tbody.appendChild(tr); });
+      if (opts.onRender) opts.onRender(view);
+      var empty = tableEl.parentNode.querySelector("[data-ak-empty]");
+      if (empty) empty.hidden = view.length > 0;
+    }
+    var ths = Array.prototype.slice.call(tableEl.tHead ? tableEl.tHead.rows[0].cells : []);
+    ths.forEach(function (th, i) {
+      if (!th.dataset.sort) return;
+      th.setAttribute("role", "columnheader");
+      th.tabIndex = 0;
+      function doSort() {
+        sortDir = sortIdx === i ? -sortDir : 1; sortIdx = i;
+        // Always show WHICH column is sorted — an arrow on the active column only.
+        ths.forEach(function (x) { x.removeAttribute("aria-sort"); });
+        th.setAttribute("aria-sort", sortDir === 1 ? "ascending" : "descending");
+        var type = th.dataset.sort;
+        view.sort(function (a, b) {
+          var x = cellVal(a, i, type), y = cellVal(b, i, type);
+          return (type === "n" ? (x - y) : String(x).localeCompare(String(y))) * sortDir;
+        });
+        paint();
+      }
+      th.addEventListener("click", doSort);
+      th.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); doSort(); } });
+    });
+
+    var api = {
+      filter: function (q) {
+        q = String(q || "").trim().toLowerCase();
+        view = !q ? all.slice() : all.filter(function (tr) { return tr.textContent.toLowerCase().indexOf(q) > -1; });
+        if (sortIdx != null) { var th = ths[sortIdx], t = th.dataset.sort;
+          view.sort(function (a, b) { var x = cellVal(a, sortIdx, t), y = cellVal(b, sortIdx, t);
+            return (t === "n" ? (x - y) : String(x).localeCompare(String(y))) * sortDir; }); }
+        paint(); return api;
+      },
+      rows: function () { return view; },
+      exportCSV: function (filename) {
+        var headers = ths.map(function (th) { return th.textContent.replace(/[↕▲▼]/g, "").trim(); });
+        var data = view.map(function (tr) {
+          return Array.prototype.slice.call(tr.cells).map(function (td) {
+            return td.dataset.v != null ? td.dataset.v : td.textContent.trim();
+          });
+        });
+        ak.csv(data, headers, filename);
+        return api;
+      }
+    };
+    if (opts.filterInput) {
+      var inp = typeof opts.filterInput === "string" ? document.querySelector(opts.filterInput) : opts.filterInput;
+      if (inp) inp.addEventListener("input", function () { api.filter(inp.value); });
+    }
+    return api;
+  };
+
+  /* ─── charts: SVG, ~no code. vector prints crisply; canvas does not ──── */
+  var NS = "http://www.w3.org/2000/svg";
+  function svgEl(n, a) { var e = document.createElementNS(NS, n); for (var k in (a || {})) e.setAttribute(k, a[k]); return e; }
+  function titled(el, text) { var t = svgEl("title"); t.textContent = text; el.appendChild(t); return el; }
+  function lin(d0, d1, r0, r1) { return function (v) { return d1 === d0 ? r0 : r0 + (v - d0) / (d1 - d0) * (r1 - r0); }; }
+  function host(sel) { return typeof sel === "string" ? document.querySelector(sel) : sel; }
+  ak.palette = ["var(--ak-c1)", "var(--ak-c2)", "var(--ak-c3)", "var(--ak-c4)", "var(--ak-c5)", "var(--ak-c6)"];
+
+  function frame(h, w, m) {
+    var svg = svgEl("svg", { viewBox: "0 0 " + w + " " + h, width: "100%", height: h, role: "img", class: "ak-chart" });
+    var g = svgEl("g", { transform: "translate(" + m.l + "," + m.t + ")" });
+    svg.appendChild(g);
+    return { svg: svg, g: g, iw: w - m.l - m.r, ih: h - m.t - m.b };
+  }
+  function yGrid(g, iw, ih, lo, hi, y, fmt, skipFirst) {
+    var grid = svgEl("g", { class: "ak-nc-grid" }); g.appendChild(grid);
+    for (var i = 0; i <= 4; i++) {
+      var v = lo + (hi - lo) / 4 * i, yy = y(v);
+      grid.appendChild(svgEl("line", { x1: 0, x2: iw, y1: yy, y2: yy }));
+      if (skipFirst && i === 0) continue;   // the axis line already marks the baseline
+      var t = svgEl("text", { x: -8, y: yy + 3.5, "text-anchor": "end", class: "ak-nc-axis" });
+      t.textContent = fmt(v); grid.appendChild(t);
+    }
+    var ax = svgEl("g", { class: "ak-nc-axis" });
+    ax.appendChild(svgEl("line", { x1: 0, x2: iw, y1: ih, y2: ih })); g.appendChild(ax);
+  }
+
+  ak.chart = {
+    /**
+     * data: [{label, value, color?}]
+     * One measure across categories is ONE colour. Cycling six colours for a
+     * single series encodes nothing and is the classic chart-junk tell.
+     * Use `highlight: <index>` to pick out the bar you are talking about, or
+     * `colorBy:"category"` when the categories genuinely are the dimension.
+     */
+    bar: function (sel, data, o) {
+      o = o || {}; var el = host(sel); if (!el) return;
+      var m = o.margin || { t: 8, r: 8, b: 28, l: 44 }, h = o.height || 240;
+      var w = el.clientWidth || 520, f = o.format || function (v) { return ak.fmt.num(v, 0); };
+      var F = frame(h, w, m), max = Math.max.apply(null, data.map(function (d) { return d.value; })) * 1.1 || 1;
+      var y = lin(0, max, F.ih, 0), step = F.iw / data.length, bw = step * 0.62;
+      titled(F.svg, o.title || "Bar chart");
+      yGrid(F.g, F.iw, F.ih, 0, max, y, f, false);
+      data.forEach(function (d, i) {
+        var fill = d.color
+          || (o.colorBy === "category" ? ak.palette[i % 6]
+              : (o.highlight === i ? "var(--ak-c1)" : (o.highlight == null ? "var(--ak-c1)" : "var(--ak-rule-mid)")));
+        var r = svgEl("rect", { x: step * i + (step - bw) / 2, y: y(d.value), width: bw,
+          height: Math.max(0, F.ih - y(d.value)), fill: fill });
+        titled(r, d.label + ": " + f(d.value)); F.g.appendChild(r);
+        var t = svgEl("text", { x: step * i + step / 2, y: F.ih + 16, "text-anchor": "middle", class: "ak-nc-axis" });
+        t.textContent = d.label.length > 12 ? d.label.slice(0, 11) + "…" : d.label; F.g.appendChild(t);
+      });
+      el.textContent = ""; el.appendChild(F.svg); return F.svg;
+    },
+    /** series: [{name, values:[], color?, dash?}] */
+    line: function (sel, series, labels, o) {
+      o = o || {}; var el = host(sel); if (!el) return;
+      var m = o.margin || { t: 8, r: 8, b: 28, l: 44 }, h = o.height || 240;
+      var w = el.clientWidth || 520, f = o.format || function (v) { return ak.fmt.num(v, 1); };
+      var all = series.reduce(function (a, s) { return a.concat(s.values); }, []);
+      var lo = o.min != null ? o.min : Math.min.apply(null, all) * 0.9;
+      var hi = o.max != null ? o.max : Math.max.apply(null, all) * 1.06;
+      var F = frame(h, w, m), y = lin(lo, hi, F.ih, 0);
+      var x = function (i) { return labels.length < 2 ? 0 : i / (labels.length - 1) * F.iw; };
+      titled(F.svg, o.title || "Line chart");
+      yGrid(F.g, F.iw, F.ih, lo, hi, y, f, true);
+      series.forEach(function (s, si) {
+        var d = s.values.map(function (v, i) { return (i ? "L" : "M") + x(i) + "," + y(v); }).join(" ");
+        F.g.appendChild(svgEl("path", { d: d, fill: "none", stroke: s.color || ak.palette[si % 6],
+          "stroke-width": s.width || 2, "stroke-dasharray": s.dash || "", "stroke-linejoin": "round" }));
+        s.values.forEach(function (v, i) {
+          var c = svgEl("circle", { cx: x(i), cy: y(v), r: 2.6, fill: s.color || ak.palette[si % 6] });
+          titled(c, s.name + " " + labels[i] + ": " + f(v)); F.g.appendChild(c);
+        });
+      });
+      var every = labels.length > 8 ? 2 : 1;
+      labels.forEach(function (l, i) {
+        if (i % every) return;
+        var t = svgEl("text", { x: x(i), y: F.ih + 16, "text-anchor": "middle", class: "ak-nc-axis" });
+        t.textContent = l; F.g.appendChild(t);
+      });
+      el.textContent = ""; el.appendChild(F.svg); return F.svg;
+    },
+    /** data: [{label, value, color?}] — keep to 6 slices or it stops reading */
+    donut: function (sel, data, o) {
+      o = o || {}; var el = host(sel); if (!el) return;
+      var size = o.height || 220, r = size / 2, ir = r * (o.inner || 0.62);
+      var total = data.reduce(function (a, d) { return a + d.value; }, 0) || 1;
+      var svg = svgEl("svg", { viewBox: "0 0 " + size + " " + size, width: "100%", height: size, role: "img", class: "ak-chart" });
+      titled(svg, o.title || "Donut chart");
+      var g = svgEl("g", { transform: "translate(" + r + "," + r + ")" }); svg.appendChild(g);
+      var a0 = -Math.PI / 2;
+      data.forEach(function (d, i) {
+        var a1 = a0 + d.value / total * Math.PI * 2, big = (a1 - a0) > Math.PI ? 1 : 0;
+        var p = ["M", r * Math.cos(a0), r * Math.sin(a0), "A", r, r, 0, big, 1, r * Math.cos(a1), r * Math.sin(a1),
+                 "L", ir * Math.cos(a1), ir * Math.sin(a1), "A", ir, ir, 0, big, 0, ir * Math.cos(a0), ir * Math.sin(a0), "Z"].join(" ");
+        var path = svgEl("path", { d: p, fill: d.color || ak.palette[i % 6] });
+        titled(path, d.label + ": " + ak.fmt.num(d.value, 1) + " (" + ak.fmt.num(d.value / total * 100, 1) + "%)");
+        g.appendChild(path); a0 = a1;
+      });
+      if (o.centre) {
+        var c = svgEl("text", { "text-anchor": "middle", y: 4, class: "ak-nc-centre",
+          style: "font-size:20px;font-weight:650;fill:var(--ak-ink)" });
+        c.textContent = o.centre; g.appendChild(c);
+      }
+      el.textContent = ""; el.appendChild(svg); return svg;
+    },
+    /** inline trend for a table cell */
+    spark: function (sel, values, o) {
+      o = o || {}; var el = host(sel); if (!el) return;
+      var w = o.width || 64, h = o.height || 16;
+      var lo = Math.min.apply(null, values), hi = Math.max.apply(null, values);
+      var y = lin(lo, hi, h - 2, 2), x = lin(0, values.length - 1, 0, w);
+      var svg = svgEl("svg", { viewBox: "0 0 " + w + " " + h, width: w, height: h, class: "ak-spark", role: "img" });
+      titled(svg, o.title || "Trend");
+      svg.appendChild(svgEl("path", { d: values.map(function (v, i) { return (i ? "L" : "M") + x(i) + "," + y(v); }).join(" "),
+        fill: "none", stroke: o.color || "var(--ak-c1)", "stroke-width": 1.5 }));
+      el.textContent = ""; el.appendChild(svg); return svg;
+    }
+  };
+
+  /** Legend for any chart. A donut or multi-series chart is unreadable
+      without one, and colour must never be the only signal. */
+  ak.legend = function (sel, items) {
+    var el = host(sel); if (!el) return;
+    el.className = "ak-legend";
+    el.innerHTML = items.map(function (it, i) {
+      var swatch = '<i style="background:' + (it.color || ak.palette[i % 6]) + '"></i>';
+      var value = it.value != null ? ' <span class="ak-soft">' + it.value + "</span>" : "";
+      return "<span>" + swatch + it.label + value + "</span>";
+    }).join("");
+    return el;
+  };
+
+  /** Build the accessible data twin a chart cannot provide on its own. */
+  ak.dataTable = function (sel, headers, rows, caption) {
+    var el = host(sel); if (!el) return;
+    var h = "<caption>" + (caption || "") + "</caption><thead><tr>" +
+      headers.map(function (x) { return "<th>" + x + "</th>"; }).join("") + "</tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr>" + r.map(function (c) { return "<td>" + c + "</td>"; }).join("") + "</tr>"; }).join("") +
+      "</tbody>";
+    el.innerHTML = "<table>" + h + "</table>";
+    el.classList.add("ak-vh");
+  };
+
+  /* ─── kanban: native HTML5 drag. Desktop only — touch is out of scope ─── */
+  ak.kanban = function (rootEl, opts) {
+    opts = opts || {};
+    var el = host(rootEl); if (!el) return;
+    var dragged = null;
+    el.addEventListener("dragstart", function (e) {
+      var c = e.target.closest(".ak-kcard"); if (!c) return;
+      dragged = c; c.classList.add("ak-dragging");
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", c.dataset.id || "");
+    });
+    el.addEventListener("dragend", function () {
+      if (dragged) dragged.classList.remove("ak-dragging");
+      dragged = null;
+      el.querySelectorAll(".ak-cards.ak-over").forEach(function (z) { z.classList.remove("ak-over"); });
+      recount();
+    });
+    // dragover MUST preventDefault or the drop never fires. This is the single
+    // most common mistake with the native API, which is why it lives here once.
+    el.addEventListener("dragover", function (e) {
+      var z = e.target.closest(".ak-cards"); if (!z || !dragged) return;
+      e.preventDefault(); e.dataTransfer.dropEffect = "move"; z.classList.add("ak-over");
+    });
+    el.addEventListener("dragleave", function (e) {
+      var z = e.target.closest(".ak-cards");
+      if (z && !z.contains(e.relatedTarget)) z.classList.remove("ak-over");
+    });
+    el.addEventListener("drop", function (e) {
+      var z = e.target.closest(".ak-cards"); if (!z || !dragged) return;
+      e.preventDefault(); z.classList.remove("ak-over");
+      var after = e.target.closest(".ak-kcard");
+      if (after && after !== dragged) {
+        var mid = after.getBoundingClientRect().top + after.offsetHeight / 2;
+        z.insertBefore(dragged, mid > e.clientY ? after : after.nextSibling);
+      } else z.appendChild(dragged);
+      markDirty(); recount();
+      if (opts.onChange) opts.onChange(ak.kanbanState(el));
+    });
+    function recount() {
+      el.querySelectorAll(".ak-col").forEach(function (c) {
+        var n = c.querySelector(".ak-n");
+        if (n) n.textContent = c.querySelectorAll(".ak-kcard").length;
+      });
+    }
+    recount();
+    return { state: function () { return ak.kanbanState(el); } };
+  };
+  ak.kanbanState = function (rootEl) {
+    var out = {};
+    host(rootEl).querySelectorAll(".ak-cards").forEach(function (z) {
+      out[z.dataset.col || ""] = Array.prototype.map.call(z.querySelectorAll(".ak-kcard"), function (c) {
+        return c.dataset.id || c.textContent.trim();
+      });
+    });
+    return out;
+  };
+
+/* ── deck ────────────────────────────────────────────────────────────────
+     Scroll-snap slides + presenter window. Speaker notes live in
+     <aside class="ak-notes"> inside each slide: authored next to the content,
+     never rendered on the projected screen, strippable at build time with
+     --strip-notes.
+
+     The presenter window is written through the window handle directly rather
+     than via BroadcastChannel or localStorage, because both are unreliable at
+     file:// — all local pages share one storage area and messaging is patchy.
+     A direct handle always works.                                          */
+  ak.deck = function (sel, opts) {
+    opts = opts || {};
+    var el = host(sel); if (!el) return;
+    var slides = Array.prototype.slice.call(el.querySelectorAll(".ak-slide"));
+    if (!slides.length) return;
+
+    var budget = opts.minutes || parseInt(el.dataset.minutes || "0", 10) || 0;
+    var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ---- chrome ---- */
+    var hud = document.createElement("div");
+    hud.className = "ak-deck-hud"; hud.setAttribute("data-ak-noprint", "");
+    hud.innerHTML =
+      '<span class="ak-deck-pos"><b>1</b> / ' + slides.length + "</span>" +
+      '<span class="ak-deck-nav">' +
+      btn("prev", "Back  (←)", "M15 5 L8 12 L15 19") +
+      btn("next", "Next  (→ or space)", "M9 5 L16 12 L9 19") +
+      '<span class="ak-deck-sep"></span>' +
+      btn("grid", "Overview  (O)", "M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z", true) +
+      btn("notes", "Presenter window — drag it to your own screen  (N)",
+          "M3 4h18v16H3zM7 9.5h10M7 13.5h7", true) +
+      btn("full", "Fullscreen  (F)", "M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5") +
+      btn("print", "Print / PDF, notes excluded  (P)", "M12 3v11M8 10.5 12 14.5 16 10.5M4 17v3h16v-3") +
+      "</span>";
+    function btn(id, tip, d, toggle) {
+      return '<button type="button" data-d="' + id + '" data-tip="' + tip + '"' +
+        (toggle ? ' aria-pressed="false"' : "") + ' aria-label="' + tip.split("  (")[0] + '">' +
+        '<svg viewBox="0 0 24 24"><path d="' + d + '"/></svg></button>';
+    }
+    document.body.appendChild(hud);
+
+    var bar = document.createElement("div");
+    bar.className = "ak-deck-bar"; bar.setAttribute("data-ak-noprint", "");
+    document.body.appendChild(bar);
+
+    var grid = document.createElement("div");
+    grid.className = "ak-deck-grid"; grid.setAttribute("data-ak-noprint", "");
+    grid.innerHTML = slides.map(function (s, i) {
+      var h = s.querySelector("h2");
+      return '<button type="button" data-i="' + i + '"><span class="ak-n">' + (i + 1) + "</span>" +
+        (h ? h.textContent : "Slide " + (i + 1)) + "</button>";
+    }).join("");
+    document.body.appendChild(grid);
+
+    var help = document.createElement("div");
+    help.className = "ak-deck-help"; help.setAttribute("data-ak-noprint", "");
+    help.innerHTML = "<div><h3>Keyboard</h3><dl>" +
+      "<dt>→ space</dt><dd>next slide</dd><dt>←</dt><dd>back</dd>" +
+      "<dt>Home / End</dt><dd>first / last</dd><dt>O</dt><dd>overview</dd>" +
+      "<dt>N</dt><dd>presenter window</dd><dt>F</dt><dd>fullscreen</dd>" +
+      "<dt>P</dt><dd>print / PDF</dd><dt>Esc</dt><dd>close panels</dd>" +
+      "<dt>?</dt><dd>this list</dd></dl></div>";
+    document.body.appendChild(help);
+
+    /* ---- navigation ----
+       `si` is authoritative state, not something derived from scrollTop on
+       demand. Reading the scroll position mid-animation reports the slide you
+       are leaving, and smooth scrolling does not run at all in a backgrounded
+       window — so deriving state from scroll is wrong in both directions. */
+    var si = 0, programmatic = false, pTimer = null;
+    function nearest() {
+      var top = el.scrollTop, best = 0;
+      slides.forEach(function (s, i) { if (s.offsetTop - top <= el.clientHeight / 2) best = i; });
+      return best;
+    }
+    function paint() {
+      hud.querySelector(".ak-deck-pos b").textContent = si + 1;
+      bar.style.width = ((si + 1) / slides.length * 100) + "%";
+      hud.querySelector('[data-d="prev"]').disabled = si === 0;
+      hud.querySelector('[data-d="next"]').disabled = si === slides.length - 1;
+      slides.forEach(function (s, i) { s.classList.toggle("ak-here", i === si); });
+      try { history.replaceState(null, "", "#" + (si + 1)); } catch (e) {}
+      syncPresenter();
+    }
+    function go(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      si = i;
+      programmatic = true;
+      clearTimeout(pTimer);
+      pTimer = setTimeout(function () { programmatic = false; }, 700);
+      var top = slides[i].offsetTop;
+      /* Smooth scrolling is throttled or dropped when the window is
+         backgrounded — exactly the case when the presenter window has focus
+         and the presenter clicks next. Assigning scrollTop always lands. */
+      if (reduce || !document.hasFocus()) el.scrollTop = top;
+      else el.scrollTo({ top: top, behavior: "smooth" });
+      paint();
+    }
+    el.addEventListener("scroll", function () {
+      if (programmatic) return;          // ignore the animation's own events
+      var n = nearest();
+      if (n !== si) { si = n; paint(); }
+    });
+    el.addEventListener("scroll", paint);
+
+    /* ---- timer and pace ---- */
+    var acc = 0, t0 = null, running = false;
+    function elapsed() { return acc + (running && t0 ? (Date.now() - t0) / 1000 : 0); }
+    function clockText() {
+      var s = Math.floor(elapsed());
+      return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+    }
+    function paceText() {
+      if (!budget) return running ? "no budget set" : "not started";
+      var expected = budget * 60 * ((si + 1) / slides.length);
+      var diff = Math.round((elapsed() - expected) / 60);
+      return budget + " min budget · " + (Math.abs(diff) < 1 ? "on pace"
+        : diff > 0 ? diff + " min behind" : Math.abs(diff) + " min ahead");
+    }
+    function paceOver() {
+      if (!budget) return false;
+      return elapsed() - budget * 60 * ((si + 1) / slides.length) > 60;
+    }
+    function clock(action) {
+      if (action === "toggle") {
+        if (running) { acc = elapsed(); running = false; t0 = null; }
+        else { t0 = Date.now(); running = true; }
+      } else if (action === "reset") { acc = 0; t0 = running ? Date.now() : null; }
+      syncPresenter();
+    }
+    setInterval(function () { if (pw && !pw.closed) syncPresenter(); }, 1000);
+
+    /* ---- presenter window ---- */
+    var PCSS = 'body{margin:0;padding:20px;background:#14141A;color:#E8E6E0;' +
+      'font:15px/1.6 ui-sans-serif,system-ui,"Segoe UI",sans-serif}' +
+      'h1{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A867C;margin:0 0 6px;font-weight:600}' +
+      '#t{font:700 44px/1 inherit;font-variant-numeric:tabular-nums;margin:0 0 2px}' +
+      '#pc{color:#8A867C;font-size:13px;margin-bottom:14px}#pc.over{color:#E88}' +
+      '#c{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px}' +
+      '#c button{background:transparent;border:1px solid #35343C;color:#E8E6E0;border-radius:3px;' +
+      'padding:7px 13px;font:inherit;font-size:13px;cursor:pointer}#c button:hover{border-color:#6AA9D8;color:#6AA9D8}' +
+      '#p{color:#8A867C;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}' +
+      '#h{font-size:19px;font-weight:650;line-height:1.3;margin-bottom:16px}' +
+      '#n{border-left:2px solid #35343C;padding-left:14px;margin-bottom:24px;min-height:70px}' +
+      '#n ul{margin:0;padding-left:18px}#n li{margin-bottom:8px}#n p{margin:0 0 8px}' +
+      '#n .none{color:#8A867C;font-style:italic}' +
+      '#x{color:#8A867C;font-size:14px;border-top:1px solid #2A2932;padding-top:12px}#x b{color:#E8E6E0}';
+    var PHTML = '<!doctype html><html><head><meta charset="utf-8"><title>Presenter</title>' +
+      "<style>" + PCSS + "</style></head><body>" +
+      '<div id="t">00:00</div><div id="pc"></div>' +
+      '<div id="c"><button data-t="toggle">start / pause</button><button data-t="reset">reset</button>' +
+      '<button data-t="prev">back</button><button data-t="next">next</button></div>' +
+      '<div id="p"></div><div id="h"></div>' +
+      "<h1>notes</h1><div id=\"n\"></div><div id=\"x\"></div></body></html>";
+
+    var pw = null, pe = null;
+    function notesHTML(slide) {
+      var n = slide.querySelector(".ak-notes");
+      if (!n || !n.innerHTML.trim()) return '<span class="none">No notes for this slide.</span>';
+      return n.innerHTML;
+    }
+    function presenterOpen() {
+      try { pw = window.open("", "ak-presenter", "width=560,height=780"); } catch (e) { pw = null; }
+      if (!pw) {                       // popup blocked — fall back to an inline panel
+        document.body.classList.add("ak-deck-notes-on");
+        ak.toast("Popup blocked — notes shown inline. Allow popups for a second window.");
+        return false;
+      }
+      pw.document.open(); pw.document.write(PHTML); pw.document.close();
+      var g = function (id) { return pw.document.getElementById(id); };
+      pe = { t: g("t"), pc: g("pc"), p: g("p"), h: g("h"), n: g("n"), x: g("x") };
+      g("c").addEventListener("click", function (e) {
+        var t = e.target.dataset.t; if (!t) return;
+        if (t === "next") go(si + 1); else if (t === "prev") go(si - 1); else clock(t);
+      });
+      pw.document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(si + 1); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); go(si - 1); }
+      });
+      pw.addEventListener("pagehide", function () { pw = null; pe = null; markNotesBtn(); });
+      syncPresenter(); markNotesBtn();
+      return true;
+    }
+    function markNotesBtn() {
+      hud.querySelector('[data-d="notes"]').setAttribute("aria-pressed", (pw && !pw.closed) ? "true" : "false");
+    }
+    function presenterToggle() {
+      if (pw && !pw.closed) { pw.close(); pw = null; pe = null; document.body.classList.remove("ak-deck-notes-on"); }
+      else presenterOpen();
+      markNotesBtn();
+    }
+    function syncPresenter() {
+      if (!pw || pw.closed || !pe) return;
+      var cur = slides[si], nxt = slides[si + 1];
+      var h = cur.querySelector("h2");
+      pe.t.textContent = clockText();
+      pe.pc.textContent = paceText();
+      pe.pc.className = paceOver() ? "over" : "";
+      pe.p.textContent = "slide " + (si + 1) + " / " + slides.length;
+      pe.h.textContent = h ? h.textContent : "";
+      pe.n.innerHTML = notesHTML(cur);
+      var nh = nxt && nxt.querySelector("h2");
+      pe.x.innerHTML = nxt ? "next up: <b>" + (nh ? nh.textContent : "…") + "</b>" : "last slide";
+    }
+    addEventListener("pagehide", function () { if (pw && !pw.closed) pw.close(); });
+
+    /* ---- wiring ---- */
+    hud.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-d]"); if (!b) return;
+      var d = b.dataset.d;
+      if (d === "next") go(si + 1);
+      else if (d === "prev") go(si - 1);
+      else if (d === "grid") toggleGrid();
+      else if (d === "notes") presenterToggle();
+      else if (d === "print") window.print();
+      else if (d === "full") {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen();
+      }
+    });
+    function toggleGrid() {
+      var on = grid.classList.toggle("ak-on");
+      hud.querySelector('[data-d="grid"]').setAttribute("aria-pressed", String(on));
+    }
+    grid.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-i]");
+      if (b) { go(+b.dataset.i); toggleGrid(); }
+      else if (e.target === grid) toggleGrid();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+      var k = e.key;
+      if (k === "Escape") { grid.classList.remove("ak-on"); help.classList.remove("ak-on"); markGrid(); }
+      else if (k === "ArrowRight" || k === " " || k === "PageDown") { e.preventDefault(); go(si + 1); }
+      else if (k === "ArrowLeft" || k === "PageUp") { e.preventDefault(); go(si - 1); }
+      else if (k === "Home") go(0);
+      else if (k === "End") go(slides.length - 1);
+      else if (k === "o" || k === "O") toggleGrid();
+      else if (k === "n" || k === "N") presenterToggle();
+      else if (k === "p" || k === "P") window.print();
+      else if (k === "f" || k === "F") {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen();
+      } else if (k === "?") help.classList.toggle("ak-on");
+    });
+    function markGrid() { hud.querySelector('[data-d="grid"]').setAttribute("aria-pressed", "false"); }
+    help.addEventListener("click", function () { help.classList.remove("ak-on"); });
+
+    var start = parseInt((location.hash || "").slice(1), 10);
+    if (start >= 1 && start <= slides.length) go(start - 1);
+    paint();
+
+    return { go: go, count: slides.length, presenter: presenterToggle,
+             current: function () { return si; } };
+  };
+
+  /* ─── keyboard navigation for row lists ─────────────────────────────── */
+  ak.keyboardNav = function (containerSel, opts) {
+    opts = opts || {};
+    var el = host(containerSel); if (!el) return;
+    var sel = opts.itemSelector || "tbody tr[tabindex]";
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "/" && document.activeElement.tagName !== "INPUT") {
+        var f = document.querySelector(opts.filterSelector || ".ak-input");
+        if (f) { e.preventDefault(); f.focus(); }
+      }
+      var items = Array.prototype.slice.call(el.querySelectorAll(sel));
+      var i = items.indexOf(document.activeElement);
+      if (e.key === "ArrowDown" && i > -1) { e.preventDefault(); (items[i + 1] || items[0]).focus(); }
+      if (e.key === "ArrowUp" && i > -1) { e.preventDefault(); (items[i - 1] || items[items.length - 1]).focus(); }
+      if (e.key === "Escape" && document.activeElement.blur) document.activeElement.blur();
+    });
+  };
+
+  /* ─── deep link: put view state in the hash so a view is shareable ───── */
+  ak.deepLink = {
+    read: function () {
+      try { return JSON.parse(decodeURIComponent(location.hash.slice(1)) || "{}"); }
+      catch (e) { return {}; }
+    },
+    write: function (obj) {
+      try { history.replaceState(null, "", "#" + encodeURIComponent(JSON.stringify(obj))); } catch (e) {}
+    }
+  };
+
+  /* ─── re-render charts on resize; they read clientWidth at draw time ─── */
+  var rt = null;
+  ak.onResize = function (fn) {
+    root.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(fn, 120); });
+    return ak;
+  };
+
+  ak.version = "0.1.0";
+  root.ak = ak;
+})(window);
+
+</script>
+<script>
+/* supplier, delivery, quality, cost, responsive, compliance, note */
+var SUP = [
+  ["Meridian Components", 4.6, 4.4, 3.8, 4.2, 4.8, ""],
+  ["Orbis Industrial",    4.2, 4.6, 3.5, 3.9, 4.5, ""],
+  ["Helix Materials",     3.8, 3.6, 4.1, 3.2, 4.0, ""],
+  ["Nordvik Supply",      3.4, 3.9, 3.6, 2.4, 4.2, "single source on two part families"],
+  ["Calder Fabrication",  3.1, 3.3, 2.6, 2.2, 3.8, "single source; audit finding open since June"]
+];
+var W = [0.30, 0.25, 0.20, 0.15, 0.10];
+var DIMS = ["Delivery", "Quality", "Cost", "Responsive", "Compliance"];
+var THRESHOLD = 3.0;
+
+ak.init({ id: "sample-scorecard", title: "Supplier scorecard" });
+
+function weighted(s) {
+  return W.reduce(function (a, w, i) { return a + w * s[i + 1]; }, 0);
+}
+function cell(v) {
+  // colour alone never carries the meaning — the number is always legible
+  var cls = v < THRESHOLD ? "ak-down" : v >= 4.0 ? "ak-up" : "";
+  return '<td class="ak-num ' + cls + '" data-v="' + v + '">' + ak.fmt.num(v, 1) + "</td>";
+}
+function standing(s) {
+  var fails = W.map(function (_, i) { return s[i + 1]; }).filter(function (v) { return v < THRESHOLD; }).length;
+  if (fails >= 2) return ["ak-pill-risk", "Review"];
+  if (fails === 1) return ["ak-pill-warn", "Watch"];
+  return ["ak-pill-ok", "Approved"];
+}
+
+document.querySelector("#t tbody").innerHTML = SUP.map(function (s) {
+  var st = standing(s), w = weighted(s);
+  return '<tr tabindex="0" data-fail="' + (st[1] !== "Approved") + '">' +
+    "<td>" + s[0] + (s[6] ? '<br><span class="ak-small ak-soft">' + s[6] + "</span>" : "") + "</td>" +
+    cell(s[1]) + cell(s[2]) + cell(s[3]) + cell(s[4]) + cell(s[5]) +
+    '<td class="ak-num" data-v="' + w.toFixed(2) + '"><b>' + ak.fmt.num(w, 2) + "</b></td>" +
+    '<td><span class="ak-pill ' + st[0] + '">' + st[1] + "</span></td></tr>";
+}).join("");
+
+ak.table(document.getElementById("t"));
+
+document.getElementById("onlyfail").onclick = function () {
+  var on = this.getAttribute("aria-pressed") === "true";
+  this.setAttribute("aria-pressed", String(!on));
+  document.querySelectorAll("#t tbody tr").forEach(function (tr) {
+    tr.hidden = !on && tr.dataset.fail !== "true";
+  });
+};
+document.getElementById("csv").onclick = function () {
+  ak.csv(SUP.map(function (s) {
+    return [s[0], s[1], s[2], s[3], s[4], s[5], weighted(s).toFixed(2), standing(s)[1]];
+  }), ["supplier"].concat(DIMS).concat(["weighted", "standing"]), "supplier-scorecard.csv");
+};
+
+function draw() {
+  var data = SUP.map(function (s) { return { label: s[0].split(" ")[0], value: +weighted(s).toFixed(2) }; });
+  ak.chart.bar("#bars", data, { title: "Weighted supplier score", highlight: 4, height: 220,
+    format: function (v) { return ak.fmt.num(v, 1); } });
+  ak.dataTable("#bars-tw", ["Supplier", "Weighted score"],
+    data.map(function (d) { return [d.label, d.value]; }), "Weighted supplier score");
+
+  // dimension averages as CSS bars — five numbers do not justify a chart
+  var max = 5;
+  document.getElementById("dims").innerHTML = DIMS.map(function (d, i) {
+    var avg = SUP.reduce(function (a, s) { return a + s[i + 1]; }, 0) / SUP.length;
+    var weak = avg < 3.5;
+    return '<div class="ak-barrow"><span>' + d + (weak ? ' <span class="ak-badge">WEAK</span>' : "") + "</span>" +
+      '<span class="ak-track"><span class="ak-fill" style="width:' + (avg / max * 100).toFixed(1) +
+      "%;background:" + (weak ? "var(--ak-warn)" : "var(--ak-accent)") + '"></span></span>' +
+      '<span class="ak-num">' + ak.fmt.num(avg, 1) + "</span></div>";
+  }).join("");
+}
+draw();
+ak.onResize(draw);
+</script>
+</body>
+</html>

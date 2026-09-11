@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Supplier scorecard — FY26 H1</title>
+<link rel="stylesheet" href="../../src/theme.css">
+<link rel="stylesheet" href="../../src/components.css">
+<link rel="stylesheet" href="../../src/print.css">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">Procurement · supplier review · FY26 H1</p>
+      <h1>Two suppliers are carrying avoidable risk</h1>
+      <p class="ak-lede">Nordvik and Calder both score below threshold on
+        responsiveness while holding single-source positions. That combination,
+        not the raw score, is what needs a decision.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Scored 05 Sep 2026</span><br>
+      5 suppliers · 5 dimensions<br>
+      Panel: 3 reviewers
+    </div>
+  </header>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>Scores</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 1</p>
+      <h3>Supplier scorecard, weighted</h3>
+      <p class="ak-takeaway">Meridian and Orbis clear every threshold. Nordvik
+        fails responsiveness; Calder fails both responsiveness and cost.</p>
+
+      <div class="ak-toolbar">
+        <button class="ak-chip" aria-pressed="false" id="onlyfail">Only below threshold</button>
+        <span class="ak-spacer"></span>
+        <button class="ak-btn" id="csv">Export CSV</button>
+        <button class="ak-btn ak-btn-primary" onclick="window.print()">Print / PDF</button>
+      </div>
+
+      <table class="ak-table" id="t">
+        <thead><tr>
+          <th data-sort="s">Supplier</th>
+          <th data-sort="n" class="ak-num">Delivery<br><span class="ak-soft">30%</span></th>
+          <th data-sort="n" class="ak-num">Quality<br><span class="ak-soft">25%</span></th>
+          <th data-sort="n" class="ak-num">Cost<br><span class="ak-soft">20%</span></th>
+          <th data-sort="n" class="ak-num">Responsive<br><span class="ak-soft">15%</span></th>
+          <th data-sort="n" class="ak-num">Compliance<br><span class="ak-soft">10%</span></th>
+          <th data-sort="n" class="ak-num">Weighted</th>
+          <th data-sort="s">Standing</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="ak-source">Scored 1–5 by three reviewers independently, then
+        averaged; spread above 1.5 points is flagged rather than averaged away.
+        Threshold is 3.0 on any single dimension. Weights agreed by the category
+        board 14 Feb 2026 and unchanged since.</p>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Where the gaps are</h2></div>
+    <div class="ak-exhibit">
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 2a</p><h3>Weighted score</h3>
+          <div id="bars"></div>
+          <div id="bars-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2b</p><h3>Dimension averages</h3>
+          <div id="dims"></div>
+          <p class="ak-small ak-soft" style="margin-top:var(--ak-s3)">
+            Responsiveness is the weakest dimension across the whole panel, not a
+            single supplier's problem. That points at our own intake process.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">03</span><h2>Rubric</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-takeaway">A scorecard without its rubric is an opinion in a
+        grid. You will be challenged on these definitions, so they are stated.</p>
+
+      <details class="ak-disclosure" open><summary>Delivery — 30%</summary>
+        <p class="ak-small"><b>5</b> — on time and in full, every order, no expediting.
+          <b>4</b> — one late line, self-reported before the due date.
+          <b>3</b> — occasional slippage inside the tolerance window.
+          <b>2</b> — repeated slippage requiring expediting cost.
+          <b>1</b> — missed commitments causing downstream stoppage.</p></details>
+
+      <details class="ak-disclosure"><summary>Quality — 25%</summary>
+        <p class="ak-small">Defect rate against the agreed AQL, plus whether
+          non-conformances are reported by the supplier or discovered by us.
+          Self-reporting is scored higher than a clean record found by inspection.</p></details>
+
+      <details class="ak-disclosure"><summary>Cost — 20%</summary>
+        <p class="ak-small">Total landed cost against benchmark, not unit price.
+          A cheaper unit that arrives late scores worse than a dearer one that
+          does not.</p></details>
+
+      <details class="ak-disclosure"><summary>Responsiveness — 15%</summary>
+        <p class="ak-small">Time to a substantive answer on a technical query.
+          <b>5</b> — same working day. <b>3</b> — within three days.
+          <b>1</b> — needs chasing. Measured from our ticket log, not from
+          supplier self-assessment.</p></details>
+
+      <details class="ak-disclosure"><summary>Compliance — 10%</summary>
+        <p class="ak-small">Certification currency, audit findings closed within
+          the agreed window, and subcontractor disclosure. Binary failures here
+          override the weighted score entirely — see the standing column.</p></details>
+
+      <details class="ak-disclosure"><summary>How disagreement is handled</summary>
+        <p class="ak-small">Where reviewer spread exceeds 1.5 points the cell is
+          marked <span class="ak-badge">SPREAD</span> and the panel re-scores
+          together. Averaging a genuine disagreement hides it.</p></details>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    Scores are for internal category management and are not shared with suppliers
+    in this form · Weights fixed 14 Feb 2026 · Next review 05 Mar 2027
+  </footer>
+</div>
+
+<script src="../../src/core.js"></script>
+<script>
+/* supplier, delivery, quality, cost, responsive, compliance, note */
+var SUP = [
+  ["Meridian Components", 4.6, 4.4, 3.8, 4.2, 4.8, ""],
+  ["Orbis Industrial",    4.2, 4.6, 3.5, 3.9, 4.5, ""],
+  ["Helix Materials",     3.8, 3.6, 4.1, 3.2, 4.0, ""],
+  ["Nordvik Supply",      3.4, 3.9, 3.6, 2.4, 4.2, "single source on two part families"],
+  ["Calder Fabrication",  3.1, 3.3, 2.6, 2.2, 3.8, "single source; audit finding open since June"]
+];
+var W = [0.30, 0.25, 0.20, 0.15, 0.10];
+var DIMS = ["Delivery", "Quality", "Cost", "Responsive", "Compliance"];
+var THRESHOLD = 3.0;
+
+ak.init({ id: "supplier-scorecard-fy26h1", title: "Supplier scorecard" });
+
+function weighted(s) {
+  return W.reduce(function (a, w, i) { return a + w * s[i + 1]; }, 0);
+}
+function cell(v) {
+  // colour alone never carries the meaning — the number is always legible
+  var cls = v < THRESHOLD ? "ak-down" : v >= 4.0 ? "ak-up" : "";
+  return '<td class="ak-num ' + cls + '" data-v="' + v + '">' + ak.fmt.num(v, 1) + "</td>";
+}
+function standing(s) {
+  var fails = W.map(function (_, i) { return s[i + 1]; }).filter(function (v) { return v < THRESHOLD; }).length;
+  if (fails >= 2) return ["ak-pill-risk", "Review"];
+  if (fails === 1) return ["ak-pill-warn", "Watch"];
+  return ["ak-pill-ok", "Approved"];
+}
+
+document.querySelector("#t tbody").innerHTML = SUP.map(function (s) {
+  var st = standing(s), w = weighted(s);
+  return '<tr tabindex="0" data-fail="' + (st[1] !== "Approved") + '">' +
+    "<td>" + s[0] + (s[6] ? '<br><span class="ak-small ak-soft">' + s[6] + "</span>" : "") + "</td>" +
+    cell(s[1]) + cell(s[2]) + cell(s[3]) + cell(s[4]) + cell(s[5]) +
+    '<td class="ak-num" data-v="' + w.toFixed(2) + '"><b>' + ak.fmt.num(w, 2) + "</b></td>" +
+    '<td><span class="ak-pill ' + st[0] + '">' + st[1] + "</span></td></tr>";
+}).join("");
+
+ak.table(document.getElementById("t"));
+
+document.getElementById("onlyfail").onclick = function () {
+  var on = this.getAttribute("aria-pressed") === "true";
+  this.setAttribute("aria-pressed", String(!on));
+  document.querySelectorAll("#t tbody tr").forEach(function (tr) {
+    tr.hidden = !on && tr.dataset.fail !== "true";
+  });
+};
+document.getElementById("csv").onclick = function () {
+  ak.csv(SUP.map(function (s) {
+    return [s[0], s[1], s[2], s[3], s[4], s[5], weighted(s).toFixed(2), standing(s)[1]];
+  }), ["supplier"].concat(DIMS).concat(["weighted", "standing"]), "supplier-scorecard.csv");
+};
+
+function draw() {
+  var data = SUP.map(function (s) { return { label: s[0].split(" ")[0], value: +weighted(s).toFixed(2) }; });
+  ak.chart.bar("#bars", data, { title: "Weighted supplier score", highlight: 4, height: 220,
+    format: function (v) { return ak.fmt.num(v, 1); } });
+  ak.dataTable("#bars-tw", ["Supplier", "Weighted score"],
+    data.map(function (d) { return [d.label, d.value]; }), "Weighted supplier score");
+
+  // dimension averages as CSS bars — five numbers do not justify a chart
+  var max = 5;
+  document.getElementById("dims").innerHTML = DIMS.map(function (d, i) {
+    var avg = SUP.reduce(function (a, s) { return a + s[i + 1]; }, 0) / SUP.length;
+    var weak = avg < 3.5;
+    return '<div class="ak-barrow"><span>' + d + (weak ? ' <span class="ak-badge">WEAK</span>' : "") + "</span>" +
+      '<span class="ak-track"><span class="ak-fill" style="width:' + (avg / max * 100).toFixed(1) +
+      "%;background:" + (weak ? "var(--ak-warn)" : "var(--ak-accent)") + '"></span></span>' +
+      '<span class="ak-num">' + ak.fmt.num(avg, 1) + "</span></div>";
+  }).join("");
+}
+draw();
+ak.onResize(draw);
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>artifactkit — examples</title>
+<link rel="stylesheet" href="../src/theme.css">
+<link rel="stylesheet" href="../src/components.css">
+<link rel="stylesheet" href="../src/print.css">
+<style>
+  .gal{ display:grid; gap:var(--ak-s4); grid-template-columns:repeat(auto-fill,minmax(290px,1fr)) }
+  .gal a{ display:block; text-decoration:none; color:inherit; background:var(--ak-surface);
+    border:1px solid var(--ak-rule); border-radius:var(--ak-radius); padding:var(--ak-s4);
+    transition:border-color 140ms, translate 140ms }
+  .gal a:hover{ border-color:var(--ak-accent); translate:0 -2px }
+  .gal h3{ margin-bottom:var(--ak-s1) }
+  .gal p{ margin:0; font-size:13px; color:var(--ak-ink-muted); max-width:none }
+  .gal .uses{ margin-top:var(--ak-s3); font-size:11px; color:var(--ak-ink-soft);
+    letter-spacing:.04em; text-transform:uppercase }
+</style>
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">artifactkit · examples</p>
+      <h1>Seven artifacts, one dependency-free core</h1>
+      <p class="ak-lede">Every page below is a single self-contained HTML file
+        that works offline, prints properly and carries no credentials. Open one,
+        then read its source — that is the whole documentation.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">v0.1.0</span><br>
+      MIT · no third-party code<br>
+      65–92 KB per artifact
+    </div>
+  </header>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>Templates — copy these</h2></div>
+    <div class="gal">
+
+      <a href="../dist/report.html">
+        <h3>Report</h3>
+        <p>A quarterly review. Action title, KPI strip with a concentration risk
+          measure, exhibits with takeaways and sources, a partial-period exclusion
+          banner, and a value that is shown as <span class="ak-dash">–</span>
+          rather than invented.</p>
+        <div class="uses">KPI strip · sortable table · line + bar · timeline · disclosure</div>
+      </a>
+
+      <a href="../dist/dashboard.html">
+        <h3>Dashboard</h3>
+        <p>Support operations. Filter chips, search, drilldown rows rather than a
+          modal, sparklines in cells, and KPIs derived from the filtered set so
+          they never drift from what is on screen. View state lives in the URL.</p>
+        <div class="uses">Filters · deep link · drilldown · sticky column · sparklines</div>
+      </a>
+
+      <a href="../dist/tracker.html">
+        <h3>Tracker / kanban</h3>
+        <p>A migration board. Native drag between columns, counts and KPIs that
+          recompute on drop, blocked cards carrying their blocking reason, and a
+          Save that writes the board back into the file itself.</p>
+        <div class="uses">Kanban · derived KPIs · save-to-file · allow-listed state</div>
+      </a>
+
+      <a href="../dist/deck.html">
+        <h3>Deck</h3>
+        <p>A decision review. Press <kbd class="ak-kbd">N</kbd> for the presenter
+          window — notes, pace timer and next-up on your screen only. Press
+          <kbd class="ak-kbd">O</kbd> for the overview, <kbd class="ak-kbd">?</kbd>
+          for keys.</p>
+        <div class="uses">Presenter window · pace timer · overview · one slide per page</div>
+      </a>
+
+      <a href="../dist/wiki.html">
+        <h3>Wiki / decision log</h3>
+        <p>Decisions separated from open questions, a table of contents built from
+          the document so it cannot drift, search on <kbd class="ak-kbd">/</kbd>,
+          and rejected alternatives recorded rather than forgotten.</p>
+        <div class="uses">TOC · search · disclosures · prose · scroll spy</div>
+      </a>
+
+      <a href="../dist/scorecard.html">
+        <h3>Scorecard</h3>
+        <p>Supplier review across weighted dimensions — with the rubric stated in
+          full, because a scorecard without its rubric is an opinion in a grid.
+          Reviewer disagreement is flagged, not averaged away.</p>
+        <div class="uses">Weighted scoring · rubric · threshold flags · CSS bars</div>
+      </a>
+
+      <a href="../dist/comparison.html">
+        <h3>Comparison matrix</h3>
+        <p>An options paper. Weights fixed before scoring, "do nothing" included as
+          the honest baseline, what each option costs to be <em>wrong</em>, and the
+          condition that would invalidate the recommendation.</p>
+        <div class="uses">Decision matrix · asymmetry table · falsifier · timeline</div>
+      </a>
+
+      <a href="../dist/swatch.html">
+        <h3>Component swatch</h3>
+        <p>Every component on one page. This is the visual QA reference — if
+          something looks wrong here it is wrong everywhere — and the fastest way
+          to see what the vocabulary contains.</p>
+        <div class="uses">All components · the reference to copy from</div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Try this</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-takeaway">The claims are checkable in about two minutes.</p>
+      <ol class="ak-timeline">
+        <li class="ak-tl-item"><time>Offline</time><span class="ak-t">Disconnect and reload</span>
+          <div class="ak-small">Nothing breaks. There are no CDN links, no fonts to
+            fetch and no runtime dependencies.</div></li>
+        <li class="ak-tl-item"><time>Print</time><span class="ak-t">Ctrl/Cmd+P on any of them</span>
+          <div class="ak-small">Chrome steps back, exhibits stay whole, collapsed
+            sections expand, charts stay sharp because they are SVG, and speaker
+            notes never appear.</div></li>
+        <li class="ak-tl-item"><time>Export</time><span class="ak-t">Filter the dashboard, then export CSV</span>
+          <div class="ak-small">You get the rows you are looking at, in the order
+            you sorted them — not the raw dataset.</div></li>
+        <li class="ak-tl-item"><time>Retheme</time><span class="ak-t">Edit five constants in the source</span>
+          <div class="ak-small">Search for <code>ak-theme-start</code>. Set
+            <code>--t-bg:#14141A; --t-ink:#E8E6E0; --t-lift-amt:7%</code> for a dark
+            build. Everything else derives.</div></li>
+      </ol>
+      <p class="ak-source">Every claim on this page is checked mechanically:
+        <code>npm run check</code> runs <code>validate.mjs</code> (self-containment,
+        credentials, accessibility) and <code>drift.mjs</code> (structural
+        integrity) over every artifact in <code>dist/</code>, including this one.</p>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    artifactkit v0.1.0 · MIT · ground RAL 9010 <code>#F1ECE1</code> converted from
+    CIELAB(93.613, −0.425, 6.008) · system sans stack, no webfonts ·
+    zero third-party code in the core
+  </footer>
+</div>
+</body>
+</html>

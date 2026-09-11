@@ -1,0 +1,53 @@
+/* artifactkit — print.css
+   `window.print()` is the PDF path. 0 kB, vector text, correct fonts —
+   against ~180 kB for jsPDF + html2canvas and objectively worse output.
+*/
+@media print{
+  :root{
+    /* force a white ground and pure-black ink regardless of theme */
+    --t-bg:#FFFFFF;
+    --t-ink:#000000;
+    --t-lift-amt:0%;
+  }
+  @page{ margin:16mm 14mm }
+
+  body{ font-size:10.5pt; line-height:1.4; background:#fff }
+  .ak-wrap{ max-width:none; padding:0 }
+
+  /* interactive chrome has no meaning on paper */
+  .ak-toolbar,.ak-btn,.ak-chip,.ak-input,.ak-select,.ak-toast,
+  .ak-deck-hud,.ak-deck-bar,.ak-deck-grid,.ak-deck-help,
+  [data-ak-noprint]{ display:none !important }
+
+  /* Speaker notes must never reach a PDF that gets emailed to the audience. */
+  .ak-notes{ display:none !important }
+
+  /* never split a unit of argument across a page */
+  .ak-exhibit,.ak-section,.ak-kpis,.ak-drill,.ak-board,.ak-col,
+  figure,table,.ak-barrow,.ak-tl-item{ break-inside:avoid }
+  h1,h2,h3{ break-after:avoid }
+  thead{ display:table-header-group }   /* repeat headers on every page */
+  tfoot{ display:table-footer-group }
+
+  /* a collapsed section is invisible on paper — expand everything */
+  details{ display:block }
+  details > :not(summary){ display:block !important; padding-left:0 }
+  .ak-disclosure > summary::before{ content:"" }
+
+  /* surfaces become outlines; fills waste toner and hurt contrast */
+  .ak-exhibit,.ak-drill,.ak-col,.ak-kcard,.ak-scorecard > *{
+    background:#fff !important; border-color:#bbb !important; box-shadow:none !important }
+  .ak-table tbody tr:hover{ background:transparent }
+  .ak-track{ background:#eee !important }
+
+  /* links: keep the text, drop the colour, surface the target */
+  a{ color:inherit; text-decoration:none }
+  .ak-prose a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:9pt; color:#555 }
+
+  /* scroll containers must release their height or content is clipped away */
+  .ak-tblwrap,.ak-deck{ overflow:visible !important; max-height:none !important; height:auto !important }
+  .ak-slide{ min-height:auto; break-after:page; border-bottom:0 }
+  .ak-table thead th{ position:static }   /* sticky headers print as overlaps */
+  .ak-sticky1 td:first-child,.ak-sticky1 th:first-child{ position:static }
+  .ak-toc{ position:static }
+}

@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>artifactkit — examples</title>
+<style>
+/* ../src/theme.css */
+/* artifactkit — theme.css
+   Tokens and cascade layers. MIT. No third-party code.
+
+   Layer order is declared once, here. Anything an author writes outside a
+   layer beats every layer, so overrides win without !important.
+*/
+@layer ak.tokens, ak.base, ak.components, ak.utilities;
+
+@layer ak.tokens {
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME — EDIT THESE. Everything else derives from them.
+   Changing --t-bg, --t-ink and --t-accent rethemes the entire artifact.
+   Agents: rewrite only inside the machine-readable markers below.
+
+     Warm      --t-bg:#FDF4E3;  --t-accent:#8A4B2A;
+     Cool grey --t-bg:#EFF1F3;  --t-accent:#1F4E79;
+     Denser    --t-density:.85; --t-size:14px;
+     Dark      --t-bg:#14141A;  --t-ink:#E8E6E0;  --t-accent:#6AA9D8;
+               --t-lift-amt:7%;        <- the only extra knob a dark ground needs
+   ═══════════════════════════════════════════════════════════════════════════ */
+/*!ak-theme-start*/
+:root{
+  /* — colour ————————————————————————————————————————————————————— */
+  --t-bg:       #F1ECE1;   /* page ground. RAL 9010, converted from CIELAB(93.613,-0.425,6.008) */
+  --t-ink:      #1A1A18;   /* body text. warm near-black — never pure #000 */
+  --t-accent:   #14496B;   /* primary accent. the only chrome colour */
+  --t-accent-2: #2E7D9A;   /* secondary accent */
+  --t-pos:      #2F6B3F;   /* positive / on track */
+  --t-neg:      #A32E2E;   /* negative / off track */
+  --t-warn:     #9A6614;   /* caution / at risk */
+
+  /* how far panels lift off the ground. 64% white on a light ground;
+     drop to ~7% for a dark ground, where a small lift reads as elevation. */
+  --t-lift:     #FFFFFF;
+  --t-lift-amt: 64%;
+
+  /* — chart series. restrained, print-safe, distinguishable ———————— */
+  --t-s1:#14496B; --t-s2:#2E7D9A; --t-s3:#B8873A;
+  --t-s4:#7A5C7B; --t-s5:#4A7C59; --t-s6:#A64B4B;
+
+  /* — type. system stack only. no webfonts, no network ———————————— */
+  --t-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text",
+            "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --t-mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+  --t-size: 15px;
+  --t-heading-weight: 650;
+
+  /* — shape & rhythm ———————————————————————————————————————————— */
+  --t-density: 1;      /* multiplies every spacing step */
+  --t-radius: 2px;
+  --t-maxw: 1120px;
+}
+/*!ak-theme-end*/
+/* ═══ Everything below is derived. Do not hand-edit. ════════════════════════ */
+
+:root{
+  /* Neutrals are mixes of ground and ink. Because --t-ink flips on a dark
+     theme, fills and rules invert automatically — only the lift needs a knob. */
+  --ak-bg: var(--t-bg);
+  --ak-surface:     color-mix(in srgb, var(--t-lift) var(--t-lift-amt), var(--t-bg));
+  --ak-fill:        color-mix(in srgb, var(--t-ink)  4%, var(--t-bg));
+  --ak-fill-2:      color-mix(in srgb, var(--t-ink)  7%, var(--t-bg));
+  --ak-rule:        color-mix(in srgb, var(--t-ink) 13%, var(--t-bg));
+  --ak-rule-mid:    color-mix(in srgb, var(--t-ink) 24%, var(--t-bg));
+  --ak-rule-strong: var(--t-ink);
+
+  --ak-ink:       var(--t-ink);
+  --ak-ink-muted: color-mix(in srgb, var(--t-bg) 31%, var(--t-ink));
+  --ak-ink-soft:  color-mix(in srgb, var(--t-bg) 50%, var(--t-ink));
+
+  --ak-accent:      var(--t-accent);
+  --ak-accent-2:    var(--t-accent-2);
+  --ak-accent-wash: color-mix(in srgb, var(--t-accent) 10%, var(--t-bg));
+  /* text on an accent fill: pulls toward the ground, so it flips with the theme */
+  --ak-accent-fg:   color-mix(in srgb, var(--t-bg) 92%, var(--t-accent));
+
+  --ak-pos: var(--t-pos); --ak-neg: var(--t-neg); --ak-warn: var(--t-warn);
+  --ak-pos-wash:  color-mix(in srgb, var(--t-pos)  10%, var(--t-bg));
+  --ak-neg-wash:  color-mix(in srgb, var(--t-neg)  10%, var(--t-bg));
+  --ak-warn-wash: color-mix(in srgb, var(--t-warn) 10%, var(--t-bg));
+
+  --ak-c1:var(--t-s1); --ak-c2:var(--t-s2); --ak-c3:var(--t-s3);
+  --ak-c4:var(--t-s4); --ak-c5:var(--t-s5); --ak-c6:var(--t-s6);
+
+  --ak-sans: var(--t-font);
+  --ak-mono: var(--t-mono);
+
+  --ak-s1:calc(4px  * var(--t-density));
+  --ak-s2:calc(8px  * var(--t-density));
+  --ak-s3:calc(12px * var(--t-density));
+  --ak-s4:calc(16px * var(--t-density));
+  --ak-s5:calc(24px * var(--t-density));
+  --ak-s6:calc(32px * var(--t-density));
+  --ak-s7:calc(48px * var(--t-density));
+  --ak-s8:calc(64px * var(--t-density));
+
+  --ak-radius: var(--t-radius);
+  --ak-maxw:   var(--t-maxw);
+}
+
+}/* @layer ak.tokens */
+
+</style>
+<style>
+/* ../src/components.css */
+/* artifactkit — components.css
+   The vocabulary. MIT. No third-party code.
+   Every class is prefixed `ak-`. Colours come only from theme.css tokens;
+   no literal colour value appears below this line.
+*/
+
+@layer ak.base {
+  *,*::before,*::after{ box-sizing:border-box }
+  html,body{ margin:0 }
+  body{
+    background:var(--ak-bg); color:var(--ak-ink);
+    font-family:var(--ak-sans); font-size:var(--t-size); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+  }
+  h1,h2,h3,h4{ font-weight:var(--t-heading-weight); margin:0 0 var(--ak-s2); letter-spacing:-.01em }
+  h1{ font-size:30px; line-height:1.2; letter-spacing:-.015em; margin-bottom:var(--ak-s3) }
+  h2{ font-size:19px; line-height:1.3 }
+  h3{ font-size:15px }
+  h4{ font-size:13px }
+  p{ margin:0 0 var(--ak-s4); max-width:72ch }
+  a{ color:var(--ak-accent); text-underline-offset:2px }
+  code,kbd,samp,pre{ font-family:var(--ak-mono); font-size:.92em }
+  hr{ border:0; border-top:1px solid var(--ak-rule); margin:var(--ak-s5) 0 }
+  :focus-visible{ outline:2px solid var(--ak-accent); outline-offset:2px }
+  ::selection{ background:var(--ak-accent-wash) }
+}
+
+@layer ak.components {
+
+/* ── layout ─────────────────────────────────────────────────────────────── */
+.ak-wrap{ max-width:var(--ak-maxw); margin:0 auto; padding:var(--ak-s7) var(--ak-s6) var(--ak-s8) }
+.ak-stack{ display:flex; flex-direction:column; gap:var(--ak-s4) }
+.ak-row{ display:flex; gap:var(--ak-s4); align-items:center }
+.ak-grid{ display:grid; gap:var(--ak-s4); grid-template-columns:repeat(var(--ak-cols,2),1fr) }
+.ak-split{ display:grid; gap:var(--ak-s5); grid-template-columns:1fr 1fr }
+.ak-sidebar{ display:grid; gap:var(--ak-s5); grid-template-columns:220px 1fr; align-items:start }
+.ak-centered{ display:grid; place-items:center; min-height:60vh }
+.ak-spacer{ flex:1 }
+
+/* ── page furniture ─────────────────────────────────────────────────────── */
+.ak-pagehead{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:var(--ak-s5);
+  border-bottom:2px solid var(--ak-rule-strong);
+  padding-bottom:var(--ak-s4); margin-bottom:var(--ak-s6);
+}
+.ak-meta{ font-size:12px; color:var(--ak-ink-soft); text-align:right; white-space:nowrap; line-height:1.7 }
+.ak-eyebrow{
+  font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ak-ink-soft); margin:0 0 var(--ak-s2);
+}
+.ak-lede{ font-size:17px; line-height:1.5; color:var(--ak-ink-muted); margin:0; max-width:62ch }
+.ak-small{ font-size:12px; color:var(--ak-ink-muted) }
+.ak-sechead{
+  display:flex; align-items:baseline; gap:var(--ak-s3);
+  border-bottom:1px solid var(--ak-rule); padding-bottom:var(--ak-s2); margin-bottom:var(--ak-s5);
+}
+.ak-sechead .ak-n{ font-size:11px; font-weight:700; color:var(--ak-accent); letter-spacing:.08em }
+.ak-section{ margin:var(--ak-s7) 0 0 }
+.ak-footer{ margin-top:var(--ak-s8); padding-top:var(--ak-s4);
+  border-top:1px solid var(--ak-rule); font-size:11.5px; color:var(--ak-ink-soft) }
+
+/* freshness / provenance */
+.ak-asof{
+  display:inline-block; font-size:11px; font-weight:600; letter-spacing:.04em;
+  border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  padding:2px 7px; color:var(--ak-ink-muted); background:var(--ak-surface);
+}
+
+/* ── KPI strip: rules, not boxes ────────────────────────────────────────── */
+.ak-kpis{
+  display:grid; grid-template-columns:repeat(var(--ak-cols,4),1fr);
+  border-top:1px solid var(--ak-rule-strong); border-bottom:1px solid var(--ak-rule);
+  margin:0 0 var(--ak-s5);
+}
+.ak-kpi{ padding:var(--ak-s4) var(--ak-s4) var(--ak-s4) 0; border-right:1px solid var(--ak-rule) }
+.ak-kpi:last-child{ border-right:0 }
+.ak-kpi .ak-k{ font-size:11px; font-weight:600; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ak-ink-soft) }
+.ak-kpi .ak-v{ font-size:28px; font-weight:var(--t-heading-weight);
+  letter-spacing:-.02em; line-height:1.15; margin-top:var(--ak-s1) }
+.ak-kpi .ak-d{ font-size:12px; margin-top:2px; color:var(--ak-ink-muted) }
+
+.ak-up{ color:var(--ak-pos); font-weight:600 }
+.ak-down{ color:var(--ak-neg); font-weight:600 }
+.ak-flat,.ak-dim{ color:var(--ak-ink-soft) }
+.ak-dash{ color:var(--ak-ink-soft) }
+
+/* ── exhibit: the unit a report is made of ──────────────────────────────── */
+.ak-exhibit{
+  background:var(--ak-surface); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s5); margin:0 0 var(--ak-s5);
+}
+.ak-exhibit > .ak-eyebrow{ color:var(--ak-accent) }
+.ak-takeaway{ font-size:15px; color:var(--ak-ink-muted); margin:0 0 var(--ak-s4); max-width:70ch }
+.ak-source{ font-size:11px; color:var(--ak-ink-soft);
+  margin-top:var(--ak-s4); padding-top:var(--ak-s2); border-top:1px solid var(--ak-rule) }
+
+/* ── tables ─────────────────────────────────────────────────────────────── */
+.ak-tblwrap{ overflow:auto; max-height:var(--ak-tbl-h,none) }
+.ak-table{ border-collapse:collapse; width:100%; font-size:13.5px }
+.ak-table thead th{
+  font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ak-ink-muted); text-align:left; white-space:nowrap;
+  padding:0 var(--ak-s3) var(--ak-s2) 0;
+  border-bottom:1.5px solid var(--ak-rule-strong);
+  background:var(--ak-surface); position:sticky; top:0;
+}
+.ak-table th.ak-num,.ak-table td.ak-num{ text-align:right }
+.ak-table tbody td{ padding:7px var(--ak-s3) 7px 0;
+  border-bottom:1px solid var(--ak-rule); vertical-align:baseline }
+.ak-table tbody tr:hover{ background:var(--ak-fill) }
+.ak-table tbody td:first-child{ font-weight:550 }
+.ak-table tr.ak-total td{ border-top:1.5px solid var(--ak-rule-strong); border-bottom:0;
+  font-weight:var(--t-heading-weight); padding-top:var(--ak-s2) }
+/* sort affordance — an unsorted column must still say it is sortable */
+.ak-table th[data-sort]{ cursor:pointer; user-select:none }
+.ak-table th[data-sort]:hover{ color:var(--ak-ink) }
+.ak-table th[data-sort]::after{ content:"↕"; opacity:.28; margin-left:5px; font-size:10px }
+.ak-table th[data-sort][aria-sort="ascending"]::after{ content:"▲"; opacity:1; color:var(--ak-accent) }
+.ak-table th[data-sort][aria-sort="descending"]::after{ content:"▼"; opacity:1; color:var(--ak-accent) }
+/* keep the identifier column visible on wide tables */
+.ak-sticky1 td:first-child,.ak-sticky1 th:first-child{
+  position:sticky; left:0; background:var(--ak-surface) }
+.ak-table tbody tr[tabindex]{ cursor:pointer }
+.ak-table tbody tr[tabindex]:focus-visible{ outline:2px solid var(--ak-accent); outline-offset:-2px }
+
+/* ── controls ───────────────────────────────────────────────────────────── */
+.ak-toolbar{ display:flex; gap:var(--ak-s2); align-items:center;
+  margin-bottom:var(--ak-s4); flex-wrap:wrap }
+.ak-input,.ak-select,.ak-textarea{
+  font:inherit; font-size:13px; padding:5px 9px; color:var(--ak-ink);
+  border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  background:var(--ak-surface);
+}
+.ak-input{ min-width:220px }
+.ak-textarea{ min-width:100%; min-height:80px }
+.ak-input:focus-visible,.ak-select:focus-visible,.ak-textarea:focus-visible{
+  outline:2px solid var(--ak-accent); outline-offset:1px; border-color:var(--ak-accent) }
+.ak-btn{
+  font:inherit; font-size:12px; font-weight:600; padding:5px 11px; cursor:pointer;
+  border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  background:var(--ak-surface); color:var(--ak-ink);
+}
+.ak-btn:hover{ background:var(--ak-fill); border-color:var(--ak-ink-soft) }
+.ak-btn[disabled]{ opacity:.45; cursor:not-allowed }
+.ak-btn-primary{ background:var(--ak-accent); border-color:var(--ak-accent); color:var(--ak-accent-fg) }
+.ak-btn-primary:hover{ background:color-mix(in srgb, var(--ak-ink) 14%, var(--ak-accent)) }
+.ak-chip{
+  font-size:11.5px; font-weight:600; padding:3px 9px; cursor:pointer;
+  border:1px solid var(--ak-rule-mid); border-radius:999px;
+  background:var(--ak-surface); color:var(--ak-ink-muted);
+}
+.ak-chip[aria-pressed="true"]{ background:var(--ak-accent-wash);
+  border-color:var(--ak-accent); color:var(--ak-accent) }
+.ak-kbd{ font-family:var(--ak-mono); font-size:11px; padding:1px 5px;
+  border:1px solid var(--ak-rule-mid); border-bottom-width:2px;
+  border-radius:3px; background:var(--ak-surface) }
+
+/* ── status vocabulary. never colour alone — always a label ─────────────── */
+.ak-pill{ display:inline-block; font-size:11px; font-weight:600; padding:1px 8px;
+  border-radius:10px; border:1px solid currentColor; line-height:1.6 }
+.ak-pill-ok{ color:var(--ak-pos) }
+.ak-pill-risk{ color:var(--ak-neg) }
+.ak-pill-warn{ color:var(--ak-warn) }
+.ak-pill-info{ color:var(--ak-accent) }
+.ak-pill-off{ color:var(--ak-ink-soft) }
+.ak-badge{ display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.04em;
+  padding:1px 6px; border-radius:var(--ak-radius);
+  background:var(--ak-fill-2); color:var(--ak-ink-muted) }
+
+/* ── messages ───────────────────────────────────────────────────────────── */
+.ak-banner{ border-left:3px solid var(--ak-warn); background:var(--ak-fill);
+  padding:var(--ak-s3) var(--ak-s4); font-size:13px; margin:0 0 var(--ak-s4) }
+.ak-banner-bad{ border-left-color:var(--ak-neg); background:var(--ak-neg-wash) }
+.ak-banner-ok{ border-left-color:var(--ak-pos); background:var(--ak-pos-wash) }
+.ak-banner strong{ font-weight:var(--t-heading-weight) }
+.ak-empty{ text-align:center; padding:var(--ak-s7) var(--ak-s4); color:var(--ak-ink-soft);
+  border:1px dashed var(--ak-rule-mid); border-radius:var(--ak-radius) }
+.ak-toast{
+  position:fixed; bottom:var(--ak-s5); left:50%; translate:-50% 0; z-index:60;
+  background:var(--ak-rule-strong); color:var(--ak-bg);
+  font-size:13px; padding:var(--ak-s2) var(--ak-s4); border-radius:var(--ak-radius);
+  box-shadow:0 6px 20px rgb(0 0 0 / .18);
+}
+
+/* ── CSS bars: cheaper than a chart, use for plain counts ───────────────── */
+.ak-barrow{ display:grid; grid-template-columns:var(--ak-barlabel,150px) 1fr 64px;
+  gap:var(--ak-s3); align-items:center; padding:5px 0;
+  border-bottom:1px solid var(--ak-rule); font-size:13px }
+.ak-track{ display:block; background:var(--ak-fill-2); height:12px }
+.ak-fill{ display:block; height:12px; background:var(--ak-accent) }
+.ak-barrow .ak-num{ text-align:right }
+
+/* ── charts. structure lives here, colour comes from JS via tokens ──────── */
+.ak-chart{ width:100% }
+.ak-nc-axis text{ font-size:10.5px; fill:var(--ak-ink-soft) }
+.ak-nc-axis line,.ak-nc-axis path{ stroke:var(--ak-rule-mid) }
+.ak-nc-grid line{ stroke:var(--ak-rule); stroke-dasharray:2 3 }
+.ak-legend{ display:flex; gap:var(--ak-s4); flex-wrap:wrap;
+  font-size:11.5px; color:var(--ak-ink-muted); margin-top:var(--ak-s2) }
+.ak-legend i{ display:inline-block; width:9px; height:9px; margin-right:5px; vertical-align:-1px }
+.ak-spark{ vertical-align:-2px }
+
+/* ── kanban. desktop drag only — touch is out of scope ──────────────────── */
+.ak-board{ display:grid; gap:var(--ak-s3); align-items:start;
+  grid-template-columns:repeat(var(--ak-cols,4),1fr) }
+.ak-col{ background:var(--ak-fill); border:1px solid var(--ak-rule); min-height:120px }
+.ak-col > h3{ font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ak-ink-muted); margin:0; padding:var(--ak-s3) var(--ak-s3) var(--ak-s2);
+  border-bottom:1px solid var(--ak-rule) }
+.ak-col > h3 .ak-n{ float:right; color:var(--ak-ink-soft); font-weight:600 }
+.ak-cards{ padding:var(--ak-s2); display:flex; flex-direction:column;
+  gap:var(--ak-s2); min-height:56px }
+.ak-kcard{ background:var(--ak-surface); border:1px solid var(--ak-rule-mid);
+  border-radius:var(--ak-radius); padding:var(--ak-s3); font-size:13px; cursor:grab }
+.ak-kcard:active{ cursor:grabbing }
+.ak-kcard .ak-t{ font-weight:600; margin-bottom:3px }
+.ak-kcard.ak-dragging{ opacity:.4 }
+.ak-cards.ak-over{ background:var(--ak-accent-wash);
+  outline:1px dashed var(--ak-accent); outline-offset:-3px }
+
+/* ── stepper ────────────────────────────────────────────────────────────── */
+.ak-stepper{ display:flex; align-items:flex-start; gap:0; margin:0 0 var(--ak-s5); padding:0; list-style:none }
+.ak-step{ flex:1; position:relative; padding:0 var(--ak-s3) 0 0; font-size:12.5px; color:var(--ak-ink-soft) }
+.ak-step::before{ content:""; display:block; height:2px; background:var(--ak-rule);
+  margin-bottom:var(--ak-s2) }
+.ak-step .ak-t{ font-weight:600; color:var(--ak-ink-muted); display:block }
+.ak-step[aria-current="step"]::before,.ak-step.ak-done::before{ background:var(--ak-accent) }
+.ak-step[aria-current="step"] .ak-t{ color:var(--ak-accent) }
+.ak-step.ak-done .ak-t{ color:var(--ak-ink) }
+
+/* ── timeline ───────────────────────────────────────────────────────────── */
+.ak-timeline{ list-style:none; margin:0; padding:0 0 0 var(--ak-s5);
+  border-left:1px solid var(--ak-rule) }
+.ak-tl-item{ position:relative; padding:0 0 var(--ak-s4) 0 }
+.ak-tl-item::before{ content:""; position:absolute; left:calc(-1 * var(--ak-s5) - 4px); top:6px;
+  width:7px; height:7px; border-radius:50%; background:var(--ak-accent);
+  outline:3px solid var(--ak-bg) }
+.ak-tl-item time{ display:block; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ak-ink-soft) }
+.ak-tl-item .ak-t{ font-weight:600 }
+
+/* ── disclosure ─────────────────────────────────────────────────────────── */
+.ak-disclosure{ border-bottom:1px solid var(--ak-rule) }
+.ak-disclosure > summary{ cursor:pointer; list-style:none; padding:var(--ak-s3) 0;
+  font-weight:600; font-size:13.5px; display:flex; align-items:center; gap:var(--ak-s2) }
+.ak-disclosure > summary::-webkit-details-marker{ display:none }
+.ak-disclosure > summary::before{ content:"▸"; color:var(--ak-accent);
+  transition:rotate .12s ease; display:inline-block }
+.ak-disclosure[open] > summary::before{ rotate:90deg }
+.ak-disclosure > :not(summary){ padding:0 0 var(--ak-s4) var(--ak-s4) }
+
+/* ── drilldown. a row detail, not a modal — modals hide context ─────────── */
+.ak-drill{ background:var(--ak-fill); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s4); margin:var(--ak-s3) 0 }
+.ak-drill .ak-hd{ display:flex; justify-content:space-between; align-items:baseline;
+  border-bottom:1px solid var(--ak-rule); padding-bottom:var(--ak-s2); margin-bottom:var(--ak-s3) }
+.ak-dcols{ display:grid; gap:var(--ak-s3) var(--ak-s5);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr)) }
+.ak-field .ak-k{ font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ak-ink-soft); display:block }
+.ak-field .ak-v{ font-size:13.5px }
+
+/* ── navigation ─────────────────────────────────────────────────────────── */
+.ak-breadcrumb{ display:flex; gap:var(--ak-s2); list-style:none; margin:0 0 var(--ak-s3);
+  padding:0; font-size:12px; color:var(--ak-ink-soft); flex-wrap:wrap }
+.ak-breadcrumb li + li::before{ content:"/"; margin-right:var(--ak-s2); color:var(--ak-rule-mid) }
+.ak-nav{ list-style:none; margin:0; padding:0; font-size:13.5px }
+.ak-nav a{ display:block; padding:4px var(--ak-s2); color:var(--ak-ink-muted);
+  text-decoration:none; border-left:2px solid transparent }
+.ak-nav a:hover{ color:var(--ak-ink); background:var(--ak-fill) }
+.ak-nav a[aria-current="page"]{ color:var(--ak-accent); border-left-color:var(--ak-accent);
+  font-weight:600 }
+.ak-toc{ font-size:13px; position:sticky; top:var(--ak-s4) }
+.ak-toc .ak-eyebrow{ margin-bottom:var(--ak-s2) }
+
+/* ── modal (native <dialog>) ────────────────────────────────────────────── */
+.ak-modal{ border:1px solid var(--ak-rule-mid); border-radius:var(--ak-radius);
+  background:var(--ak-surface); color:var(--ak-ink); padding:var(--ak-s5);
+  max-width:min(560px,92vw); box-shadow:0 24px 60px rgb(0 0 0 / .22) }
+.ak-modal::backdrop{ background:rgb(0 0 0 / .32) }
+
+/* ── prose (wiki / notes) ───────────────────────────────────────────────── */
+.ak-prose{ max-width:70ch }
+.ak-prose h2{ margin-top:var(--ak-s6) }
+.ak-prose blockquote{ margin:0 0 var(--ak-s4); padding-left:var(--ak-s4);
+  border-left:3px solid var(--ak-rule-mid); color:var(--ak-ink-muted) }
+.ak-prose pre{ background:var(--ak-fill); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s3); overflow:auto; font-size:12.5px }
+.ak-prose :not(pre) > code{ background:var(--ak-fill-2); padding:1px 4px; border-radius:3px }
+
+/* ── deck ───────────────────────────────────────────────────────────────── */
+.ak-deck{ scroll-snap-type:y mandatory; overflow-y:auto; height:100vh }
+.ak-slide{ scroll-snap-align:start; min-height:100vh;
+  display:grid; align-content:center; padding:var(--ak-s8) var(--ak-s7);
+  max-width:var(--ak-maxw); margin:0 auto; border-bottom:1px solid var(--ak-rule) }
+.ak-slide h2{ font-size:34px; letter-spacing:-.02em }
+/* Speaker notes are authored inside the slide and never shown on the projected
+   screen. The presenter window reads them; --strip-notes removes them entirely. */
+.ak-notes{ display:none }
+body.ak-deck-notes-on .ak-slide.ak-here .ak-notes{
+  display:block; margin-top:var(--ak-s5); padding:var(--ak-s3) var(--ak-s4);
+  border-left:3px solid var(--ak-accent); background:var(--ak-fill);
+  font-size:13px; color:var(--ak-ink-muted) }
+
+/* progress */
+.ak-deck-bar{ position:fixed; left:0; top:0; height:3px; width:0; z-index:40;
+  background:var(--ak-accent); transition:width 300ms ease }
+
+/* heads-up controls */
+.ak-deck-hud{ position:fixed; right:22px; bottom:16px; z-index:41;
+  display:flex; gap:14px; align-items:center;
+  color:var(--ak-ink-soft); font-size:11px; letter-spacing:.09em; text-transform:uppercase }
+.ak-deck-pos b{ color:var(--ak-ink); font-weight:650 }
+.ak-deck-nav{ display:flex; gap:6px; align-items:center }
+.ak-deck-sep{ width:1px; height:18px; background:var(--ak-rule-mid); margin:0 3px }
+.ak-deck-nav button{ position:relative; width:34px; height:34px; padding:0; cursor:pointer;
+  border:1px solid var(--ak-rule-mid); border-radius:50%;
+  background:var(--ak-surface); color:var(--ak-ink); display:grid; place-items:center;
+  transition:border-color 140ms, color 140ms, background 140ms, opacity 140ms }
+.ak-deck-nav button:hover:not(:disabled){ border-color:var(--ak-accent); color:var(--ak-accent) }
+.ak-deck-nav button:disabled{ opacity:.25; cursor:default }
+.ak-deck-nav button[aria-pressed="true"]{ border-color:var(--ak-accent);
+  background:var(--ak-accent-wash); color:var(--ak-accent) }
+.ak-deck-nav svg{ width:15px; height:15px; fill:none; stroke:currentColor;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+/* tooltips anchor right so the last button never pushes one off screen */
+.ak-deck-nav button::after{ content:attr(data-tip); position:absolute;
+  bottom:calc(100% + 9px); right:0; white-space:nowrap;
+  background:var(--ak-surface); border:1px solid var(--ak-rule-mid); color:var(--ak-ink);
+  font-size:11px; letter-spacing:.02em; text-transform:none;
+  padding:5px 9px; border-radius:var(--ak-radius); box-shadow:0 4px 14px rgb(0 0 0 / .12);
+  opacity:0; pointer-events:none; translate:0 4px; transition:opacity 130ms, translate 130ms }
+.ak-deck-nav button:hover:not(:disabled)::after{ opacity:1; translate:0 0 }
+
+/* overview */
+.ak-deck-grid{ position:fixed; inset:0; z-index:50; display:none;
+  background:color-mix(in srgb, var(--ak-bg) 94%, transparent);
+  padding:var(--ak-s7); overflow:auto;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:var(--ak-s3);
+  align-content:start }
+.ak-deck-grid.ak-on{ display:grid }
+.ak-deck-grid button{ text-align:left; font:inherit; font-size:13px; cursor:pointer;
+  background:var(--ak-surface); border:1px solid var(--ak-rule);
+  border-radius:var(--ak-radius); padding:var(--ak-s3); color:var(--ak-ink);
+  min-height:84px; display:block }
+.ak-deck-grid button:hover{ border-color:var(--ak-accent) }
+.ak-deck-grid .ak-n{ display:block; font-size:10px; letter-spacing:.1em;
+  color:var(--ak-ink-soft); margin-bottom:var(--ak-s1) }
+
+/* keyboard help */
+.ak-deck-help{ position:fixed; inset:0; z-index:51; display:none; place-items:center;
+  background:color-mix(in srgb, var(--ak-ink) 40%, transparent) }
+.ak-deck-help.ak-on{ display:grid }
+.ak-deck-help > div{ background:var(--ak-surface); border:1px solid var(--ak-rule-mid);
+  border-radius:var(--ak-radius); padding:var(--ak-s5) var(--ak-s6); min-width:320px }
+.ak-deck-help h3{ margin-bottom:var(--ak-s3) }
+.ak-deck-help dl{ display:grid; grid-template-columns:auto 1fr;
+  gap:var(--ak-s2) var(--ak-s4); margin:0; font-size:13px }
+.ak-deck-help dt{ font-family:var(--ak-mono); color:var(--ak-accent); white-space:nowrap }
+.ak-deck-help dd{ margin:0; color:var(--ak-ink-muted) }
+
+/* ── scorecard ──────────────────────────────────────────────────────────── */
+.ak-scorecard{ display:grid; gap:1px; background:var(--ak-rule);
+  border:1px solid var(--ak-rule); grid-template-columns:repeat(var(--ak-cols,3),1fr) }
+.ak-scorecard > *{ background:var(--ak-surface); padding:var(--ak-s3) var(--ak-s4) }
+
+/* ── avatar / stat ──────────────────────────────────────────────────────── */
+.ak-avatar{ display:inline-grid; place-items:center; width:28px; height:28px;
+  border-radius:50%; background:var(--ak-fill-2); color:var(--ak-ink-muted);
+  font-size:11px; font-weight:700 }
+.ak-stat{ display:flex; flex-direction:column; gap:2px }
+.ak-stat .ak-k{ font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ak-ink-soft) }
+.ak-stat .ak-v{ font-size:19px; font-weight:var(--t-heading-weight) }
+
+}/* @layer ak.components */
+
+@layer ak.utilities {
+  /* screen-reader-only: the accessible twin of every chart lives in one of these */
+  .ak-vh{ position:absolute; width:1px; height:1px; overflow:hidden;
+    clip-path:inset(50%); white-space:nowrap }
+  .ak-mono{ font-family:var(--ak-mono) }
+  .ak-num{ text-align:right; font-variant-numeric:tabular-nums }
+  .ak-muted{ color:var(--ak-ink-muted) }
+  .ak-soft{ color:var(--ak-ink-soft) }
+  .ak-nowrap{ white-space:nowrap }
+  .ak-hide{ display:none !important }
+  .ak-cols-1{ --ak-cols:1 } .ak-cols-2{ --ak-cols:2 } .ak-cols-3{ --ak-cols:3 }
+  .ak-cols-4{ --ak-cols:4 } .ak-cols-5{ --ak-cols:5 } .ak-cols-6{ --ak-cols:6 }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{ transition:none !important; animation:none !important; scroll-behavior:auto !important }
+}
+
+</style>
+<style>
+/* ../src/print.css */
+/* artifactkit — print.css
+   `window.print()` is the PDF path. 0 kB, vector text, correct fonts —
+   against ~180 kB for jsPDF + html2canvas and objectively worse output.
+*/
+@media print{
+  :root{
+    /* force a white ground and pure-black ink regardless of theme */
+    --t-bg:#FFFFFF;
+    --t-ink:#000000;
+    --t-lift-amt:0%;
+  }
+  @page{ margin:16mm 14mm }
+
+  body{ font-size:10.5pt; line-height:1.4; background:#fff }
+  .ak-wrap{ max-width:none; padding:0 }
+
+  /* interactive chrome has no meaning on paper */
+  .ak-toolbar,.ak-btn,.ak-chip,.ak-input,.ak-select,.ak-toast,
+  .ak-deck-hud,.ak-deck-bar,.ak-deck-grid,.ak-deck-help,
+  [data-ak-noprint]{ display:none !important }
+
+  /* Speaker notes must never reach a PDF that gets emailed to the audience. */
+  .ak-notes{ display:none !important }
+
+  /* never split a unit of argument across a page */
+  .ak-exhibit,.ak-section,.ak-kpis,.ak-drill,.ak-board,.ak-col,
+  figure,table,.ak-barrow,.ak-tl-item{ break-inside:avoid }
+  h1,h2,h3{ break-after:avoid }
+  thead{ display:table-header-group }   /* repeat headers on every page */
+  tfoot{ display:table-footer-group }
+
+  /* a collapsed section is invisible on paper — expand everything */
+  details{ display:block }
+  details > :not(summary){ display:block !important; padding-left:0 }
+  .ak-disclosure > summary::before{ content:"" }
+
+  /* surfaces become outlines; fills waste toner and hurt contrast */
+  .ak-exhibit,.ak-drill,.ak-col,.ak-kcard,.ak-scorecard > *{
+    background:#fff !important; border-color:#bbb !important; box-shadow:none !important }
+  .ak-table tbody tr:hover{ background:transparent }
+  .ak-track{ background:#eee !important }
+
+  /* links: keep the text, drop the colour, surface the target */
+  a{ color:inherit; text-decoration:none }
+  .ak-prose a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:9pt; color:#555 }
+
+  /* scroll containers must release their height or content is clipped away */
+  .ak-tblwrap,.ak-deck{ overflow:visible !important; max-height:none !important; height:auto !important }
+  .ak-slide{ min-height:auto; break-after:page; border-bottom:0 }
+  .ak-table thead th{ position:static }   /* sticky headers print as overlaps */
+  .ak-sticky1 td:first-child,.ak-sticky1 th:first-child{ position:static }
+  .ak-toc{ position:static }
+}
+
+</style>
+<style>
+  .gal{ display:grid; gap:var(--ak-s4); grid-template-columns:repeat(auto-fill,minmax(290px,1fr)) }
+  .gal a{ display:block; text-decoration:none; color:inherit; background:var(--ak-surface);
+    border:1px solid var(--ak-rule); border-radius:var(--ak-radius); padding:var(--ak-s4);
+    transition:border-color 140ms, translate 140ms }
+  .gal a:hover{ border-color:var(--ak-accent); translate:0 -2px }
+  .gal h3{ margin-bottom:var(--ak-s1) }
+  .gal p{ margin:0; font-size:13px; color:var(--ak-ink-muted); max-width:none }
+  .gal .uses{ margin-top:var(--ak-s3); font-size:11px; color:var(--ak-ink-soft);
+    letter-spacing:.04em; text-transform:uppercase }
+</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23F1ECE1'/%3E%3Crect x='3' y='3' width='10' height='2' fill='%2314496B'/%3E%3Crect x='3' y='7' width='10' height='1' fill='%235C5A54'/%3E%3Crect x='3' y='10' width='6' height='1' fill='%235C5A54'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">artifactkit · examples</p>
+      <h1>Seven artifacts, one dependency-free core</h1>
+      <p class="ak-lede">Every page below is a single self-contained HTML file
+        that works offline, prints properly and carries no credentials. Open one,
+        then read its source — that is the whole documentation.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">v0.1.0</span><br>
+      MIT · no third-party code<br>
+      65–92 KB per artifact
+    </div>
+  </header>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>Templates — copy these</h2></div>
+    <div class="gal">
+
+      <a href="../dist/report.html">
+        <h3>Report</h3>
+        <p>A quarterly review. Action title, KPI strip with a concentration risk
+          measure, exhibits with takeaways and sources, a partial-period exclusion
+          banner, and a value that is shown as <span class="ak-dash">–</span>
+          rather than invented.</p>
+        <div class="uses">KPI strip · sortable table · line + bar · timeline · disclosure</div>
+      </a>
+
+      <a href="../dist/dashboard.html">
+        <h3>Dashboard</h3>
+        <p>Support operations. Filter chips, search, drilldown rows rather than a
+          modal, sparklines in cells, and KPIs derived from the filtered set so
+          they never drift from what is on screen. View state lives in the URL.</p>
+        <div class="uses">Filters · deep link · drilldown · sticky column · sparklines</div>
+      </a>
+
+      <a href="../dist/tracker.html">
+        <h3>Tracker / kanban</h3>
+        <p>A migration board. Native drag between columns, counts and KPIs that
+          recompute on drop, blocked cards carrying their blocking reason, and a
+          Save that writes the board back into the file itself.</p>
+        <div class="uses">Kanban · derived KPIs · save-to-file · allow-listed state</div>
+      </a>
+
+      <a href="../dist/deck.html">
+        <h3>Deck</h3>
+        <p>A decision review. Press <kbd class="ak-kbd">N</kbd> for the presenter
+          window — notes, pace timer and next-up on your screen only. Press
+          <kbd class="ak-kbd">O</kbd> for the overview, <kbd class="ak-kbd">?</kbd>
+          for keys.</p>
+        <div class="uses">Presenter window · pace timer · overview · one slide per page</div>
+      </a>
+
+      <a href="../dist/wiki.html">
+        <h3>Wiki / decision log</h3>
+        <p>Decisions separated from open questions, a table of contents built from
+          the document so it cannot drift, search on <kbd class="ak-kbd">/</kbd>,
+          and rejected alternatives recorded rather than forgotten.</p>
+        <div class="uses">TOC · search · disclosures · prose · scroll spy</div>
+      </a>
+
+      <a href="../dist/scorecard.html">
+        <h3>Scorecard</h3>
+        <p>Supplier review across weighted dimensions — with the rubric stated in
+          full, because a scorecard without its rubric is an opinion in a grid.
+          Reviewer disagreement is flagged, not averaged away.</p>
+        <div class="uses">Weighted scoring · rubric · threshold flags · CSS bars</div>
+      </a>
+
+      <a href="../dist/comparison.html">
+        <h3>Comparison matrix</h3>
+        <p>An options paper. Weights fixed before scoring, "do nothing" included as
+          the honest baseline, what each option costs to be <em>wrong</em>, and the
+          condition that would invalidate the recommendation.</p>
+        <div class="uses">Decision matrix · asymmetry table · falsifier · timeline</div>
+      </a>
+
+      <a href="../dist/swatch.html">
+        <h3>Component swatch</h3>
+        <p>Every component on one page. This is the visual QA reference — if
+          something looks wrong here it is wrong everywhere — and the fastest way
+          to see what the vocabulary contains.</p>
+        <div class="uses">All components · the reference to copy from</div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Try this</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-takeaway">The claims are checkable in about two minutes.</p>
+      <ol class="ak-timeline">
+        <li class="ak-tl-item"><time>Offline</time><span class="ak-t">Disconnect and reload</span>
+          <div class="ak-small">Nothing breaks. There are no CDN links, no fonts to
+            fetch and no runtime dependencies.</div></li>
+        <li class="ak-tl-item"><time>Print</time><span class="ak-t">Ctrl/Cmd+P on any of them</span>
+          <div class="ak-small">Chrome steps back, exhibits stay whole, collapsed
+            sections expand, charts stay sharp because they are SVG, and speaker
+            notes never appear.</div></li>
+        <li class="ak-tl-item"><time>Export</time><span class="ak-t">Filter the dashboard, then export CSV</span>
+          <div class="ak-small">You get the rows you are looking at, in the order
+            you sorted them — not the raw dataset.</div></li>
+        <li class="ak-tl-item"><time>Retheme</time><span class="ak-t">Edit five constants in the source</span>
+          <div class="ak-small">Search for <code>ak-theme-start</code>. Set
+            <code>--t-bg:#14141A; --t-ink:#E8E6E0; --t-lift-amt:7%</code> for a dark
+            build. Everything else derives.</div></li>
+      </ol>
+      <p class="ak-source">Every claim on this page is checked mechanically:
+        <code>npm run check</code> runs <code>validate.mjs</code> (self-containment,
+        credentials, accessibility) and <code>drift.mjs</code> (structural
+        integrity) over every artifact in <code>dist/</code>, including this one.</p>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    artifactkit v0.1.0 · MIT · ground RAL 9010 <code>#F1ECE1</code> converted from
+    CIELAB(93.613, −0.425, 6.008) · system sans stack, no webfonts ·
+    zero third-party code in the core
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quarterly review â€” Northwind Logistics</title>
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="../print.css">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">Quarterly business review Â· FY26 Q3</p>
+      <h1>Margin is holding, but on a narrowing base</h1>
+      <p class="ak-lede">Two of five regions now carry the entire contribution.
+        The decision is whether to fund the Southern recovery or reallocate.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Snapshot</span><br>
+      Data as of 31 Aug 2026<br>
+      Source: Finance DW
+    </div>
+  </header>
+
+  <!-- Lead with the decision, not the data. Include a risk measure. -->
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>Where we stand</h2></div>
+    <div class="ak-kpis ak-cols-4">
+      <div class="ak-kpi"><div class="ak-k">Contribution</div><div class="ak-v">â‚¬12.4m</div>
+        <div class="ak-d"><span class="ak-up">â–² 4.2%</span> vs FY25 Q3</div></div>
+      <div class="ak-kpi"><div class="ak-k">Contribution margin</div><div class="ak-v">18.9%</div>
+        <div class="ak-d"><span class="ak-flat">â€” flat</span> vs plan</div></div>
+      <div class="ak-kpi"><div class="ak-k">Cost per shipment</div><div class="ak-v">â‚¬41.80</div>
+        <div class="ak-d"><span class="ak-down">â–¼ 2.1%</span> improvement</div></div>
+      <div class="ak-kpi"><div class="ak-k">Region concentration</div><div class="ak-v">71%</div>
+        <div class="ak-d"><span class="ak-muted">top 2 of 5 regions</span></div></div>
+    </div>
+    <div class="ak-banner"><strong>September is excluded.</strong> The month is
+      incomplete and is omitted from every trend and total below. Partial periods are
+      never plotted beside closed ones.</div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Regional performance</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 1</p>
+      <h3>Contribution by region, FY26 Q3</h3>
+      <p class="ak-takeaway">North and Central produce 71% of contribution. Southern is the
+        only region losing volume and margin simultaneously.</p>
+
+      <div class="ak-toolbar">
+        <input class="ak-input" type="search" id="q" placeholder="Filter regionsâ€¦" aria-label="Filter regions">
+        <span class="ak-spacer"></span>
+        <button class="ak-btn" id="csv">Export CSV</button>
+        <button class="ak-btn ak-btn-primary" onclick="window.print()">Print / PDF</button>
+      </div>
+
+      <div class="ak-tblwrap">
+        <table class="ak-table" id="t">
+          <thead><tr>
+            <th data-sort="s">Region</th>
+            <th data-sort="n" class="ak-num">Contribution, â‚¬m</th>
+            <th data-sort="n" class="ak-num">Share, %</th>
+            <th data-sort="n" class="ak-num">Volume YoY, %</th>
+            <th data-sort="n" class="ak-num">Margin, %</th>
+            <th data-sort="s">Status</th>
+          </tr></thead>
+          <tbody></tbody>
+          <tfoot><tr class="ak-total">
+            <td>Total</td><td class="ak-num">12.4</td><td class="ak-num">100.0</td>
+            <td class="ak-num">+1.8</td><td class="ak-num">18.9</td><td></td>
+          </tr></tfoot>
+        </table>
+      </div>
+      <div class="ak-empty" data-ak-empty hidden>No regions match that filter.</div>
+      <p class="ak-source">Source: Finance DW, contribution after directly attributable cost.
+        Nordics margin is unavailable for the quarter and shown as
+        <span class="ak-dash">â€“</span>, never estimated.</p>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">03</span><h2>Trend and mix</h2></div>
+    <div class="ak-exhibit">
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 2a</p>
+          <h3>Monthly contribution, closed periods only</h3>
+          <div id="line"></div>
+          <div class="ak-legend">
+            <span><i style="background:var(--ak-c1)"></i>FY26</span>
+            <span><i style="background:var(--ak-c3)"></i>FY25</span>
+          </div>
+          <div id="line-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2b</p>
+          <h3>Contribution by region</h3>
+          <div id="bars"></div>
+          <div id="bars-tw"></div>
+        </div>
+      </div>
+      <p class="ak-source">Source: Finance DW. September excluded as incomplete.</p>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">04</span><h2>What we are proposing</h2></div>
+    <div class="ak-exhibit">
+      <ol class="ak-timeline">
+        <li class="ak-tl-item"><time>Now</time><span class="ak-t">Freeze Southern discretionary spend</span>
+          <div class="ak-small">Holds â‚¬0.4m in-quarter while the diagnostic runs.</div></li>
+        <li class="ak-tl-item"><time>Oct 2026</time><span class="ak-t">Southern route diagnostic</span>
+          <div class="ak-small">Four weeks. Determines whether the loss is price or mix.</div></li>
+        <li class="ak-tl-item"><time>Nov 2026</time><span class="ak-t">Decision point</span>
+          <div class="ak-small">Fund recovery, or reallocate capacity to North and Central.</div></li>
+      </ol>
+
+      <details class="ak-disclosure"><summary>How is contribution defined?</summary>
+        <p class="ak-small">Revenue less directly attributable operating cost. Central overhead
+          is not allocated, so regional figures are not comparable to statutory segment results.</p></details>
+      <details class="ak-disclosure"><summary>Why is Nordics margin blank?</summary>
+        <p class="ak-small">The cost feed did not deliver for July and August. Rather than
+          estimate, the cell is blank and the region is excluded from the margin column of the total.</p></details>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    Prepared 11 Sep 2026 Â· Source: Finance DW, extracted 31 Aug 2026 Â·
+    Contribution excludes central overhead Â· September excluded as an open period
+  </footer>
+</div>
+
+<script src="../core.js"></script>
+<script>
+/* â”€â”€ data: keep it in one place, inject at build time, never hand-edit output â”€â”€ */
+var REGIONS = [
+  // region, contribution â‚¬m, share %, volume YoY %, margin %, status, pill
+  ["North",     4.9, 39.5,  6.2, 21.4, "On track",  "ok"],
+  ["Central",   3.9, 31.5,  3.1, 19.8, "On track",  "ok"],
+  ["Southern",  1.6, 12.9, -9.4, 12.1, "Off track", "risk"],
+  ["Iberia",    1.2,  9.7,  1.4, 17.2, "In review", "info"],
+  ["Nordics",   0.8,  6.4,  2.8, null, "At risk",   "warn"]
+];
+var MONTHS = ["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"];
+var FY26 = [1.21,1.28,1.33,1.44,1.26,1.19,1.31,1.38,1.42,1.35,1.40,1.37];
+var FY25 = [1.18,1.22,1.29,1.41,1.24,1.17,1.25,1.30,1.33,1.29,1.31,1.30];
+
+ak.init({ id: "qbr-northwind-fy26q3", title: "Northwind QBR" });
+
+/* â”€â”€ table â”€â”€ */
+document.querySelector("#t tbody").innerHTML = REGIONS.map(function (r) {
+  return '<tr tabindex="0">' +
+    "<td>" + r[0] + "</td>" +
+    '<td class="ak-num" data-v="' + r[1] + '">' + ak.fmt.num(r[1], 1) + "</td>" +
+    '<td class="ak-num" data-v="' + r[2] + '">' + ak.fmt.num(r[2], 1) + "</td>" +
+    '<td class="ak-num ' + (r[3] > 0 ? "ak-up" : "ak-down") + '" data-v="' + r[3] + '">' + ak.fmt.signed(r[3], 1) + "</td>" +
+    // missing data is shown, never invented
+    (r[4] == null
+      ? '<td class="ak-num ak-dash" data-v="">â€“</td>'
+      : '<td class="ak-num" data-v="' + r[4] + '">' + ak.fmt.num(r[4], 1) + "</td>") +
+    '<td><span class="ak-pill ak-pill-' + r[6] + '">' + r[5] + "</span></td></tr>";
+}).join("");
+
+var t = ak.table(document.getElementById("t"), { filterInput: "#q" });
+document.getElementById("csv").onclick = function () { t.exportCSV("contribution-by-region.csv"); };
+ak.keyboardNav("#t", { filterSelector: "#q" });
+
+/* â”€â”€ charts â”€â”€ */
+function draw() {
+  ak.chart.line("#line",
+    [{ name: "FY26", values: FY26, color: "var(--ak-c1)" },
+     { name: "FY25", values: FY25, color: "var(--ak-c3)", dash: "4 3", width: 1.5 }],
+    MONTHS, { title: "Monthly contribution, â‚¬ million, closed periods only",
+              format: function (v) { return ak.fmt.num(v, 2); } });
+  // one measure across categories = one colour; highlight the subject of the takeaway
+  ak.chart.bar("#bars", REGIONS.map(function (r) { return { label: r[0], value: r[1] }; }),
+    { title: "Contribution by region, â‚¬ million", highlight: 2,
+      format: function (v) { return ak.fmt.num(v, 1); } });
+}
+draw();
+ak.onResize(draw);
+
+/* â”€â”€ accessible twins: a chart is not readable without one â”€â”€ */
+ak.dataTable("#line-tw", ["Month", "FY26 â‚¬m", "FY25 â‚¬m"],
+  MONTHS.map(function (m, i) { return [m, FY26[i], FY25[i]]; }), "Monthly contribution");
+ak.dataTable("#bars-tw", ["Region", "Contribution â‚¬m"],
+  REGIONS.map(function (r) { return [r[0], r[1]]; }), "Contribution by region");
+</script>
+</body>
+</html>
+

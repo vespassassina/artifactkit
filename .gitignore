@@ -1,0 +1,7 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# dist/ IS committed on purpose: the examples are the documentation, and
+# GitHub Pages serves them directly. Rebuild with `npm run build`.

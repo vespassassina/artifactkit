@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>artifactkit — component swatch</title>
+<link rel="stylesheet" href="../src/theme.css">
+<link rel="stylesheet" href="../src/components.css">
+<link rel="stylesheet" href="../src/print.css">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">artifactkit · swatch</p>
+      <h1>Every component, one page</h1>
+      <p class="ak-lede">Visual QA reference. If something looks wrong here, it is wrong everywhere.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Snapshot</span><br>
+      Data as of 11 Sep 2026<br>
+      <span id="dirty">Saved</span>
+    </div>
+  </header>
+
+  <!-- ── KPI ─────────────────────────────────────────────────────────── -->
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>KPI strip</h2></div>
+    <div class="ak-kpis ak-cols-4">
+      <div class="ak-kpi"><div class="ak-k">Revenue</div><div class="ak-v">€48.2m</div>
+        <div class="ak-d"><span class="ak-up">▲ 6.1%</span> vs prior year</div></div>
+      <div class="ak-kpi"><div class="ak-k">Gross margin</div><div class="ak-v">31.4%</div>
+        <div class="ak-d"><span class="ak-down">▼ 90 bps</span> vs plan</div></div>
+      <div class="ak-kpi"><div class="ak-k">Active accounts</div><div class="ak-v">1,284</div>
+        <div class="ak-d"><span class="ak-flat">— unchanged</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Concentration</div><div class="ak-v">42%</div>
+        <div class="ak-d"><span class="ak-muted">top 5 accounts</span></div></div>
+    </div>
+    <div class="ak-banner"><strong>Two months excluded.</strong> July and August are partial
+      periods and are omitted from every trend and total below.</div>
+  </section>
+
+  <!-- ── table ───────────────────────────────────────────────────────── -->
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Sortable table</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 1</p>
+      <h3>Segment performance, FY26 year to date</h3>
+      <p class="ak-takeaway">Industrials carries the growth; Retail is the only segment losing
+        both revenue and margin.</p>
+      <div class="ak-toolbar">
+        <input class="ak-input" type="search" id="q" placeholder="Filter segments…" aria-label="Filter table">
+        <button class="ak-chip" aria-pressed="false" data-chip="risk">Only at risk</button>
+        <span class="ak-spacer"></span>
+        <button class="ak-btn" id="csv">Export CSV</button>
+        <button class="ak-btn" id="save">Save</button>
+        <button class="ak-btn ak-btn-primary" onclick="window.print()">Print / PDF</button>
+      </div>
+      <div class="ak-tblwrap">
+        <table class="ak-table" id="t">
+          <thead><tr>
+            <th data-sort="s">Segment</th>
+            <th data-sort="n" class="ak-num">Revenue, €m</th>
+            <th data-sort="n" class="ak-num">YoY, %</th>
+            <th data-sort="n" class="ak-num">Margin, %</th>
+            <th data-sort="s">Trend</th>
+            <th data-sort="s">Status</th>
+          </tr></thead>
+          <tbody>
+            <tr tabindex="0"><td>Industrials</td><td class="ak-num" data-v="18.4">18.4</td><td class="ak-num ak-up" data-v="12.3">+12.3</td><td class="ak-num" data-v="34.1">34.1</td><td><span class="sp" data-v="3.1,3.4,3.6,4.0,4.4"></span></td><td><span class="ak-pill ak-pill-ok">On track</span></td></tr>
+            <tr tabindex="0"><td>Financial services</td><td class="ak-num" data-v="11.9">11.9</td><td class="ak-num ak-up" data-v="7.8">+7.8</td><td class="ak-num" data-v="38.2">38.2</td><td><span class="sp" data-v="2.6,2.7,2.9,2.8,3.1"></span></td><td><span class="ak-pill ak-pill-ok">On track</span></td></tr>
+            <tr tabindex="0"><td>Public sector</td><td class="ak-num" data-v="7.6">7.6</td><td class="ak-num ak-up" data-v="2.1">+2.1</td><td class="ak-num" data-v="26.4">26.4</td><td><span class="sp" data-v="1.8,1.9,1.8,1.9,2.0"></span></td><td><span class="ak-pill ak-pill-info">In review</span></td></tr>
+            <tr tabindex="0"><td>Healthcare</td><td class="ak-num" data-v="5.8">5.8</td><td class="ak-num ak-up" data-v="4.9">+4.9</td><td class="ak-num ak-dash" data-v="">–</td><td><span class="sp" data-v="1.3,1.4,1.4,1.5,1.5"></span></td><td><span class="ak-pill ak-pill-warn">At risk</span></td></tr>
+            <tr tabindex="0"><td>Retail</td><td class="ak-num" data-v="4.5">4.5</td><td class="ak-num ak-down" data-v="-8.2">-8.2</td><td class="ak-num" data-v="21.3">21.3</td><td><span class="sp" data-v="1.6,1.5,1.3,1.2,1.1"></span></td><td><span class="ak-pill ak-pill-risk">Off track</span></td></tr>
+          </tbody>
+          <tfoot><tr class="ak-total"><td>Total</td><td class="ak-num">48.2</td><td class="ak-num">+6.1</td><td class="ak-num">31.4</td><td></td><td></td></tr></tfoot>
+        </table>
+      </div>
+      <div class="ak-empty" data-ak-empty hidden>No segments match that filter.</div>
+      <p class="ak-source">Source: illustrative. Margin is gross, before central allocation.
+        Healthcare margin is unavailable and shown as <span class="ak-dash">–</span>, never estimated.</p>
+    </div>
+  </section>
+
+  <!-- ── charts ──────────────────────────────────────────────────────── -->
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">03</span><h2>Charts — SVG, no library</h2></div>
+    <div class="ak-exhibit">
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 2a</p><h3>Revenue by segment</h3>
+          <div id="bars"></div><div id="bars-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2b</p><h3>Monthly revenue, closed periods</h3>
+          <div id="line"></div>
+          <div class="ak-legend"><span><i style="background:var(--ak-c1)"></i>FY26</span>
+            <span><i style="background:var(--ak-c3)"></i>FY25</span></div>
+          <div id="line-tw"></div>
+        </div>
+      </div>
+      <p class="ak-source">Charts print at full resolution and each carries a visually hidden
+        data table for screen readers.</p>
+    </div>
+    <div class="ak-exhibit">
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 2c</p><h3>Mix</h3>
+          <div id="donut"></div>
+          <div id="donut-legend"></div>
+          <div id="donut-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2d</p><h3>CSS bars — cheaper than a chart</h3>
+          <div id="cssbars"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── kanban ──────────────────────────────────────────────────────── -->
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">04</span><h2>Kanban</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 3</p><h3>Workstream status</h3>
+      <p class="ak-takeaway">Drag a card between columns. Native HTML5 drag, desktop only.</p>
+      <div class="ak-board ak-cols-4" id="board">
+        <div class="ak-col"><h3>Backlog <span class="ak-n">2</span></h3>
+          <div class="ak-cards" data-col="backlog">
+            <div class="ak-kcard" draggable="true" data-id="pricing"><div class="ak-t">Pricing review</div><div class="ak-small">Owner · 3d</div></div>
+            <div class="ak-kcard" draggable="true" data-id="vendor"><div class="ak-t">Vendor consolidation</div><div class="ak-small">Owner · 6d</div></div>
+          </div></div>
+        <div class="ak-col"><h3>In progress <span class="ak-n">2</span></h3>
+          <div class="ak-cards" data-col="wip">
+            <div class="ak-kcard" draggable="true" data-id="margin"><div class="ak-t">Margin diagnostic</div><div class="ak-small">Owner · 1d</div></div>
+            <div class="ak-kcard" draggable="true" data-id="mix"><div class="ak-t">Channel mix model</div><div class="ak-small">Owner · 4d</div></div>
+          </div></div>
+        <div class="ak-col"><h3>Review <span class="ak-n">1</span></h3>
+          <div class="ak-cards" data-col="review">
+            <div class="ak-kcard" draggable="true" data-id="retail"><div class="ak-t">Retail turnaround plan</div><div class="ak-small">Owner · 2d</div></div>
+          </div></div>
+        <div class="ak-col"><h3>Done <span class="ak-n">1</span></h3>
+          <div class="ak-cards" data-col="done">
+            <div class="ak-kcard" draggable="true" data-id="baseline"><div class="ak-t">FY26 baseline</div><div class="ak-small">Owner · —</div></div>
+          </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── the long tail: the components whose absence causes divergence ── -->
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">05</span><h2>Stepper, timeline, disclosure, drilldown</h2></div>
+    <div class="ak-exhibit">
+      <ol class="ak-stepper">
+        <li class="ak-step ak-done"><span class="ak-t">Scope</span>Signed off</li>
+        <li class="ak-step ak-done"><span class="ak-t">Diagnostic</span>Complete</li>
+        <li class="ak-step" aria-current="step"><span class="ak-t">Design</span>In progress</li>
+        <li class="ak-step"><span class="ak-t">Pilot</span>Not started</li>
+        <li class="ak-step"><span class="ak-t">Rollout</span>Not started</li>
+      </ol>
+
+      <div class="ak-split">
+        <ol class="ak-timeline">
+          <li class="ak-tl-item"><time>02 Sep 2026</time><span class="ak-t">Baseline agreed</span>
+            <div class="ak-small">Finance signed off the FY26 starting position.</div></li>
+          <li class="ak-tl-item"><time>08 Sep 2026</time><span class="ak-t">Retail flagged</span>
+            <div class="ak-small">Second consecutive month of margin decline.</div></li>
+          <li class="ak-tl-item"><time>11 Sep 2026</time><span class="ak-t">Diagnostic issued</span>
+            <div class="ak-small">Circulated to the steering group.</div></li>
+        </ol>
+        <div>
+          <details class="ak-disclosure" open><summary>How is margin calculated?</summary>
+            <p class="ak-small">Gross margin before central allocation. Intercompany eliminated at
+              source. Partial periods excluded.</p></details>
+          <details class="ak-disclosure"><summary>Why is Healthcare margin blank?</summary>
+            <p class="ak-small">The source system returned no value for the period. It is shown as
+              <span class="ak-dash">–</span> rather than estimated or carried forward.</p></details>
+          <details class="ak-disclosure"><summary>What counts as an active account?</summary>
+            <p class="ak-small">Any account with at least one invoiced transaction in the period.</p></details>
+        </div>
+      </div>
+
+      <div class="ak-drill">
+        <div class="ak-hd"><strong>Retail</strong><span class="ak-pill ak-pill-risk">Off track</span></div>
+        <div class="ak-dcols">
+          <div class="ak-field"><span class="ak-k">Revenue</span><span class="ak-v">€4.5m</span></div>
+          <div class="ak-field"><span class="ak-k">YoY</span><span class="ak-v ak-down">−8.2%</span></div>
+          <div class="ak-field"><span class="ak-k">Margin</span><span class="ak-v">21.3%</span></div>
+          <div class="ak-field"><span class="ak-k">Owner</span><span class="ak-v">A. Okonkwo</span></div>
+          <div class="ak-field"><span class="ak-k">Next review</span><span class="ak-v">24 Sep 2026</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── navigation, scorecard, misc ─────────────────────────────────── -->
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">06</span><h2>Navigation, scorecard, controls</h2></div>
+    <div class="ak-exhibit">
+      <ol class="ak-breadcrumb"><li>FY26</li><li>Performance</li><li>Segments</li></ol>
+      <div class="ak-sidebar">
+        <nav><p class="ak-eyebrow">Contents</p>
+          <ul class="ak-nav">
+            <li><a href="#" aria-current="page">Headline measures</a></li>
+            <li><a href="#">Segment detail</a></li>
+            <li><a href="#">Risks</a></li>
+            <li><a href="#">Appendix</a></li>
+          </ul></nav>
+        <div>
+          <div class="ak-scorecard ak-cols-3">
+            <div class="ak-stat"><span class="ak-k">Delivery</span><span class="ak-v">A</span></div>
+            <div class="ak-stat"><span class="ak-k">Quality</span><span class="ak-v">B+</span></div>
+            <div class="ak-stat"><span class="ak-k">Cost</span><span class="ak-v">B</span></div>
+            <div class="ak-stat"><span class="ak-k">Adoption</span><span class="ak-v">C</span></div>
+            <div class="ak-stat"><span class="ak-k">Risk</span><span class="ak-v">B−</span></div>
+            <div class="ak-stat"><span class="ak-k">NPS</span><span class="ak-v">+31</span></div>
+          </div>
+          <p style="margin-top:var(--ak-s4)">
+            <span class="ak-pill ak-pill-ok">On track</span>
+            <span class="ak-pill ak-pill-warn">At risk</span>
+            <span class="ak-pill ak-pill-risk">Off track</span>
+            <span class="ak-pill ak-pill-info">In review</span>
+            <span class="ak-pill ak-pill-off">Not started</span>
+            <span class="ak-badge">DRAFT</span>
+            <span class="ak-avatar">DT</span>
+            <kbd class="ak-kbd">/</kbd> <span class="ak-small">to filter</span>
+          </p>
+          <p><button class="ak-btn" id="openModal">Open modal</button>
+             <button class="ak-btn" id="toastBtn">Toast</button>
+             <button class="ak-btn" disabled>Disabled</button></p>
+        </div>
+      </div>
+      <div class="ak-banner ak-banner-bad"><strong>Missing data is shown, not invented.</strong>
+        Where a figure is unavailable the cell reads <span class="ak-dash">–</span> and the reason
+        appears here.</div>
+      <div class="ak-banner ak-banner-ok"><strong>Reconciled.</strong> Totals agree with the
+        general ledger to within €1k.</div>
+    </div>
+  </section>
+
+  <dialog class="ak-modal" id="modal">
+    <h3>Modal</h3>
+    <p class="ak-small">Prefer a drilldown for row detail — a modal hides the context you were
+      comparing against.</p>
+    <button class="ak-btn ak-btn-primary" id="closeModal">Close</button>
+  </dialog>
+
+  <footer class="ak-footer">
+    artifactkit v0.1.0 · ground RAL 9010 <code>#F1ECE1</code> · system sans stack, no webfonts ·
+    no third-party code in this file
+  </footer>
+</div>
+
+<script src="../src/core.js"></script>
+<script>
+ak.init({ id: "swatch", title: "artifactkit swatch" });
+ak.dirtyIndicator(document.getElementById("dirty"));
+
+/* table */
+var t = ak.table(document.getElementById("t"), { filterInput: "#q" });
+document.getElementById("csv").onclick = function () { t.exportCSV("segments.csv"); };
+document.getElementById("save").onclick = function () { ak.save({ filename: "swatch.html" }); };
+document.querySelector("[data-chip]").onclick = function () {
+  var on = this.getAttribute("aria-pressed") === "true";
+  this.setAttribute("aria-pressed", String(!on));
+  t.filter(on ? "" : "off track");
+};
+ak.keyboardNav("#t", { filterSelector: "#q" });
+
+/* sparklines in cells */
+document.querySelectorAll(".sp").forEach(function (el) {
+  ak.chart.spark(el, el.dataset.v.split(",").map(Number), { title: "5-month trend" });
+});
+
+/* charts */
+var SEG = [["Industrials",18.4],["Financial services",11.9],["Public sector",7.6],["Healthcare",5.8],["Retail",4.5]];
+var MONTHS = ["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"];
+var FY26 = [3.9,4.2,4.4,5.1,4.6,4.3,4.8,5.2,5.4,5.0];
+var FY25 = [3.7,3.9,4.1,4.7,4.4,4.2,4.4,4.6,4.9,4.8];
+
+function draw() {
+  // one measure across categories = one colour, with Retail highlighted as the
+  // segment the takeaway is actually about
+  ak.chart.bar("#bars", SEG.map(function (s) { return { label: s[0], value: s[1] }; }),
+    { title: "Revenue by segment, € million", highlight: 0 });
+  ak.chart.line("#line",
+    [{ name: "FY26", values: FY26, color: "var(--ak-c1)" },
+     { name: "FY25", values: FY25, color: "var(--ak-c3)", dash: "4 3", width: 1.5 }],
+    MONTHS, { title: "Monthly revenue, closed periods" });
+  ak.chart.donut("#donut", SEG.map(function (s) { return { label: s[0], value: s[1] }; }),
+    { centre: "€48m", title: "Revenue mix" });
+  ak.legend("#donut-legend", SEG.map(function (s) {
+    return { label: s[0], value: ak.fmt.num(s[1], 1) };
+  }));
+}
+draw();
+ak.onResize(draw);
+
+/* accessible data twins — a chart is not readable without one */
+ak.dataTable("#bars-tw", ["Segment", "Revenue €m"], SEG, "Revenue by segment");
+ak.dataTable("#line-tw", ["Month", "FY26", "FY25"],
+  MONTHS.map(function (m, i) { return [m, FY26[i], FY25[i]]; }), "Monthly revenue");
+ak.dataTable("#donut-tw", ["Segment", "Revenue €m"], SEG, "Revenue mix");
+
+/* CSS bars */
+var max = Math.max.apply(null, SEG.map(function (s) { return s[1]; }));
+document.getElementById("cssbars").innerHTML = SEG.map(function (s) {
+  return '<div class="ak-barrow"><span>' + s[0] + '</span>' +
+    '<span class="ak-track"><span class="ak-fill" style="width:' + (s[1] / max * 100).toFixed(1) + '%"></span></span>' +
+    '<span class="ak-num">' + s[1].toFixed(1) + '</span></div>';
+}).join("");
+
+/* kanban */
+ak.kanban("#board", { onChange: function (s) { console.log("board:", s); } });
+
+/* misc */
+document.getElementById("openModal").onclick = function () { document.getElementById("modal").showModal(); };
+document.getElementById("closeModal").onclick = function () { document.getElementById("modal").close(); };
+document.getElementById("toastBtn").onclick = function () { ak.toast("Exported 5 rows"); };
+</script>
+</body>
+</html>

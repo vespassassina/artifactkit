@@ -1,0 +1,219 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Migration tracker â€” Platform team</title>
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="../print.css">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">Platform migration Â· wave 2</p>
+      <h1>Migration tracker</h1>
+      <p class="ak-lede">Drag a card to change its state. Changes are saved into this
+        file â€” use Save, then keep the file it writes.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Live board</span><br>
+      Wave 2 cut-off: 30 Nov 2026<br>
+      <span id="dirty">Saved</span>
+    </div>
+  </header>
+
+  <section class="ak-section">
+    <div class="ak-kpis ak-cols-4">
+      <div class="ak-kpi"><div class="ak-k">Workloads</div><div class="ak-v" id="k-total">â€”</div>
+        <div class="ak-d"><span class="ak-muted">in wave 2</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Completed</div><div class="ak-v" id="k-done">â€”</div>
+        <div class="ak-d"><span class="ak-muted" id="k-pct">â€”</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Blocked</div><div class="ak-v" id="k-blocked">â€”</div>
+        <div class="ak-d"><span class="ak-muted">needs a decision</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Weeks remaining</div><div class="ak-v">11</div>
+        <div class="ak-d"><span class="ak-muted">to cut-off</span></div></div>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>Board</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Board</p>
+      <h3>Wave 2 workloads by state</h3>
+      <p class="ak-takeaway">Two of seven workloads are blocked on decisions
+        outside the team â€” neither can start without an owner.</p>
+      <div class="ak-toolbar">
+        <input class="ak-input" type="search" id="q" placeholder="Filter cardsâ€¦" aria-label="Filter cards">
+        <button class="ak-chip" aria-pressed="false" id="onlyBlocked">Only blocked</button>
+        <span class="ak-spacer"></span>
+        <button class="ak-btn" id="export">Export CSV</button>
+        <button class="ak-btn ak-btn-primary" id="save">Save</button>
+      </div>
+
+      <div class="ak-board ak-cols-4" id="board">
+        <div class="ak-col"><h3>Not started <span class="ak-n">0</span></h3>
+          <div class="ak-cards" data-col="todo"></div></div>
+        <div class="ak-col"><h3>In progress <span class="ak-n">0</span></h3>
+          <div class="ak-cards" data-col="wip"></div></div>
+        <div class="ak-col"><h3>Verifying <span class="ak-n">0</span></h3>
+          <div class="ak-cards" data-col="verify"></div></div>
+        <div class="ak-col"><h3>Done <span class="ak-n">0</span></h3>
+          <div class="ak-cards" data-col="done"></div></div>
+      </div>
+
+      <p class="ak-source">Owners and estimates are maintained by the platform team.
+        Blocked items carry the blocking reason on the card â€” a card without a reason
+        is not blocked, it is unstarted.</p>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Progress</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-takeaway">Effort is concentrated in the two largest workloads;
+        finishing them moves the completion figure more than the other five combined.</p>
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 1</p><h3>Workloads by state</h3>
+          <div id="bars"></div>
+          <div id="bars-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2</p><h3>Where the effort sits</h3>
+          <div id="effort"></div>
+        </div>
+      </div>
+      <p class="ak-source">Effort is the team's own t-shirt estimate, not measured time.</p>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    artifactkit tracker template Â· state is stored inside this file Â·
+    saving requires a click, and the download fallback cannot confirm the save
+  </footer>
+</div>
+
+<!-- state lives in the document. ak.writeState() enforces an allow-list. -->
+<script id="ak-state" type="application/json">{}</script>
+
+<script src="../core.js"></script>
+<script>
+var CARDS = [
+  { id: "auth",     title: "Identity service",      owner: "R. Vance",   effort: 8, col: "done",   note: "" },
+  { id: "billing",  title: "Billing API",           owner: "K. Mensah",  effort: 13, col: "verify", note: "" },
+  { id: "search",   title: "Search cluster",        owner: "L. Ferrero", effort: 8, col: "wip",    note: "" },
+  { id: "reports",  title: "Reporting jobs",        owner: "K. Mensah",  effort: 5, col: "wip",    note: "" },
+  { id: "legacy",   title: "Legacy file gateway",   owner: "unassigned", effort: 13, col: "todo",  note: "Blocked: no owner for the SFTP contract" },
+  { id: "events",   title: "Event bus",             owner: "R. Vance",   effort: 5, col: "todo",   note: "" },
+  { id: "archive",  title: "Cold archive",          owner: "T. Okafor",  effort: 3, col: "todo",   note: "Blocked: awaiting retention policy sign-off" }
+];
+
+ak.init({ id: "migration-tracker-wave2", title: "Migration tracker" });
+ak.dirtyIndicator(document.getElementById("dirty"));
+
+/* restore any state previously saved into this file */
+var saved = ak.readState(null);
+if (saved && saved.positions) {
+  CARDS.forEach(function (c) { if (saved.positions[c.id]) c.col = saved.positions[c.id]; });
+}
+
+function cardHTML(c) {
+  var blocked = /^Blocked:/.test(c.note);
+  return '<div class="ak-kcard" draggable="true" data-id="' + c.id + '">' +
+    '<div class="ak-t">' + c.title + "</div>" +
+    '<div class="ak-small">' + c.owner + " Â· " + c.effort + " pts</div>" +
+    (blocked ? '<div class="ak-small"><span class="ak-pill ak-pill-risk">Blocked</span> ' +
+      c.note.replace(/^Blocked:\s*/, "") + "</div>" : "") +
+    "</div>";
+}
+function render() {
+  document.querySelectorAll(".ak-cards").forEach(function (z) {
+    z.innerHTML = CARDS.filter(function (c) { return c.col === z.dataset.col; }).map(cardHTML).join("");
+  });
+  stats();
+}
+function positions() {
+  var p = {};
+  document.querySelectorAll(".ak-cards").forEach(function (z) {
+    z.querySelectorAll(".ak-kcard").forEach(function (el) { p[el.dataset.id] = z.dataset.col; });
+  });
+  return p;
+}
+function stats() {
+  var p = positions(), states = { todo: 0, wip: 0, verify: 0, done: 0 }, blocked = 0;
+  CARDS.forEach(function (c) {
+    var col = p[c.id] || c.col; states[col]++;
+    if (/^Blocked:/.test(c.note)) blocked++;
+  });
+  var total = CARDS.length;
+  document.getElementById("k-total").textContent = total;
+  document.getElementById("k-done").textContent = states.done;
+  document.getElementById("k-pct").textContent = ak.fmt.pct(states.done / total * 100, 0) + " of wave 2";
+  document.getElementById("k-blocked").textContent = blocked;
+  drawCharts(states);
+}
+function drawCharts(states) {
+  var data = [
+    { label: "Not started", value: states.todo },
+    { label: "In progress", value: states.wip },
+    { label: "Verifying",   value: states.verify },
+    { label: "Done",        value: states.done }
+  ];
+  ak.chart.bar("#bars", data, { title: "Workloads by state", colorBy: "category", height: 200 });
+  ak.dataTable("#bars-tw", ["State", "Workloads"],
+    data.map(function (d) { return [d.label, d.value]; }), "Workloads by state");
+
+  var p = positions(), byState = { todo: 0, wip: 0, verify: 0, done: 0 };
+  CARDS.forEach(function (c) { byState[p[c.id] || c.col] += c.effort; });
+  var max = Math.max.apply(null, Object.keys(byState).map(function (k) { return byState[k]; })) || 1;
+  var LABELS = { todo: "Not started", wip: "In progress", verify: "Verifying", done: "Done" };
+  document.getElementById("effort").innerHTML = Object.keys(byState).map(function (k) {
+    return '<div class="ak-barrow"><span>' + LABELS[k] + "</span>" +
+      '<span class="ak-track"><span class="ak-fill" style="width:' +
+      (byState[k] / max * 100).toFixed(1) + '%"></span></span>' +
+      '<span class="ak-num">' + byState[k] + "</span></div>";
+  }).join("");
+}
+
+render();
+ak.kanban("#board", { onChange: function () { stats(); } });
+ak.onResize(function () { stats(); });
+
+/* filter */
+document.getElementById("q").addEventListener("input", function () {
+  var q = this.value.toLowerCase();
+  document.querySelectorAll(".ak-kcard").forEach(function (el) {
+    el.hidden = q && el.textContent.toLowerCase().indexOf(q) === -1;
+  });
+});
+document.getElementById("onlyBlocked").onclick = function () {
+  var on = this.getAttribute("aria-pressed") === "true";
+  this.setAttribute("aria-pressed", String(!on));
+  document.querySelectorAll(".ak-kcard").forEach(function (el) {
+    el.hidden = !on && el.textContent.indexOf("Blocked") === -1;
+  });
+};
+
+document.getElementById("export").onclick = function () {
+  var p = positions();
+  ak.csv(CARDS.map(function (c) { return [c.id, c.title, c.owner, c.effort, p[c.id] || c.col, c.note]; }),
+    ["id", "title", "owner", "effort", "state", "note"], "migration-tracker.csv");
+};
+
+/* Save writes the board back into the file. The serializer is allow-listed â€”
+   never JSON.stringify the whole app state into a shareable document. */
+document.getElementById("save").onclick = function () {
+  ak.save({
+    filename: "migration-tracker.html",
+    serialize: function () {
+      ak.writeState({ positions: positions(), savedAt: new Date().toISOString() },
+                    ["positions", "savedAt"]);
+    }
+  });
+};
+</script>
+</body>
+</html>
+

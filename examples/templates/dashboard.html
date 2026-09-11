@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Support operations — dashboard</title>
+<link rel="stylesheet" href="../../src/theme.css">
+<link rel="stylesheet" href="../../src/components.css">
+<link rel="stylesheet" href="../../src/print.css">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">Support operations · rolling 12 weeks</p>
+      <h1>Backlog is flat, but ageing</h1>
+      <p class="ak-lede">Volume is under control. The risk is the tail: tickets
+        older than 30 days have doubled while the headline count barely moved.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Refreshed 11 Sep 2026, 06:00</span><br>
+      Source: ServiceDesk export<br>
+      <span id="shown">—</span>
+    </div>
+  </header>
+
+  <section class="ak-section">
+    <div class="ak-kpis ak-cols-4">
+      <div class="ak-kpi"><div class="ak-k">Open tickets</div><div class="ak-v" id="k-open">—</div>
+        <div class="ak-d"><span class="ak-flat">— broadly flat</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Median age</div><div class="ak-v" id="k-age">—</div>
+        <div class="ak-d"><span class="ak-down">▼ worsening</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Over 30 days</div><div class="ak-v" id="k-old">—</div>
+        <div class="ak-d"><span class="ak-muted">the actual problem</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Breached SLA</div><div class="ak-v" id="k-sla">—</div>
+        <div class="ak-d"><span class="ak-muted">of filtered set</span></div></div>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>Queues</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 1</p>
+      <h3>Open tickets by queue</h3>
+      <p class="ak-takeaway">Infrastructure holds a third of the backlog and
+        nearly all of the ageing. Filter to it and the median age doubles.</p>
+
+      <div class="ak-toolbar">
+        <input class="ak-input" type="search" id="q" placeholder="Filter queue, owner or subject…"
+               aria-label="Filter tickets">
+        <button class="ak-chip" aria-pressed="false" data-f="old">Over 30 days</button>
+        <button class="ak-chip" aria-pressed="false" data-f="breach">SLA breached</button>
+        <button class="ak-chip" aria-pressed="false" data-f="unassigned">Unassigned</button>
+        <span class="ak-spacer"></span>
+        <button class="ak-btn" id="reset">Reset</button>
+        <button class="ak-btn" id="csv">Export CSV</button>
+        <button class="ak-btn ak-btn-primary" onclick="window.print()">Print / PDF</button>
+      </div>
+
+      <div class="ak-tblwrap" style="--ak-tbl-h:420px">
+        <table class="ak-table ak-sticky1" id="t">
+          <thead><tr>
+            <th data-sort="s">Ticket</th>
+            <th data-sort="s">Queue</th>
+            <th data-sort="s">Owner</th>
+            <th data-sort="n" class="ak-num">Age, days</th>
+            <th data-sort="n" class="ak-num">Reopens</th>
+            <th data-sort="s">Trend</th>
+            <th data-sort="s">SLA</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="ak-empty" data-ak-empty hidden>
+        No tickets match. <button class="ak-btn" id="reset2">Clear filters</button>
+      </div>
+
+      <!-- Row detail is a drilldown, not a modal: a modal hides the rows you
+           were comparing against. -->
+      <div id="drill"></div>
+
+      <p class="ak-source">Source: ServiceDesk export 11 Sep 2026 06:00. Age is
+        calendar days since creation. Tickets pending customer response are
+        excluded from SLA breach counts, which is why the two columns disagree.</p>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>Shape of the backlog</h2></div>
+    <div class="ak-exhibit">
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 2a</p><h3>Age distribution</h3>
+          <div id="agebars"></div>
+          <div id="agebars-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2b</p><h3>Open tickets, closed weeks only</h3>
+          <div id="trend"></div>
+          <div class="ak-legend">
+            <span><i style="background:var(--ak-c1)"></i>Open</span>
+            <span><i style="background:var(--ak-c3)"></i>Over 30 days</span>
+          </div>
+          <div id="trend-tw"></div>
+        </div>
+      </div>
+      <p class="ak-source">Week 37 is in progress and excluded — a partial week
+        beside closed ones reads as a sudden drop.</p>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    Filters are reflected in the URL, so a filtered view can be shared as a link ·
+    CSV exports exactly the rows on screen, not the raw extract ·
+    Week 37 excluded as an open period
+  </footer>
+</div>
+
+<script src="../../src/core.js"></script>
+<script>
+/* ── data ──────────────────────────────────────────────────────────────── */
+var Q = ["Infrastructure","Applications","Identity","Networking","End user"];
+var OWNERS = ["R. Vance","K. Mensah","L. Ferrero","T. Okafor","unassigned"];
+var TICKETS = [
+  // id, queue, owner, age, reopens, sla, trend(5w), subject
+  ["INC-4821","Infrastructure","R. Vance",   47, 2, "breached", [3,4,4,5,5], "Storage array latency on cluster 3"],
+  ["INC-4903","Infrastructure","unassigned", 41, 0, "at risk",  [2,2,3,3,4], "Backup window overruns"],
+  ["INC-5012","Infrastructure","T. Okafor",  38, 3, "breached", [4,4,5,5,6], "Hypervisor patch rollback"],
+  ["INC-5140","Infrastructure","R. Vance",   33, 1, "at risk",  [1,2,2,3,3], "Capacity alert thresholds wrong"],
+  ["INC-5233","Applications", "K. Mensah",   28, 0, "ok",       [2,2,2,2,2], "Billing export fails on month end"],
+  ["INC-5310","Applications", "K. Mensah",   19, 1, "ok",       [1,1,2,2,2], "Report scheduler drift"],
+  ["INC-5388","Identity",     "L. Ferrero",  16, 0, "ok",       [1,1,1,2,2], "SSO loop for contractors"],
+  ["INC-5401","Identity",     "unassigned",  14, 0, "at risk",  [1,1,1,1,2], "Group sync lag"],
+  ["INC-5455","Networking",   "T. Okafor",   11, 0, "ok",       [1,1,1,1,1], "VPN throughput in Lisbon"],
+  ["INC-5478","Networking",   "T. Okafor",    9, 2, "at risk",  [2,2,2,1,1], "Wi-fi drops, third floor"],
+  ["INC-5501","End user",     "L. Ferrero",   6, 0, "ok",       [1,1,1,1,1], "Laptop replacement backlog"],
+  ["INC-5520","End user",     "unassigned",   4, 0, "ok",       [1,1,1,1,1], "Printer queue stuck"],
+  ["INC-5533","Applications", "K. Mensah",    3, 0, "ok",       [1,1,1,1,1], "CRM search timeout"],
+  ["INC-5541","Infrastructure","R. Vance",    2, 0, "ok",       [1,1,1,1,1], "Disk alert, dev cluster"]
+];
+var WEEKS = ["w26","w27","w28","w29","w30","w31","w32","w33","w34","w35","w36"];
+var OPEN  = [ 61, 59, 63, 60, 58, 62, 59, 57, 60, 58, 59 ];
+var OLD30 = [  2,  3,  3,  4,  4,  5,  6,  6,  7,  8,  9 ];
+
+ak.init({ id: "support-dashboard", title: "Support operations" });
+
+/* ── view state: restored from the URL first, then from local storage ───── */
+var view = Object.assign({ q: "", f: [] }, ak.restore("view", {}), ak.deepLink.read());
+if (!Array.isArray(view.f)) view.f = [];
+
+/* ── render ────────────────────────────────────────────────────────────── */
+var SLA = { ok: ["ak-pill-ok", "On track"], "at risk": ["ak-pill-warn", "At risk"],
+            breached: ["ak-pill-risk", "Breached"] };
+var tbody = document.querySelector("#t tbody");
+tbody.innerHTML = TICKETS.map(function (t, i) {
+  var s = SLA[t[5]];
+  return '<tr tabindex="0" data-i="' + i + '">' +
+    "<td>" + t[0] + "</td><td>" + t[1] + "</td>" +
+    "<td" + (t[2] === "unassigned" ? ' class="ak-soft"' : "") + ">" + t[2] + "</td>" +
+    '<td class="ak-num" data-v="' + t[3] + '">' + t[3] + "</td>" +
+    '<td class="ak-num" data-v="' + t[4] + '">' + (t[4] || '<span class="ak-dash">–</span>') + "</td>" +
+    '<td><span class="sp" data-v="' + t[6].join(",") + '"></span></td>' +
+    '<td><span class="ak-pill ' + s[0] + '">' + s[1] + "</span></td></tr>";
+}).join("");
+
+document.querySelectorAll(".sp").forEach(function (el) {
+  ak.chart.spark(el, el.dataset.v.split(",").map(Number), { title: "5-week age trend" });
+});
+
+var table = ak.table(document.getElementById("t"));
+
+/* ── filters ───────────────────────────────────────────────────────────── */
+function passes(tr) {
+  var t = TICKETS[+tr.dataset.i];
+  if (view.f.indexOf("old") > -1 && t[3] <= 30) return false;
+  if (view.f.indexOf("breach") > -1 && t[5] !== "breached") return false;
+  if (view.f.indexOf("unassigned") > -1 && t[2] !== "unassigned") return false;
+  if (view.q && tr.textContent.toLowerCase().indexOf(view.q.toLowerCase()) === -1) return false;
+  return true;
+}
+function apply() {
+  var rows = Array.prototype.slice.call(tbody.rows), shown = 0;
+  rows.forEach(function (tr) { var ok = passes(tr); tr.hidden = !ok; if (ok) shown++; });
+  document.querySelector("[data-ak-empty]").hidden = shown > 0;
+  document.getElementById("q").value = view.q;
+  document.querySelectorAll("[data-f]").forEach(function (b) {
+    b.setAttribute("aria-pressed", String(view.f.indexOf(b.dataset.f) > -1));
+  });
+  stats(rows.filter(function (tr) { return !tr.hidden; }));
+  ak.deepLink.write(view);
+  ak.persist("view", view);
+}
+/* KPIs derive from what is on screen — otherwise they drift from the filter
+   the moment anyone touches a chip. */
+function stats(rows) {
+  var ts = rows.map(function (tr) { return TICKETS[+tr.dataset.i]; });
+  var ages = ts.map(function (t) { return t[3]; }).sort(function (a, b) { return a - b; });
+  var med = ages.length ? (ages.length % 2 ? ages[(ages.length - 1) / 2]
+    : (ages[ages.length / 2 - 1] + ages[ages.length / 2]) / 2) : null;
+  document.getElementById("k-open").textContent = ts.length;
+  document.getElementById("k-age").textContent = med == null ? "–" : ak.fmt.num(med, 0) + "d";
+  document.getElementById("k-old").textContent = ts.filter(function (t) { return t[3] > 30; }).length;
+  document.getElementById("k-sla").textContent = ts.filter(function (t) { return t[5] === "breached"; }).length;
+  document.getElementById("shown").textContent =
+    ts.length === TICKETS.length ? "all " + ts.length + " tickets"
+      : ts.length + " of " + TICKETS.length + " tickets";
+  drawAges(ts);
+}
+
+document.getElementById("q").addEventListener("input", function () { view.q = this.value; apply(); });
+document.querySelectorAll("[data-f]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var f = b.dataset.f, i = view.f.indexOf(f);
+    if (i > -1) view.f.splice(i, 1); else view.f.push(f);
+    apply();
+  });
+});
+function reset() { view = { q: "", f: [] }; apply(); }
+document.getElementById("reset").onclick = reset;
+document.getElementById("reset2").onclick = reset;
+document.getElementById("csv").onclick = function () {
+  var rows = Array.prototype.slice.call(tbody.rows).filter(function (tr) { return !tr.hidden; });
+  ak.csv(rows.map(function (tr) {
+    var t = TICKETS[+tr.dataset.i];
+    return [t[0], t[1], t[2], t[3], t[4], t[5], t[7]];
+  }), ["ticket", "queue", "owner", "age_days", "reopens", "sla", "subject"], "open-tickets.csv");
+};
+
+/* ── drilldown ─────────────────────────────────────────────────────────── */
+tbody.addEventListener("click", function (e) {
+  var tr = e.target.closest("tr[data-i]"); if (tr) showDrill(+tr.dataset.i);
+});
+tbody.addEventListener("keydown", function (e) {
+  if (e.key !== "Enter") return;
+  var tr = e.target.closest("tr[data-i]"); if (tr) showDrill(+tr.dataset.i);
+});
+function showDrill(i) {
+  var t = TICKETS[i], s = SLA[t[5]];
+  document.getElementById("drill").innerHTML =
+    '<div class="ak-drill"><div class="ak-hd"><strong>' + t[0] + " · " + t[7] + "</strong>" +
+    '<span class="ak-pill ' + s[0] + '">' + s[1] + "</span></div>" +
+    '<div class="ak-dcols">' +
+    field("Queue", t[1]) + field("Owner", t[2]) + field("Age", t[3] + " days") +
+    field("Reopens", t[4] || "–") + field("Ticket", t[0]) +
+    "</div></div>";
+  document.getElementById("drill").scrollIntoView({ block: "nearest" });
+}
+function field(k, v) {
+  return '<div class="ak-field"><span class="ak-k">' + k + '</span><span class="ak-v">' + v + "</span></div>";
+}
+
+/* ── charts ────────────────────────────────────────────────────────────── */
+var BANDS = [["0–7d", 0, 7], ["8–14d", 8, 14], ["15–30d", 15, 30], ["31–45d", 31, 45], ["46d+", 46, 1e9]];
+function drawAges(ts) {
+  var data = BANDS.map(function (b) {
+    return { label: b[0], value: ts.filter(function (t) { return t[3] >= b[1] && t[3] <= b[2]; }).length };
+  });
+  // the tail is the story, so highlight it rather than rainbow the bars
+  ak.chart.bar("#agebars", data, { title: "Open tickets by age band", highlight: 4, height: 220 });
+  ak.dataTable("#agebars-tw", ["Age band", "Tickets"],
+    data.map(function (d) { return [d.label, d.value]; }), "Open tickets by age band");
+}
+function drawTrend() {
+  ak.chart.line("#trend",
+    [{ name: "Open", values: OPEN, color: "var(--ak-c1)" },
+     { name: "Over 30 days", values: OLD30, color: "var(--ak-c3)", dash: "4 3", width: 1.5 }],
+    WEEKS, { title: "Open tickets by week, closed weeks only", height: 220, min: 0 });
+}
+ak.dataTable("#trend-tw", ["Week", "Open", "Over 30 days"],
+  WEEKS.map(function (w, i) { return [w, OPEN[i], OLD30[i]]; }), "Open tickets by week");
+
+drawTrend();
+ak.onResize(function () { drawTrend(); apply(); });
+ak.keyboardNav("#t", { filterSelector: "#q" });
+apply();
+</script>
+</body>
+</html>

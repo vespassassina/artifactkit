@@ -1,0 +1,162 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Southern region â€” decision review</title>
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="../print.css">
+<style>
+  /* deck-local: the deck takes over the viewport, so the page wrapper steps aside */
+  body { overflow: hidden }
+  @media print { body { overflow: visible } }
+</style>
+</head>
+<body>
+
+<div class="ak-deck" id="deck" data-minutes="20">
+
+  <!-- Slide titles state the finding, not the topic. A reader who sees only
+       the titles should still follow the argument. -->
+
+  <section class="ak-slide">
+    <p class="ak-eyebrow">Decision review Â· 11 Sep 2026</p>
+    <h2>Southern is losing volume and margin at the same time</h2>
+    <p class="ak-lede">Three options, one recommendation, and the number that
+      would change our minds.</p>
+    <aside class="ak-notes"><ul><li>Set the frame: this is a <b>decision</b> meeting, not a status update. Say so in the first sentence.</li><li>Ask up front who needs to leave early â€” the recommendation is on slide 6.</li><li>Do not read the slides. They are the record; you are the argument.</li></ul></aside>
+    <p class="ak-small ak-soft">Press â†’ or space to advance Â· <kbd class="ak-kbd">N</kbd> for
+      the presenter window Â· <kbd class="ak-kbd">?</kbd> for all keys</p>
+    <div class="ak-meta">
+      <span class="ak-asof">Snapshot Â· 31 Aug 2026</span><br>
+      Decision review Â· 11 Sep 2026<br>
+      Source: Finance DW
+    </div>
+  </section>
+
+  <section class="ak-slide">
+    <p class="ak-eyebrow">Where we are</p>
+    <h2>Two of five regions now carry 71% of contribution</h2>
+    <div class="ak-kpis ak-cols-4">
+      <div class="ak-kpi"><div class="ak-k">Contribution</div><div class="ak-v">â‚¬12.4m</div>
+        <div class="ak-d"><span class="ak-up">â–² 4.2%</span> vs FY25 Q3</div></div>
+      <div class="ak-kpi"><div class="ak-k">Southern share</div><div class="ak-v">12.9%</div>
+        <div class="ak-d"><span class="ak-down">â–¼ from 16.1%</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Southern margin</div><div class="ak-v">12.1%</div>
+        <div class="ak-d"><span class="ak-muted">group 18.9%</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Concentration</div><div class="ak-v">71%</div>
+        <div class="ak-d"><span class="ak-muted">top 2 regions</span></div></div>
+    </div>
+    <p class="ak-source">Source: Finance DW, extracted 31 Aug 2026. September excluded as an open period.</p>
+    <aside class="ak-notes"><ul><li>Expect a challenge on concentration &mdash; 71% sounds alarming, but it was 68% last year. A trend, not a cliff.</li><li>If asked why September is missing: the month is open, and a partial period beside closed ones draws a false collapse.</li></ul></aside>
+  </section>
+
+  <section class="ak-slide">
+    <p class="ak-eyebrow">The pattern</p>
+    <h2>The decline is steady, not a single bad month</h2>
+    <div id="line"></div>
+    <div class="ak-legend">
+      <span><i style="background:var(--ak-c1)"></i>Southern</span>
+      <span><i style="background:var(--ak-c3)"></i>Group average</span>
+    </div>
+    <div id="line-tw"></div>
+    <p class="ak-source">Contribution margin, %, closed periods only.</p>
+    <aside class="ak-notes"><ul><li><b>The whole argument is here.</b> Twelve consecutive months of decline is structural, not noise.</li><li>Pause. Let them look at it before you speak.</li><li>The group line is flat, so this is Southern-specific, not a market condition.</li></ul></aside>
+  </section>
+
+  <section class="ak-slide">
+    <p class="ak-eyebrow">Diagnosis</p>
+    <h2>We cannot yet separate price from mix</h2>
+    <ol class="ak-timeline">
+      <li class="ak-tl-item"><time>Known</time><span class="ak-t">Volume is down 9.4%</span>
+        <div class="ak-small">Consistent across all four depots, so not a local failure.</div></li>
+      <li class="ak-tl-item"><time>Known</time><span class="ak-t">Realised price is down 3.1%</span>
+        <div class="ak-small">Concentrated in two contracts renewed in March.</div></li>
+      <li class="ak-tl-item"><time>Unknown</time><span class="ak-t">Whether mix explains the rest</span>
+        <div class="ak-small">The route-level cost feed has not delivered since July.
+          This is the gap the diagnostic closes.</div></li>
+    </ol>
+    <aside class="ak-notes"><ul><li>This is the slide people push back on. Hold the line: we do not present an estimate as a fact.</li><li>If pressed for a number anyway, give the range and label it a range.</li></ul></aside>
+    <div class="ak-banner ak-banner-bad"><strong>We are missing route-level cost.</strong>
+      Any margin-bridge we build today would be an estimate presented as a fact.</div>
+  </section>
+
+  <section class="ak-slide">
+    <p class="ak-eyebrow">Options</p>
+    <h2>Three paths, with what each one costs to be wrong</h2>
+    <table class="ak-table">
+      <thead><tr>
+        <th>Option</th><th class="ak-num">In-quarter cost</th>
+        <th>If we are right</th><th>If we are wrong</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Fund recovery now</td><td class="ak-num">â‚¬1.8m</td>
+          <td>Region stabilises by Q1</td><td>â‚¬1.8m into a structural decline</td></tr>
+        <tr><td>Reallocate to North and Central</td><td class="ak-num">â‚¬0.3m</td>
+          <td>Contribution up ~â‚¬0.6m</td><td>Exit a market we could have kept</td></tr>
+        <tr><td>Diagnose first, decide in November</td><td class="ak-num">â‚¬0.1m</td>
+          <td>Decision made on evidence</td><td>Six weeks of continued bleed (~â‚¬0.2m)</td></tr>
+      </tbody>
+    </table>
+    <p class="ak-source">Costs are directly attributable only; no overhead allocation.</p>
+    <aside class="ak-notes"><ul><li>Walk the <em>right-hand column</em>, not the left. The cost of being wrong is the decision-relevant number.</li><li>Nobody argues with option three once they see &euro;1.8m against &euro;0.1m.</li></ul></aside>
+  </section>
+
+  <section class="ak-slide">
+    <p class="ak-eyebrow">Recommendation</p>
+    <h2>Diagnose first â€” the option value exceeds the carry cost</h2>
+    <p>Six weeks of bleed costs roughly â‚¬0.2m. Choosing wrong between the other
+      two options costs between â‚¬0.6m and â‚¬1.8m. The diagnostic is cheap relative
+      to the decision it informs.</p>
+    <ol class="ak-stepper">
+      <li class="ak-step ak-done"><span class="ak-t">Now</span>Freeze discretionary spend</li>
+      <li class="ak-step" aria-current="step"><span class="ak-t">Oct</span>Route diagnostic</li>
+      <li class="ak-step"><span class="ak-t">Nov</span>Decision point</li>
+      <li class="ak-step"><span class="ak-t">Dec</span>Execute</li>
+    </ol>
+    <aside class="ak-notes"><ul><li>Ask for one thing: approval to spend â‚¬0.1m on the diagnostic. Nothing else needs deciding today.</li><li>Name the owner before leaving the room, or it will not start.</li></ul></aside>
+  </section>
+
+  <section class="ak-slide">
+    <p class="ak-eyebrow">What would change our minds</p>
+    <h2>If October volume falls below 82k shipments, we reallocate without waiting</h2>
+    <p>That threshold is where the recovery case stops clearing its own cost of
+      capital on any reasonable price assumption. It is measurable on 3 November.</p>
+    <p class="ak-small ak-soft">Stating the falsifier in advance is what separates
+      a recommendation from a preference.</p>
+    <aside class="ak-notes"><ul><li>Close here. Do not add a summary slide &mdash; this <em>is</em> the summary.</li><li>If the room is quiet, ask directly: is 82k the right threshold?</li></ul></aside>
+    <footer class="ak-footer">
+      Source: Finance DW, extracted 31 Aug 2026 Â· contribution excludes central
+      overhead Â· September excluded as an open period Â· route-level cost
+      unavailable since July
+    </footer>
+  </section>
+
+</div>
+
+<script src="../core.js"></script>
+<script>
+ak.init({ id: "southern-decision-review", title: "Southern decision review" });
+ak.deck("#deck", { minutes: 20 });
+
+var MONTHS = ["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"];
+var SOUTH  = [16.1,15.8,15.9,15.2,14.8,14.4,13.9,13.2,12.9,12.6,12.3,12.1];
+var GROUP  = [18.4,18.5,18.6,18.9,18.7,18.6,18.8,18.9,19.0,18.9,18.9,18.9];
+
+function draw() {
+  ak.chart.line("#line",
+    [{ name: "Southern", values: SOUTH, color: "var(--ak-c1)" },
+     { name: "Group average", values: GROUP, color: "var(--ak-c3)", dash: "4 3", width: 1.5 }],
+    MONTHS, { title: "Contribution margin %, closed periods", height: 300,
+              format: function (v) { return ak.fmt.num(v, 1) + "%"; } });
+}
+draw();
+ak.onResize(draw);
+
+ak.dataTable("#line-tw", ["Month", "Southern %", "Group %"],
+  MONTHS.map(function (m, i) { return [m, SOUTH[i], GROUP[i]]; }),
+  "Contribution margin by month");
+</script>
+</body>
+</html>
+

@@ -1,0 +1,178 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Platform decisions â€” team wiki</title>
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="../print.css">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">Platform team Â· knowledge base</p>
+      <h1>Decisions, open questions and terms</h1>
+      <p class="ak-lede">What we decided, why, and what is still undecided.
+        Decisions are separated from open questions on purpose.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Updated 11 Sep 2026</span><br>
+      7 decisions Â· 3 open<br>
+      Owner: platform team
+    </div>
+  </header>
+
+  <ol class="ak-breadcrumb"><li>Engineering</li><li>Platform</li><li>Decisions</li></ol>
+
+  <div class="ak-sidebar">
+
+    <nav class="ak-toc">
+      <p class="ak-eyebrow">Contents</p>
+      <ul class="ak-nav" id="toc"></ul>
+      <p style="margin-top:var(--ak-s4)">
+        <input class="ak-input" type="search" id="q" placeholder="Searchâ€¦"
+               aria-label="Search the wiki" style="min-width:auto;width:100%">
+      </p>
+      <p class="ak-small ak-soft">Press <kbd class="ak-kbd">/</kbd> to search.</p>
+    </nav>
+
+    <article class="ak-prose" id="doc">
+
+      <section data-entry data-kind="decision">
+        <h2 id="d-postgres">We standardise on Postgres for new services</h2>
+        <p><span class="ak-pill ak-pill-ok">Decided</span>
+          <span class="ak-small ak-soft">14 Mar 2026 Â· R. Vance</span></p>
+        <p>New services use Postgres unless they have a documented reason not to.
+          Existing MySQL services are not migrated on this basis alone.</p>
+        <blockquote>The deciding factor was operational familiarity, not a
+          technical benchmark. Both would have worked.</blockquote>
+        <details class="ak-disclosure"><summary>What we considered and rejected</summary>
+          <p>MySQL (status quo, but two dialects to operate), DynamoDB (cheap at
+            scale, but our access patterns are relational), CockroachDB (solves a
+            distribution problem we do not have).</p></details>
+      </section>
+
+      <section data-entry data-kind="decision">
+        <h2 id="d-queue">Event bus stays on managed Kafka until 2028</h2>
+        <p><span class="ak-pill ak-pill-ok">Decided</span>
+          <span class="ak-small ak-soft">02 Jun 2026 Â· L. Ferrero</span></p>
+        <p>The self-hosted alternative saves roughly â‚¬90k a year and costs
+          approximately 0.4 FTE to operate. At current headcount that trade is
+          not worth making.</p>
+        <p class="ak-small">Revisit if the team grows past twelve engineers, or
+          if managed pricing rises more than 20%.</p>
+      </section>
+
+      <section data-entry data-kind="decision">
+        <h2 id="d-naming">Services are named after what they do, not after gods</h2>
+        <p><span class="ak-pill ak-pill-ok">Decided</span>
+          <span class="ak-small ak-soft">19 Jun 2026 Â· team</span></p>
+        <p><code>billing-api</code>, not <code>hermes</code>. A new joiner should
+          be able to read an architecture diagram without a glossary.</p>
+      </section>
+
+      <section data-entry data-kind="open">
+        <h2 id="o-sftp">Who owns the legacy SFTP contract?</h2>
+        <p><span class="ak-pill ak-pill-risk">Open â€” blocking</span>
+          <span class="ak-small ak-soft">raised 28 Aug 2026</span></p>
+        <p>The file gateway migration cannot start without an owner for the
+          supplier contract. This is currently blocking one wave 2 workload.</p>
+        <p class="ak-small">Next step: raised with procurement 05 Sep, no reply yet.</p>
+      </section>
+
+      <section data-entry data-kind="open">
+        <h2 id="o-retention">What is the retention policy for cold archive?</h2>
+        <p><span class="ak-pill ak-pill-warn">Open</span>
+          <span class="ak-small ak-soft">raised 01 Sep 2026</span></p>
+        <p>Legal have not confirmed whether the seven-year rule applies to
+          derived data or only to source records. The answer changes the storage
+          tier and roughly â‚¬14k a year.</p>
+      </section>
+
+      <section data-entry data-kind="open">
+        <h2 id="o-oncall">Should on-call cover the migration window?</h2>
+        <p><span class="ak-pill ak-pill-warn">Open</span>
+          <span class="ak-small ak-soft">raised 08 Sep 2026</span></p>
+        <p>Undecided. The team is split; no decision is needed before 1 November.</p>
+      </section>
+
+      <section data-entry data-kind="glossary">
+        <h2 id="g-terms">Terms</h2>
+        <p><span class="ak-pill ak-pill-info">Reference</span></p>
+        <dl>
+          <dt><strong>Wave</strong></dt>
+          <dd class="ak-small">A batch of workloads migrated together, sharing a cut-off date.</dd>
+          <dt><strong>Cut-off</strong></dt>
+          <dd class="ak-small">The date after which a wave's workloads must run on the new platform.</dd>
+          <dt><strong>Derived data</strong></dt>
+          <dd class="ak-small">Anything computed from source records â€” aggregates, indexes, caches.
+            Whether retention applies to it is currently an open question.</dd>
+        </dl>
+      </section>
+
+      <div class="ak-empty" id="noresults" hidden>
+        Nothing matches that search.
+      </div>
+
+    </article>
+  </div>
+
+  <footer class="ak-footer">
+    Maintained by the platform team Â· decisions are appended, never rewritten Â·
+    if a decision changes, add a new entry and link back to the old one
+  </footer>
+</div>
+
+<script src="../core.js"></script>
+<script>
+ak.init({ id: "platform-wiki", title: "Platform decisions" });
+
+/* build the table of contents from the document, so it cannot drift */
+var entries = Array.prototype.slice.call(document.querySelectorAll("[data-entry]"));
+document.getElementById("toc").innerHTML = entries.map(function (s) {
+  var h = s.querySelector("h2");
+  var kind = s.dataset.kind;
+  var mark = kind === "open" ? ' <span class="ak-soft">Â·</span>' : "";
+  return '<li><a href="#' + h.id + '">' + h.textContent + mark + "</a></li>";
+}).join("");
+
+/* search: substring is enough here. Past ~500 entries, build with --with minisearch */
+var input = document.getElementById("q"), empty = document.getElementById("noresults");
+input.addEventListener("input", function () {
+  var q = this.value.trim().toLowerCase(), shown = 0;
+  entries.forEach(function (s) {
+    var hit = !q || s.textContent.toLowerCase().indexOf(q) > -1;
+    s.hidden = !hit; if (hit) shown++;
+  });
+  empty.hidden = shown > 0;
+  document.querySelectorAll("#toc li").forEach(function (li, i) { li.hidden = entries[i].hidden; });
+});
+
+/* "/" focuses search; Escape clears it */
+document.addEventListener("keydown", function (e) {
+  if (e.key === "/" && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+  if (e.key === "Escape" && document.activeElement === input) {
+    input.value = ""; input.dispatchEvent(new Event("input")); input.blur();
+  }
+});
+
+/* highlight the section currently in view */
+var links = Array.prototype.slice.call(document.querySelectorAll("#toc a"));
+if ("IntersectionObserver" in window) {
+  var io = new IntersectionObserver(function (recs) {
+    recs.forEach(function (r) {
+      if (!r.isIntersecting) return;
+      var id = r.target.querySelector("h2").id;
+      links.forEach(function (a) {
+        a.toggleAttribute("aria-current", a.getAttribute("href") === "#" + id);
+      });
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  entries.forEach(function (s) { io.observe(s); });
+}
+</script>
+</body>
+</html>
+

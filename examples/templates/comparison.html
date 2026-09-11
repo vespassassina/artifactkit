@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Warehouse management system — options</title>
+<link rel="stylesheet" href="../../src/theme.css">
+<link rel="stylesheet" href="../../src/components.css">
+<link rel="stylesheet" href="../../src/print.css">
+</head>
+<body>
+<div class="ak-wrap">
+
+  <header class="ak-pagehead">
+    <div>
+      <p class="ak-eyebrow">Options paper · warehouse management</p>
+      <h1>Extend the current system; revisit in eighteen months</h1>
+      <p class="ak-lede">Replacement scores highest on capability and worst on
+        everything that determines whether we survive the transition. The
+        recommendation is the option we can reverse.</p>
+    </div>
+    <div class="ak-meta">
+      <span class="ak-asof">Prepared 11 Sep 2026</span><br>
+      3 options · 7 criteria<br>
+      Decision due: 30 Sep 2026
+    </div>
+  </header>
+
+  <section class="ak-section">
+    <div class="ak-kpis ak-cols-3">
+      <div class="ak-kpi"><div class="ak-k">Recommended</div><div class="ak-v">Extend</div>
+        <div class="ak-d"><span class="ak-muted">reversible, lowest carry</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Cost over 3 years</div><div class="ak-v">€1.4m</div>
+        <div class="ak-d"><span class="ak-muted">vs €4.8m to replace</span></div></div>
+      <div class="ak-kpi"><div class="ak-k">Reversal cost</div><div class="ak-v">€0.2m</div>
+        <div class="ak-d"><span class="ak-muted">if we change course in FY28</span></div></div>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">01</span><h2>The comparison</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 1</p>
+      <h3>Options against weighted criteria</h3>
+      <p class="ak-takeaway">Replace wins on capability and loses on risk,
+        disruption and reversibility. Those three are what a failed WMS
+        programme is actually made of — and the highest raw score belongs to an
+        option that is not viable at all.</p>
+
+      <div class="ak-toolbar">
+        <button class="ak-chip" aria-pressed="true" id="weights">Show weights</button>
+        <span class="ak-spacer"></span>
+        <button class="ak-btn" id="csv">Export CSV</button>
+        <button class="ak-btn ak-btn-primary" onclick="window.print()">Print / PDF</button>
+      </div>
+
+      <table class="ak-table" id="t">
+        <thead><tr>
+          <th>Criterion</th>
+          <th class="ak-num w">Weight</th>
+          <th class="ak-num">Extend current</th>
+          <th class="ak-num">Replace</th>
+          <th class="ak-num">Do nothing</th>
+        </tr></thead>
+        <tbody></tbody>
+        <tfoot><tr class="ak-total">
+          <td>Weighted total</td><td class="ak-num w"></td>
+          <td class="ak-num" id="tot-0"></td><td class="ak-num" id="tot-1"></td><td class="ak-num" id="tot-2"></td>
+        </tr>
+        <tr><td>Passes the support gate</td><td class="ak-num w"></td>
+          <td class="ak-num" id="gate-0"></td><td class="ak-num" id="gate-1"></td><td class="ak-num" id="gate-2"></td>
+        </tr></tfoot>
+      </table>
+
+      <div class="ak-banner ak-banner-bad"><strong>"Do nothing" scores highest and is
+        still not the recommendation.</strong> Vendor support ends in Q3 FY28, which is
+        a gate, not a criterion — no weighting of the other six makes an unpatched
+        warehouse system acceptable. A weighted score ranks the options that remain
+        viable; it does not decide which ones are.</div>
+      <p class="ak-source">Scored 1–5 against each criterion by the programme
+        board, 04 Sep 2026. Weights set before the options were scored, which
+        matters — setting them afterwards lets the preferred answer choose its
+        own scoring. Cost figures are three-year totals including internal effort.
+        The support gate is binary and was agreed before scoring began.</p>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">02</span><h2>What each option costs to get wrong</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 2</p>
+      <h3>Score and asymmetry side by side</h3>
+      <p class="ak-takeaway">Replace leads on weighted score only until you read
+        the right-hand column. The cost of being wrong is not symmetric.</p>
+      <div class="ak-split">
+        <div>
+          <p class="ak-eyebrow">Exhibit 2a</p><h3>Weighted score</h3>
+          <div id="bars"></div>
+          <div id="bars-tw"></div>
+        </div>
+        <div>
+          <p class="ak-eyebrow">Exhibit 2b</p><h3>The asymmetry</h3>
+          <table class="ak-table">
+            <thead><tr><th>Option</th><th>If right</th><th>If wrong</th></tr></thead>
+            <tbody>
+              <tr><td>Extend</td><td class="ak-small">Buys 18 months for €1.4m</td>
+                <td class="ak-small">Sunk €1.4m, replace anyway in FY28</td></tr>
+              <tr><td>Replace</td><td class="ak-small">Modern platform, 3-year horizon</td>
+                <td class="ak-small ak-down">Peak-season outage during cutover; no way back</td></tr>
+              <tr><td>Do nothing</td><td class="ak-small">Zero spend</td>
+                <td class="ak-small ak-down">Vendor support ends Q3 FY28 — fails the gate, not on the table</td></tr>
+            </tbody>
+          </table>
+          <p class="ak-small ak-soft" style="margin-top:var(--ak-s3)">
+            A cutover in peak season is the failure we cannot buy our way out of,
+            which is why reversibility is weighted at 15%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ak-section">
+    <div class="ak-sechead"><span class="ak-n">03</span><h2>What would change the recommendation</h2></div>
+    <div class="ak-exhibit">
+      <p class="ak-eyebrow">Exhibit 3</p>
+      <h3>The path, and the condition that invalidates it</h3>
+      <p class="ak-takeaway">Recommending a reversible option is only honest if
+        you also state the review point and what would force the other choice.</p>
+      <ol class="ak-timeline">
+        <li class="ak-tl-item"><time>Now</time><span class="ak-t">Extend, and start the discovery</span>
+          <div class="ak-small">€1.4m over three years. Discovery runs in parallel
+            so a future replacement starts from evidence rather than a blank page.</div></li>
+        <li class="ak-tl-item"><time>Q1 FY28</time><span class="ak-t">Review point</span>
+          <div class="ak-small">If throughput has grown past 40k lines a day, or the
+            vendor confirms an end-of-support date inside 24 months, replacement
+            moves from optional to necessary.</div></li>
+      </ol>
+      <div class="ak-banner"><strong>This recommendation fails if peak volume grows
+        faster than 12% a year.</strong> Above that the extended system runs out of
+        headroom before the review point, and we would be choosing under pressure
+        rather than on evidence. Current run rate is 7%.</div>
+
+      <details class="ak-disclosure"><summary>Why "do nothing" is on the list at all</summary>
+        <p class="ak-small">Because it is the honest baseline, and because scoring
+          it is what exposed the gate. Every options paper that omits it quietly
+          assumes the spend is already approved. Scoring it and then ruling it out
+          on a stated gate is more defensible than never showing it.</p></details>
+      <details class="ak-disclosure"><summary>Who was consulted</summary>
+        <p class="ak-small">Operations (three sites), IT infrastructure, finance,
+          and the incumbent vendor. The vendor's input is recorded but not
+          weighted — they are not a neutral party on replacement.</p></details>
+    </div>
+  </section>
+
+  <footer class="ak-footer">
+    Scores from the programme board session 04 Sep 2026 · weights fixed before
+    scoring · cost figures include internal effort at standard rates ·
+    vendor input recorded but excluded from scoring
+  </footer>
+</div>
+
+<script src="../../src/core.js"></script>
+<script>
+/* criterion, weight, [extend, replace, do nothing] */
+var CRIT = [
+  ["Capability fit",        0.20, [3, 5, 2]],
+  ["Total cost, 3 years",   0.20, [4, 2, 5]],
+  ["Delivery risk",         0.15, [4, 2, 5]],
+  ["Reversibility",         0.15, [4, 1, 5]],
+  ["Operational disruption",0.10, [4, 1, 5]],
+  ["Support horizon",       0.10, [3, 5, 1]],
+  ["Team capacity needed",  0.10, [4, 2, 5]]
+];
+var OPTS = ["Extend current", "Replace", "Do nothing"];
+
+ak.init({ id: "wms-options", title: "WMS options" });
+
+function totals() {
+  return OPTS.map(function (_, o) {
+    return CRIT.reduce(function (a, c) { return a + c[1] * c[2][o]; }, 0);
+  });
+}
+/* A gate is binary and sits outside the weighting. Do-nothing scores highest on
+   the criteria and still loses, because vendor support ends inside the horizon.
+   Modelling that as "just another criterion" would let weighting negotiate away
+   something that is not negotiable. */
+var GATE = [true, true, false];
+var GATE_WHY = "vendor support ends Q3 FY28";
+
+var T = totals();
+var viable = T.map(function (v, i) { return GATE[i] ? v : -Infinity; });
+var best = viable.indexOf(Math.max.apply(null, viable));      // the recommendation
+var topRaw = T.indexOf(Math.max.apply(null, T));              // the highest score
+
+document.querySelector("#t tbody").innerHTML = CRIT.map(function (c) {
+  var vals = c[2], hi = Math.max.apply(null, vals), lo = Math.min.apply(null, vals);
+  return "<tr><td>" + c[0] + "</td>" +
+    '<td class="ak-num w ak-soft">' + ak.fmt.pct(c[1] * 100, 0) + "</td>" +
+    vals.map(function (v) {
+      // best and worst are labelled by position, never by colour alone
+      var cls = v === hi ? "ak-up" : v === lo ? "ak-down" : "";
+      return '<td class="ak-num ' + cls + '">' + v + "</td>";
+    }).join("") + "</tr>";
+}).join("");
+
+T.forEach(function (v, i) {
+  var badge = i === topRaw ? ' <span class="ak-badge">HIGHEST</span>' : "";
+  document.getElementById("tot-" + i).innerHTML = ak.fmt.num(v, 2) + badge;
+  document.getElementById("gate-" + i).innerHTML = GATE[i]
+    ? '<span class="ak-pill ak-pill-ok">Passes</span>'
+    : '<span class="ak-pill ak-pill-risk">Fails</span>' +
+      '<br><span class="ak-small ak-soft">' + GATE_WHY + "</span>";
+});
+
+document.getElementById("weights").onclick = function () {
+  var on = this.getAttribute("aria-pressed") === "true";
+  this.setAttribute("aria-pressed", String(!on));
+  document.querySelectorAll(".w").forEach(function (el) { el.hidden = on; });
+};
+document.getElementById("csv").onclick = function () {
+  var rows = CRIT.map(function (c) { return [c[0], c[1]].concat(c[2]); });
+  rows.push(["Weighted total", ""].concat(T.map(function (v) { return v.toFixed(2); })));
+  rows.push(["Passes support gate", ""].concat(GATE.map(function (g) { return g ? "yes" : "no"; })));
+  ak.csv(rows, ["criterion", "weight"].concat(OPTS), "wms-options.csv");
+};
+
+function draw() {
+  // the chart highlights the RECOMMENDATION, not the highest bar — and the
+  // ineligible option is labelled so the reader is not left to infer it
+  var data = OPTS.map(function (o, i) {
+    return { label: o + (GATE[i] ? "" : " ✕"), value: +T[i].toFixed(2) };
+  });
+  ak.chart.bar("#bars", data, { title: "Weighted score by option (✕ = fails the support gate)",
+    highlight: best, height: 220, format: function (v) { return ak.fmt.num(v, 1); } });
+  ak.dataTable("#bars-tw", ["Option", "Weighted score", "Passes gate"],
+    OPTS.map(function (o, i) { return [o, T[i].toFixed(2), GATE[i] ? "yes" : "no"]; }),
+    "Weighted score by option");
+}
+draw();
+ak.onResize(draw);
+</script>
+</body>
+</html>
