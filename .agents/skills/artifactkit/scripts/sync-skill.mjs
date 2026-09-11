@@ -18,8 +18,9 @@
 */
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\//, "")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const agents = path.join(root, ".agents", "skills", "artifactkit");
 const claude = path.join(root, ".claude", "skills", "artifactkit");
 

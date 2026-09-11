@@ -15,6 +15,7 @@
 */
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const CDN = "https://cdn.jsdelivr.net/npm/";
 
@@ -49,7 +50,7 @@ const artifactId = flag("--id", path.basename(output, ".html"));
 const minify = args.includes("--minify");
 const stripNotes = args.includes("--strip-notes");
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\//, "")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const inDir = path.dirname(path.resolve(input));
 
 async function readLocal(href) {
