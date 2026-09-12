@@ -17,22 +17,6 @@ Correcting the same five things on every artifact is not a workflow. So the
 corrections live here instead: one vocabulary, a set of content rules, and two
 validators that fail the build when an artifact breaks them.
 
-## What it fixes
-
-Agents get the same things wrong:
-
-- a partial period plotted beside closed ones, drawing a cliff that reads as a collapse
-- an invented value where the source had nothing, instead of `–` and a reason
-- CSV export dumping the raw dataset, not the rows you filtered to
-- a sorted table that never says which column is sorted
-- six colours on one measure, encoding nothing
-
-None of that is a styling problem, which is why the CSS is the smallest part of
-this. [canoncss measured it][canon] across 130 generations: unconstrained output
-agrees with itself on 58–67% of its styling vocabulary, a written specification
-lifts that to ~90%, and a strict prompt over plain Tailwind matched a closed
-vocabulary. The specification does the work.
-
 ## Templates
 
 Copy one and change the data. Each is a single file with no dependencies.
